@@ -9,22 +9,19 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
-
-type CardProps = {
-    productName :string,
-    price :number
-}
+import {ProductModel} from '../repositories/ProductRepository'
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
+        marginTop: 20
     },
 });
 
-const ImgMediaCard  = (props: CardProps) =>{
+ function Product(product : ProductModel) {
+
     const classes = useStyles();
-    
+
     return (
         <Card className={classes.root}>
             <CardActionArea>
@@ -32,15 +29,12 @@ const ImgMediaCard  = (props: CardProps) =>{
                     component="img"
                     alt="Contemplative Reptile"
                     height="140"
-                    image="/static/images/cards/contemplative-reptile.jpg"
+                    image= {product.image}
                     title="Contemplative Reptile"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        Lizard
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {props.productName}
+                        {product.name}
                     </Typography>
                 </CardContent>
             </CardActionArea>
@@ -56,5 +50,4 @@ const ImgMediaCard  = (props: CardProps) =>{
     );
 
 }
-
-export default ImgMediaCard
+export default Product

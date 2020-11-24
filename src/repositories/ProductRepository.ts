@@ -1,5 +1,19 @@
-export function fetchRecentProducts(){
-    return new Promise((resolve, reject) => {
+
+export type ProductModel = {
+    id:number,
+    name:string,
+    price:number,
+    image:string
+}
+
+export type ResultProduct ={
+    data : ProductModel[]
+    error : string
+}
+
+
+export function fetchRecentProducts() : Promise<ResultProduct>{
+    return new Promise<ResultProduct>((resolve, reject) => {
         let token = localStorage.getItem("token")
         let url = "https://rest-kotlin.herokuapp.com/products/recent"
         fetch(url, {
@@ -10,15 +24,16 @@ export function fetchRecentProducts(){
         ).then(function (response) {
             return response.text()
         }).then(data=>{
-            resolve(JSON.parse(data))
+            let jsonData = JSON.parse(data) as ProductModel[]
+             resolve({data : jsonData, error : ""})
         }).catch(error=> {
-            console.log(error)
+           reject({data : [], error: error.toString()})
         })
     })
 
 }
 
-export function createProduct(productName,productPrice){
+export function createProduct(productName :string,productPrice:string){
     let token = localStorage.getItem("token")
     let url = "https://rest-kotlin.herokuapp.com/products/create"
     fetch(url,{

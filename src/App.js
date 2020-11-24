@@ -28,7 +28,6 @@ class App extends React.Component {
         return (
             <div>
                 <Router>
-                    <Navigation/>
                     <Switch>
                     <Route path = "/" exact component={()=> <Home />} />
                     <Route path = "/admin" exact component={() => <Admin />} />
