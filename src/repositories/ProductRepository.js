@@ -11,6 +11,8 @@ export function fetchRecentProducts(){
             return response.text()
         }).then(data=>{
             resolve(JSON.parse(data))
+        }).catch(error=> {
+            console.log(error)
         })
     })
 

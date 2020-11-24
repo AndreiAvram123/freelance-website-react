@@ -8,9 +8,13 @@ export function fetchToken(email,password){
             body: bodyJson,
             mode: "cors"
         }).then(function (response) {
-            let token = response.headers.get("Authorization")
-            localStorage.setItem("token", token)
-            resolve()
+            if(response.status === 403) {
+                reject("Unauthorized")
+            }else{
+                let token = response.headers.get("Authorization")
+                localStorage.setItem("token", token)
+                resolve()
+            }
         }).catch(error=>{
             reject(error)
         })

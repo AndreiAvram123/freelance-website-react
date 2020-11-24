@@ -66,7 +66,6 @@ export default function SignIn() {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <p>fuhreer {emailValue}</p>
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
@@ -77,10 +76,10 @@ export default function SignIn() {
                         required
                         fullWidth
                         id="email"
-                        label="Email Address"
-                        name="email"
+                        label="Username"
+                        name="text"
                         onChange={(event) => setEmailValue(event.target.value) }
-                        autoComplete="email"
+                        autoComplete="username"
                         autoFocus />
                     <TextField
                         variant="outlined"
