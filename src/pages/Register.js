@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +9,7 @@ import {register} from "../repositories/AuthRepository";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {isEmailValid, isPasswordValid, isUsernameValid} from "../Utils";
 
 
 function Copyright() {
@@ -50,15 +51,32 @@ export default function Register() {
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
-    const [isFormValid,setIsFormValid] = useState(false)
 
-    useEffect(()=>{
-        if(username.trim()!=="" && email.trim()!=="" && password.trim()!=="") {
-            setIsFormValid(true)
-        }else{
-            setIsFormValid(false)
+    const [errorMessageEmail, setErrorMessageEmail] = useState("")
+    const [errorMessageUsername, setErrorMessageUsername] = useState("")
+    const [errorMessagePassword, setErrorMessagePassword] = useState("")
+
+
+
+
+   function validate(){
+       setErrorMessageUsername("")
+       setErrorMessageEmail("")
+       setErrorMessagePassword("")
+
+        if(!isEmailValid(email)){
+            setErrorMessageEmail("Invalid email")
         }
-    },[username,email,password])
+        if(!isUsernameValid(username)){
+            setErrorMessageUsername("Invalid username")
+        }
+        if(!isPasswordValid(password)){
+            setErrorMessagePassword("Invalid password")
+        }
+    }
+    function areFieldsValid(){
+        return isEmailValid(email) && isPasswordValid(password) && isUsernameValid(username)
+    }
 
 
 
@@ -81,6 +99,8 @@ export default function Register() {
                                 name="text"
                                 autoComplete="username"
                                 onChange={(event)=>setUsername(event.target.value)}
+                                helperText={errorMessageUsername}
+                                error={errorMessageUsername.trim() !== ""}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -93,6 +113,8 @@ export default function Register() {
                                 name="email"
                                 autoComplete="email"
                                 onChange={(event)=>setEmail(event.target.value)}
+                                helperText={errorMessageEmail}
+                                error={errorMessageEmail.trim() !== ""}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -106,6 +128,8 @@ export default function Register() {
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={(event)=>setPassword(event.target.value)}
+                                helperText={errorMessagePassword}
+                                error={errorMessagePassword.trim() !== ""}
                             />
                         </Grid>
                     </Grid>
@@ -114,15 +138,18 @@ export default function Register() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        disabled={!isFormValid}
-                        onClick={()=>{
-                            register(username,email,password).then(()=>{
-                                window.location.reload()
-                                window.location.href = "/login"
-                            }).catch(error=>{
+                        onClick={() => {
+                            validate()
+                            if (areFieldsValid()) {
+                                register(username, email, password).then(() => {
+                                    window.location.reload()
+                                    window.location.href = "/login"
+                                }).catch(error => {
 
-                            })
-                        }}
+                                })
+                            }
+                        }
+                        }
                     >
                         Sign Up
                     </Button>

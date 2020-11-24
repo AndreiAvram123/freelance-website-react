@@ -37,13 +37,29 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
      const [emailValue, setEmailValue ] = useState("")
+     const [usernameValue, setUsernameValue] = useState("")
      const [passwordValue, setPasswordValue] = useState("")
-     const [isFormValid , setIsFormValid] = useState(false)
+
+     const[emailValid, setEmailValid] = useState(false)
+     const[usernameValid, setUsernameValid] = useState(false)
+     const[passwordValid, setPasswordValid] = useState(false)
 
     useEffect(()=>{
-        setIsFormValid( emailValue.trim() !== "" && passwordValue.trim()!=="")
+        setEmailValid(isEmailValid(emailValue))
+        setUsernameValid(isUsernameValid(usernameValue))
+        setPasswordValid(isPasswordValid(passwordValue))
+
     }, [emailValue, passwordValue])
 
+    function isEmailValid(email){
+         return email.trim() !== ""
+    }
+    function isUsernameValid(username){
+        return username.trim() !== ""
+    }
+    function isPasswordValid(password){
+        return password.trim() !== ""
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -61,9 +77,10 @@ export default function SignIn() {
                         id="email"
                         label="Username"
                         name="text"
-                        onChange={(event) => setEmailValue(event.target.value) }
+                        onChange={(event) => setUsernameValue(event.target.value) }
                         autoComplete="username"
-                        autoFocus />
+                        autoFocus
+                    />
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -93,7 +110,7 @@ export default function SignIn() {
                         }).catch(error=>{
                             console.log(error)
                         })}
-                        disabled={!isFormValid}>
+                        disabled={!(emailValid && passwordValid)}>
                         Sign In
                     </Button>
                     <Grid container>
