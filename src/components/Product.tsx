@@ -24,6 +24,7 @@ const useStyles = makeStyles({
 
 const ImgMediaCard  = (props: CardProps) =>{
     const classes = useStyles();
+    
     return (
         <Card className={classes.root}>
             <CardActionArea>
