@@ -4,12 +4,9 @@ import React, {Component} from "react";
 import SignIn from "./components/SignIn";
 import Navigation from "./components/Navigation";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Product from "./components/Product";
 import Home from "./Home";
 import Admin from "./pages/Admin";
 import Register from "./pages/Register";
-
-const fetch = require("node-fetch");
 
 
 

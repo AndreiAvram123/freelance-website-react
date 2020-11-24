@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -145,7 +145,9 @@ export default function Register() {
                                     window.location.reload()
                                     window.location.href = "/login"
                                 }).catch(error => {
+                                    switch (error) {
 
+                                    }
                                 })
                             }
                         }
