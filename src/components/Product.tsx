@@ -1,3 +1,5 @@
+
+// @ts-ignore
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -8,13 +10,19 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+
+type CardProps = {
+    productName :string,
+    price :number
+}
+
 const useStyles = makeStyles({
     root: {
         maxWidth: 345,
     },
 });
 
-const ImgMediaCard  = (props) =>{
+const ImgMediaCard  = (props: CardProps) =>{
     const classes = useStyles();
     return (
         <Card className={classes.root}>
@@ -31,7 +39,7 @@ const ImgMediaCard  = (props) =>{
                         Lizard
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {props.product.productName}
+                        {props.productName}
                     </Typography>
                 </CardContent>
             </CardActionArea>

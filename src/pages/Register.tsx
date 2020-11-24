@@ -1,16 +1,21 @@
-import React, { useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import {register} from "../repositories/AuthRepository";
+import {register, RegisterResponse} from "../repositories/AuthRepository";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {isEmailValid, isPasswordValid, isUsernameValid} from "../Utils";
 
+enum ErrorMessages{
+    ERROR_INVALID_USERNAME = "Invalid username",
+    ERROR_INVALID_EMAIL = "Invalid email",
+    ERROR_INVALID_PASSWORD = "Invalid password"
+}
 
 function Copyright() {
     return (
@@ -56,29 +61,38 @@ export default function Register() {
     const [errorMessageUsername, setErrorMessageUsername] = useState("")
     const [errorMessagePassword, setErrorMessagePassword] = useState("")
 
+    const [validateEmail,setValidateEmail] = useState(false)
+    let  [validateUsername,setValidateUsername] = useState(false)
+    let  [validatePassword,setValidatePassword] = useState(false)
 
+    
 
-
-   function validate(){
-       setErrorMessageUsername("")
-       setErrorMessageEmail("")
-       setErrorMessagePassword("")
-
-        if(!isEmailValid(email)){
-            setErrorMessageEmail("Invalid email")
+    useEffect(()=>{
+        if(validateEmail) {
+            setErrorMessageEmail("")
+            if (!isEmailValid(email)) {
+                setErrorMessageEmail(ErrorMessages.ERROR_INVALID_EMAIL)
+            }
         }
-        if(!isUsernameValid(username)){
-            setErrorMessageUsername("Invalid username")
+        if(validateUsername) {
+            setErrorMessageUsername("")
+            if (!isUsernameValid(username)) {
+                setErrorMessageUsername(ErrorMessages.ERROR_INVALID_USERNAME)
+            }
         }
-        if(!isPasswordValid(password)){
-            setErrorMessagePassword("Invalid password")
+        if(validatePassword){
+            setErrorMessagePassword("")
+            if(!isPasswordValid(password)){
+                setErrorMessagePassword(ErrorMessages.ERROR_INVALID_PASSWORD)
+            }
         }
-    }
+
+    },[username, email, password])
+
+
     function areFieldsValid(){
         return isEmailValid(email) && isPasswordValid(password) && isUsernameValid(username)
     }
-
-
 
     return (
         <Container component="main" maxWidth="xs">
@@ -98,7 +112,10 @@ export default function Register() {
                                 label="Username"
                                 name="text"
                                 autoComplete="username"
-                                onChange={(event)=>setUsername(event.target.value)}
+                                onChange={(event)=>{
+                                    setValidateUsername(true)
+                                    setUsername(event.target.value)
+                                }}
                                 helperText={errorMessageUsername}
                                 error={errorMessageUsername.trim() !== ""}
                             />
@@ -112,7 +129,10 @@ export default function Register() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                onChange={(event)=>setEmail(event.target.value)}
+                                onChange={(event) =>{
+                                    setValidateEmail(true)
+                                    setEmail(event.target.value)
+                                }}
                                 helperText={errorMessageEmail}
                                 error={errorMessageEmail.trim() !== ""}
                             />
@@ -127,7 +147,10 @@ export default function Register() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                onChange={(event)=>setPassword(event.target.value)}
+                                onChange={(event)=>{
+                                    setValidatePassword(true)
+                                    setPassword(event.target.value)
+                                }}
                                 helperText={errorMessagePassword}
                                 error={errorMessagePassword.trim() !== ""}
                             />
@@ -139,14 +162,20 @@ export default function Register() {
                         color="primary"
                         className={classes.submit}
                         onClick={() => {
-                            validate()
                             if (areFieldsValid()) {
                                 register(username, email, password).then(() => {
                                     window.location.reload()
                                     window.location.href = "/login"
                                 }).catch(error => {
                                     switch (error) {
-
+                                        case RegisterResponse.USERNAME_TAKEN : {
+                                            setErrorMessageUsername(RegisterResponse.USERNAME_TAKEN)
+                                            break;
+                                        }
+                                        case RegisterResponse.EMAIL_TAKEN : {
+                                            setErrorMessageEmail(RegisterResponse.EMAIL_TAKEN)
+                                            break;
+                                        }
                                     }
                                 })
                             }
