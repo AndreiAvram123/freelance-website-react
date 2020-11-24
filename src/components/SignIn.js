@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Alert from '@material-ui/lab/Alert';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -36,30 +37,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles();
-     const [emailValue, setEmailValue ] = useState("")
+
      const [usernameValue, setUsernameValue] = useState("")
      const [passwordValue, setPasswordValue] = useState("")
 
-     const[emailValid, setEmailValid] = useState(false)
+
      const[usernameValid, setUsernameValid] = useState(false)
      const[passwordValid, setPasswordValid] = useState(false)
 
+     const[errorMessage,setErrorMessage] = useState("")
+
     useEffect(()=>{
-        setEmailValid(isEmailValid(emailValue))
-        setUsernameValid(isUsernameValid(usernameValue))
-        setPasswordValid(isPasswordValid(passwordValue))
+        setUsernameValid(usernameValue.trim() !=="")
+        setPasswordValid(passwordValue.trim() !=="")
 
-    }, [emailValue, passwordValue])
+    }, [usernameValue, passwordValue])
 
-    function isEmailValid(email){
-         return email.trim() !== ""
-    }
-    function isUsernameValid(username){
-        return username.trim() !== ""
-    }
-    function isPasswordValid(password){
-        return password.trim() !== ""
-    }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -74,7 +68,7 @@ export default function SignIn() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="username"
                         label="Username"
                         name="text"
                         onChange={(event) => setUsernameValue(event.target.value) }
@@ -96,6 +90,10 @@ export default function SignIn() {
                         autoComplete="current-password"
 
                     />
+                    <Alert severity="error"
+                           hidden = {errorMessage.trim() === ""}
+
+                    >{errorMessage}</Alert>
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
@@ -105,12 +103,12 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={()=> fetchToken(emailValue,passwordValue).then(()=>{
+                        onClick={()=> fetchToken(usernameValue,passwordValue).then(()=>{
                             window.location.reload()
                         }).catch(error=>{
-                            console.log(error)
+                            setErrorMessage(error)
                         })}
-                        disabled={!(emailValid && passwordValid)}>
+                        disabled={!(usernameValid && passwordValid)}>
                         Sign In
                     </Button>
                     <Grid container>

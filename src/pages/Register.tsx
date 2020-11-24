@@ -65,7 +65,7 @@ export default function Register() {
     let  [validateUsername,setValidateUsername] = useState(false)
     let  [validatePassword,setValidatePassword] = useState(false)
 
-    
+
 
     useEffect(()=>{
         if(validateEmail) {

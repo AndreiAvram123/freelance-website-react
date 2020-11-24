@@ -1,10 +1,12 @@
-import {Result} from "../Result";
-
 export enum RegisterResponse{
     USERNAME_TAKEN = "Username already exists",
     EMAIL_TAKEN = "Email already exists"
 }
 
+export enum AuthenticationResponse{
+    INVALID_USERNAME_OR_PASSWORD = "Invalid username or password",
+    UNKNOWN_ERROR = "Unknown error"
+}
 
 export function fetchToken(username:string,password:string){
     return new Promise((resolve, reject) => {
@@ -16,17 +18,16 @@ export function fetchToken(username:string,password:string){
             mode: "cors"
         }).then(function (response) {
             if(response.status === 403) {
-                reject("Unauthorized")
+               reject(AuthenticationResponse.INVALID_USERNAME_OR_PASSWORD)
             }else{
                 let token = response.headers.get("Authorization")
                 if(token !=null){
                     localStorage.setItem("token", token)
                     resolve(token)
                 }
-
             }
         }).catch(error=>{
-            reject(error)
+            reject(AuthenticationResponse.UNKNOWN_ERROR)
         })
     })
 }
