@@ -33,7 +33,7 @@ export function fetchRecentProducts() : Promise<ResultProduct>{
 
 }
 
-export function createProduct(productName :string,productPrice:string){
+export function createProduct(productName :string,productPrice:number){
     let token = localStorage.getItem("token")
     let url = "https://rest-kotlin.herokuapp.com/products/create"
     fetch(url,{

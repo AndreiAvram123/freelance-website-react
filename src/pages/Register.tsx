@@ -53,28 +53,28 @@ export default function Register() {
 
 
 
-    // useEffect(()=>{
-    //
-    //     if(validateEmail) {
-    //         setErrorMessageEmail("")
-    //         if (!isEmailValid(email)) {
-    //             setErrorMessageEmail(ErrorMessages.ERROR_INVALID_EMAIL)
-    //         }
-    //     }
-    //     if(validateUsername) {
-    //         setErrorMessageUsername("")
-    //         if (!isUsernameValid(username)) {
-    //             setErrorMessageUsername(ErrorMessages.ERROR_INVALID_USERNAME)
-    //         }
-    //     }
-    //     if(validatePassword){
-    //         setErrorMessagePassword("")
-    //         if(!isPasswordValid(password)){
-    //             setErrorMessagePassword(ErrorMessages.ERROR_INVALID_PASSWORD)
-    //         }
-    //     }
-    //
-    // },[username, email, password,validateEmail,validatePassword,validateUsername])
+    useEffect(()=>{
+
+        if(validateEmail) {
+            setErrorMessageEmail("")
+            if (!isEmailValid(email)) {
+                setErrorMessageEmail(ErrorMessages.ERROR_INVALID_EMAIL)
+            }
+        }
+        if(validateUsername) {
+            setErrorMessageUsername("")
+            if (!isUsernameValid(username)) {
+                setErrorMessageUsername(ErrorMessages.ERROR_INVALID_USERNAME)
+            }
+        }
+        if(validatePassword){
+            setErrorMessagePassword("")
+            if(!isPasswordValid(password)){
+                setErrorMessagePassword(ErrorMessages.ERROR_INVALID_PASSWORD)
+            }
+        }
+
+    },[username, email, password,validateEmail,validatePassword,validateUsername])
 
 
     function areFieldsValid(){

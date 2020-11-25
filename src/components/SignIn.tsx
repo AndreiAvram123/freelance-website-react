@@ -47,8 +47,8 @@ export default function SignIn() {
      const[errorMessage,setErrorMessage] = useState("")
 
     useEffect(()=>{
-      //  setUsernameValid(usernameValue.trim() !=="")
-       // setPasswordValid(passwordValue.trim() !=="")
+       setUsernameValid(usernameValue.trim() !=="")
+       setPasswordValid(passwordValue.trim() !=="")
 
     }, [usernameValue, passwordValue])
 
