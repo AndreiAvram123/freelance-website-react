@@ -1,6 +1,6 @@
 
 import React, {useEffect, useState} from "react";
-import {fetchRecentProducts, ProductModel} from "./repositories/ProductRepository";
+import {fetchRecentProducts} from "./repositories/ProductRepository";
 import Product from "./components/Product";
 import Toolbar from "@material-ui/core/Toolbar";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";

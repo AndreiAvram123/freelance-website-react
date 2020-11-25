@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import {register, RegisterResponse} from "../repositories/AuthRepository";
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import  {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {isEmailValid, isPasswordValid, isUsernameValid} from "../Utils";
 
