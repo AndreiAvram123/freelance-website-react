@@ -23,7 +23,9 @@ const useStyles = makeStyles({
     const classes = useStyles();
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root}
+           onClick= {()=> {window.location.href = "/product/" + product.id }}
+        >
             <CardActionArea>
                 <CardMedia
                     component="img"

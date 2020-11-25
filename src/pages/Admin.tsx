@@ -11,13 +11,13 @@ export default function Admin(){
     },[productName,productPrice])
 
     return (
-        <div className="container">
+        <div>
             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                 Launch demo modal
             </button>
 
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Add product</h5>

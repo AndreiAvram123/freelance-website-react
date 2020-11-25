@@ -2,12 +2,6 @@
 import React, {useEffect, useState} from "react";
 import {fetchRecentProducts} from "./repositories/ProductRepository";
 import Product from "./components/Product";
-import Toolbar from "@material-ui/core/Toolbar";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Typography from "@material-ui/core/Typography";
-import SideDrawer from "./components/SideDrawer";
 
 export default  function Home () {
 
@@ -60,60 +54,10 @@ export default  function Home () {
     }, [products])
 
 
-    const drawerWidth = 240;
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            appBar: {
-                zIndex: theme.zIndex.drawer + 1,
-            },
-            drawer: {
-                width: drawerWidth,
-                flexShrink: 0,
-            },
-            drawerPaper: {
-                width: drawerWidth,
-            },
-            drawerContainer: {
-                overflow: 'auto',
-            },
-            content: {
-                flexGrow: 1,
-                padding: theme.spacing(3),
-            },
-            root: {
-                flexGrow: 1,
-            },
-            paper: {
-                height: 140,
-                width: 100,
-            },
-            control: {
-                padding: theme.spacing(2),
-            }
-        }),
-    );
-    const classes = useStyles();
-
     return (
-        <div style={{display:"flex"}}>
-            <SideDrawer />
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        Freelance website
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-
-            <main className={classes.content} id={"drawer-content"}>
-                <Toolbar />
-                <div className={"row"}>
+        <div className={"row"}>
                   <div className={"col"}>{list1}</div>
                     <div className={"col"}>{list2}</div>
                     <div className={"col"}>{list3}</div>
-                </div>
-            </main>
-        </div>
-    );
+                </div>);
 }
