@@ -4,7 +4,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import {register, RegisterResponse} from "../repositories/AuthRepository";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,19 +14,6 @@ enum ErrorMessages{
     ERROR_INVALID_USERNAME = "Invalid username",
     ERROR_INVALID_EMAIL = "Invalid email",
     ERROR_INVALID_PASSWORD = "Invalid password"
-}
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Andrei Avram
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -67,27 +53,28 @@ export default function Register() {
 
 
 
-    useEffect(()=>{
-        if(validateEmail) {
-            setErrorMessageEmail("")
-            if (!isEmailValid(email)) {
-                setErrorMessageEmail(ErrorMessages.ERROR_INVALID_EMAIL)
-            }
-        }
-        if(validateUsername) {
-            setErrorMessageUsername("")
-            if (!isUsernameValid(username)) {
-                setErrorMessageUsername(ErrorMessages.ERROR_INVALID_USERNAME)
-            }
-        }
-        if(validatePassword){
-            setErrorMessagePassword("")
-            if(!isPasswordValid(password)){
-                setErrorMessagePassword(ErrorMessages.ERROR_INVALID_PASSWORD)
-            }
-        }
-
-    },[username, email, password])
+    // useEffect(()=>{
+    //
+    //     if(validateEmail) {
+    //         setErrorMessageEmail("")
+    //         if (!isEmailValid(email)) {
+    //             setErrorMessageEmail(ErrorMessages.ERROR_INVALID_EMAIL)
+    //         }
+    //     }
+    //     if(validateUsername) {
+    //         setErrorMessageUsername("")
+    //         if (!isUsernameValid(username)) {
+    //             setErrorMessageUsername(ErrorMessages.ERROR_INVALID_USERNAME)
+    //         }
+    //     }
+    //     if(validatePassword){
+    //         setErrorMessagePassword("")
+    //         if(!isPasswordValid(password)){
+    //             setErrorMessagePassword(ErrorMessages.ERROR_INVALID_PASSWORD)
+    //         }
+    //     }
+    //
+    // },[username, email, password,validateEmail,validatePassword,validateUsername])
 
 
     function areFieldsValid(){
@@ -193,9 +180,6 @@ export default function Register() {
                     </Grid>
                 </form>
             </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
         </Container>
     );
 }

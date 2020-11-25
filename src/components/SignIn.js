@@ -41,15 +41,14 @@ export default function SignIn() {
      const [usernameValue, setUsernameValue] = useState("")
      const [passwordValue, setPasswordValue] = useState("")
 
-
      const[usernameValid, setUsernameValid] = useState(false)
      const[passwordValid, setPasswordValid] = useState(false)
 
      const[errorMessage,setErrorMessage] = useState("")
 
     useEffect(()=>{
-        setUsernameValid(usernameValue.trim() !=="")
-        setPasswordValid(passwordValue.trim() !=="")
+      //  setUsernameValid(usernameValue.trim() !=="")
+       // setPasswordValid(passwordValue.trim() !=="")
 
     }, [usernameValue, passwordValue])
 
