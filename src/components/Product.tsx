@@ -31,7 +31,7 @@ const useStyles = makeStyles({
                     component="img"
                     alt="Contemplative Reptile"
                     height="140"
-                    image= {product.image}
+                    image= {product.images[0].imageURl !==undefined ? product.images[0].imageURl: ""}
                     title="Contemplative Reptile"
                 />
                 <CardContent>

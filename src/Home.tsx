@@ -21,12 +21,11 @@ export default  function Home () {
                   price={product.price}
                   id={ product.id}
                   name={product.name}
-                  image={product.image}
+                  images={product.images}
               />)
               setProducts(mappedProducts)
           }
       }).catch(error=> {
-          console.log(error)
       })
   },[])
 
@@ -56,7 +55,7 @@ export default  function Home () {
 
     return (
         <div className={"row"}>
-                  <div className={"col"}>{list1}</div>
+                  <div   className={"col"}>{list1}</div>
                     <div className={"col"}>{list2}</div>
                     <div className={"col"}>{list3}</div>
                 </div>);

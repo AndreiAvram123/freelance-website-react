@@ -3,8 +3,12 @@ export type ProductModel = {
     id:number,
     name:string,
     price:number,
-    image:string
+    images:Array<ProductImage>
 }
+export type ProductImage = {
+    imageURl:string
+}
+
 
 export type ResultProduct ={
     data : ProductModel[]
