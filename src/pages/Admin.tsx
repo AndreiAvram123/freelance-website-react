@@ -4,16 +4,20 @@ import {createProduct} from "../repositories/ProductRepository";
 export default function Admin(){
     const [productName, setProductName] = useState("")
     const [productPrice,setProductPrice] = useState(0)
+    const [images,setImages] = useState(FileList.prototype)
+
     const [isFormValid, setIsFormValid] = useState(false)
 
+
+
     useEffect(()=>{
-        setIsFormValid(productName.trim() !== "" && productPrice >0)
-    },[productName,productPrice])
+        setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype)
+    },[productName,productPrice,images])
 
     return (
         <div>
             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Launch demo modal
+               Add product
             </button>
 
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -38,6 +42,13 @@ export default function Admin(){
                                     <input type="number" className="form-control" id="product-price"
                                      onChange={(event)=> setProductPrice(parseInt(event.target.value))}/>
                                 </div>
+                                    <input type="file"  id="product-images" multiple onChange={(event)=>{
+                                        if(event.target.files != null){
+                                            setImages(event.target.files)
+                                        }
+
+                                    }}/>
+
                             </form>
                         </div>
                         <div className="modal-footer">
@@ -45,7 +56,7 @@ export default function Admin(){
                             <button type="button" className="btn btn-primary" data-dismiss = "modal"
                              disabled={!isFormValid}
                              onClick={()=>{
-                                createProduct(productName,productPrice)
+                               createProduct(productName,productPrice,images)
                              }}
                             >Finish</button>
                         </div>

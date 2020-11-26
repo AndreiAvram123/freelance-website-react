@@ -8,7 +8,6 @@ export default function CarouselImages (){
         marginLeft: "10rem"
     }
     return (
-        <div className={"row"}>
             <div className={"col"}>
                 <div id="carouselExampleControls" className="carousel slide" style={carouselStyle}  data-ride="carousel">
                     <ol className="carousel-indicators">
@@ -37,16 +36,6 @@ export default function CarouselImages (){
                     </a>
                 </div>
             </div>
-            <div className={"col"}>
-                <Typography
-                    variant="h3"
-                >
-                    Product title
-                </Typography>
-                <Button variant="contained" color="primary">
-                    Add to basket
-                </Button>
-            </div>
-        </div>
+
     )
 }

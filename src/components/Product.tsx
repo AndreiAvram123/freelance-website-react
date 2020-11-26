@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 
     return (
         <Card className={classes.root}
-           onClick= {()=> {window.location.href = "/product/" + product.id }}
+           onClick= {()=> {window.location.href = "/product/" + product.productID }}
         >
             <CardActionArea>
                 <CardMedia
@@ -37,6 +37,9 @@ const useStyles = makeStyles({
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {product.name}
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">
+                        {"£" + product.price }
                     </Typography>
                 </CardContent>
             </CardActionArea>
