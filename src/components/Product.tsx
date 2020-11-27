@@ -10,6 +10,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {ProductModel} from '../repositories/ProductRepository'
+import {BASE_URL_IMAGES} from "../utils/ApiConstants";
 
 const useStyles = makeStyles({
     root: {
@@ -22,6 +23,11 @@ const useStyles = makeStyles({
 
     const classes = useStyles();
 
+     let imageURL = "";
+     if(product.images[0]?.imageURl){
+       imageURL = BASE_URL_IMAGES + product.images[0].imageURl
+
+    }
     return (
         <Card className={classes.root}
            onClick= {()=> {window.location.href = "/product/" + product.productID }}
@@ -29,10 +35,10 @@ const useStyles = makeStyles({
             <CardActionArea>
                 <CardMedia
                     component="img"
-                    alt="Contemplative Reptile"
+                    alt={product.name}
                     height="140"
-                    image= {product.images[0].imageURl !==undefined ? product.images[0].imageURl: ""}
-                    title="Contemplative Reptile"
+                    image= {imageURL}
+                    title= {product.name}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">

@@ -1,30 +1,40 @@
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import {ProductImage} from "../repositories/ProductRepository";
+import React from "react";
+import {BASE_URL_IMAGES} from "../utils/ApiConstants";
 
-export default function CarouselImages (){
+ type props ={
+    images : Array<ProductImage>
+}
+
+export default function CarouselImages (props: props){
 
     let carouselStyle = {
         maxWidth : "60%",
         marginLeft: "10rem"
     }
+
+    let imagesItems = props.images.map((productImage,index)=>{
+        return ( <div className= {index ===0 ? "carousel-item active" : "carousel-item"} key={index + "image"}>
+                <img className="d-block w-100" src={BASE_URL_IMAGES + productImage.imageURl} alt="First slide"/>
+            </div>)
+
+    })
+
+    let indicatorItems = props.images.map((product,index)=>{
+         return ( <li data-target="#carouselExampleIndicators" data-slide-to={index} className={index ===0 ? "active" : ""}/>)
+    })
+
+
     return (
             <div className={"col"}>
                 <div id="carouselExampleControls" className="carousel slide" style={carouselStyle}  data-ride="carousel">
                     <ol className="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        {indicatorItems}
                     </ol>
                     <div className="carousel-inner">
-                        <div className="carousel-item active">
-                            <img className="d-block w-100" src="https://via.placeholder.com/300" alt="First slide"/>
-                        </div>
-                        <div className="carousel-item">
-                            <img className="d-block w-100" src="https://via.placeholder.com/300" alt="Second slide"/>
-                        </div>
-                        <div className="carousel-item">
-                            <img className="d-block w-100" src="https://via.placeholder.com/300" alt="Third slide"/>
-                        </div>
+                        {imagesItems}
                     </div>
                     <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>

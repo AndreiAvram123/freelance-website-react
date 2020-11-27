@@ -1,5 +1,6 @@
 import {strict} from "assert";
 import {resizeImage} from "../utils/ImageUtils";
+import {URL_FETCH_PRODUCT} from "../utils/ApiConstants";
 
 export type ProductModel = {
     productID:number,
@@ -11,15 +12,43 @@ export type ProductImage = {
     imageURl:string
 }
 
-export type ResultProduct ={
+export type ResultProducts ={
     data : ProductModel[]
     error : string
+}
+export type ResultProduct ={
+    data : ProductModel,
+    error :string
+
 }
 
 
 
+export async function fetchProduct(id:number){
+    return new Promise<ResultProduct>((resolve, reject) => {
+        let token = localStorage.getItem("token");
+        let url = URL_FETCH_PRODUCT + id
+        fetch(url,{
+            headers : {
+                Authorization: "Bearer " + token
+            }
+        }).then(function (response){return  response.text()})
+            .then(data =>{
+                let response = JSON.parse(data) as ResultProduct
+                let result = {data: response.data, error : response.error}
+                resolve(result)
+            }).catch(error =>{
+            let response = {
+                data : undefined,
+                error : error.toString()
+            }
+            reject(response)
+        })
+    })
+}
+
 export function fetchSearchSuggestions(query:string){
-    return new Promise<ResultProduct>(((resolve, reject) => {
+    return new Promise<ResultProducts>(((resolve, reject) => {
          let token = localStorage.getItem("token");
          let url = "https://rest-kotlin.herokuapp.com/products/search/" + query
         fetch(url,{
@@ -43,8 +72,8 @@ export function fetchSearchSuggestions(query:string){
 }
 
 
-export function fetchRecentProducts() : Promise<ResultProduct>{
-    return new Promise<ResultProduct>((resolve, reject) => {
+export function fetchRecentProducts() : Promise<ResultProducts>{
+    return new Promise<ResultProducts>((resolve, reject) => {
         let token = localStorage.getItem("token")
         let url = "https://rest-kotlin.herokuapp.com/products/recent"
         fetch(url, {
