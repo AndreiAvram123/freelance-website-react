@@ -36,7 +36,7 @@ const useStyles = makeStyles({
                 <CardMedia
                     component="img"
                     alt={product.name}
-                    height="140"
+                    height="200"
                     image= {imageURL}
                     title= {product.name}
                 />

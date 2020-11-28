@@ -13,6 +13,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import ExpandedProduct from "./pages/ExpandedProduct";
+import Profile from "./pages/Profile";
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 
 export default function  App(){
@@ -46,10 +48,13 @@ export default function  App(){
             control: {
                 padding: theme.spacing(2),
             },
-            imageUser :{
-                maxWidth : "50px",
+            wrapperRightActions :{
                 marginLeft : "auto",
                 cursor : "pointer"
+            },
+            imageUser :{
+                marginLeft: "30px",
+                maxWidth : "50px"
             }
 
         }),
@@ -79,8 +84,11 @@ export default function  App(){
                             <Typography variant="h6" noWrap>
                                 Freelance website
                             </Typography>
-                           <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
-
+                            <div className={classes.wrapperRightActions} onClick={()=>window.location.href = "/cart"}>
+                            <ShoppingBasketIcon/>
+                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>2</Typography>
+                            <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
+                            </div>
                         </Toolbar>
                     </AppBar>
 
@@ -88,7 +96,8 @@ export default function  App(){
                         <Toolbar />
                                 <Route path = "/" exact component={()=> <Home />} />
                                 <Route path = "/admin" exact component={() => <Admin />} />
-                                <Route path = "/product/:productID" exact component={()=> <ExpandedProduct/> } />
+                                <Route path = "/profile" exact component={()=> <Profile />} />
+                                 <Route path = "/product/:productID" exact component={()=> <ExpandedProduct/> } />
                     </main>
                 </div>
                 </Switch>
