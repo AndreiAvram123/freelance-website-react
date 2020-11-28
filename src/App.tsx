@@ -1,6 +1,6 @@
 
 import './App.css';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SignIn from "./components/SignIn";
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import Home from "./Home";
@@ -15,6 +15,9 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import ExpandedProduct from "./pages/ExpandedProduct";
 import Profile from "./pages/Profile";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import Cart from "./pages/Cart";
+import {ProductModel} from "./repositories/ProductRepository";
+import CartContext from "./contexts/CartContext";
 
 
 export default function  App(){
@@ -60,6 +63,25 @@ export default function  App(){
         }),
     );
     const classes = useStyles();
+    let initialState:Array<ProductModel> = []
+    const [products,setProducts] = useState(initialState)
+
+    const addProduct= (newProduct :ProductModel) =>{
+        setProducts([...products,newProduct])
+    }
+useEffect(()=>{
+    let product:ProductModel = {
+        productID : 100,
+        name : "pupu",
+        price : 1000,
+        images : []
+    }
+    product.images.push({imageURl : "bf7ea39a-d972-47a9-8b0d-d61401f4211b.jpeg"})
+
+    addProduct(product)
+
+},[])
+
 
         if(localStorage.getItem("token") === null){
             return (<div>
@@ -76,6 +98,7 @@ export default function  App(){
         return (
             <Router>
                 <Switch>
+                    <CartContext.Provider value={{products: products,setProducts: setProducts, addProduct: addProduct}}>
                 <div style={{display:"flex"}}>
                     <SideDrawer />
                     <CssBaseline />
@@ -86,7 +109,7 @@ export default function  App(){
                             </Typography>
                             <div className={classes.wrapperRightActions} onClick={()=>window.location.href = "/cart"}>
                             <ShoppingBasketIcon/>
-                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>2</Typography>
+                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>{products.length}</Typography>
                             <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
                             </div>
                         </Toolbar>
@@ -97,9 +120,11 @@ export default function  App(){
                                 <Route path = "/" exact component={()=> <Home />} />
                                 <Route path = "/admin" exact component={() => <Admin />} />
                                 <Route path = "/profile" exact component={()=> <Profile />} />
+                                <Route path = "/cart" exact component={()=> <Cart />} />
                                  <Route path = "/product/:productID" exact component={()=> <ExpandedProduct/> } />
                     </main>
                 </div>
+                    </CartContext.Provider>
                 </Switch>
             </Router>
         );
