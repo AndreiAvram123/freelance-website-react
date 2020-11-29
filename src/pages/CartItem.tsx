@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import {ProductModel} from "../repositories/ProductRepository";
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";
-import {ProductQuantity} from "../repositories/ProductQuantity";
 import CartContext from "../contexts/CartContext";
+import {ProductModel} from "../repositories/ProductRepository";
+
+export type ProductQuantity ={
+    product:ProductModel,
+    quantity:number
+}
 
 
 const CartItem = (props:ProductQuantity) => {
@@ -32,12 +36,6 @@ const CartItem = (props:ProductQuantity) => {
                     <div className="col-sm-4 p-2 text-right">
                         <button
                             onClick={() => {
-                                let product: ProductModel = {
-                                    productID: 100,
-                                    name: "pupu",
-                                    price: 1000,
-                                    images: []
-                                }
                                context.addProduct(product)
                             }
                             }

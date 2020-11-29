@@ -1,18 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
+import {persistItem} from "../components/StorageHandler";
+import CartContext from "../contexts/CartContext";
 
 export default function ExpandedProduct(){
 
+    const context = useContext(CartContext)
     let initial:ProductModel = {
         productID : 100,
-        name : "andrei",
+        name : "Unknown",
         price: 100,
         images: []
     }
     const [product, setProduct] = useState<ProductModel>(initial)
+
 
     useEffect(()=>{
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -27,9 +31,7 @@ export default function ExpandedProduct(){
 
         }
     },[])
-    useEffect(()=>{
-      console.log(product)
-    },[product])
+
 
     return (
         <div className={"row"}>
@@ -40,7 +42,9 @@ export default function ExpandedProduct(){
         >
             {product?.name}
         </Typography>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={()=>{
+            context.addProduct(product)
+        }}>
             Add to basket
         </Button>
     </div>

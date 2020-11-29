@@ -112,10 +112,10 @@ export default function  App(){
                             <Typography variant="h6" noWrap>
                                 Freelance website
                             </Typography>
-                            <div className={classes.wrapperRightActions} onClick={()=>window.location.href = "/cart"}>
-                            <ShoppingBasketIcon/>
+                            <div className={classes.wrapperRightActions} >
+                                <ShoppingBasketIcon onClick={()=>window.location.href = "/cart"}/>
                                 <Typography variant={'overline'} style={{marginLeft:"10px"}}>{products.length}</Typography>
-                            <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
+                                   <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
                             </div>
                         </Toolbar>
                     </AppBar>
@@ -126,7 +126,7 @@ export default function  App(){
                                 <Route path = "/admin" exact component={() => <Admin />} />
                                 <Route path = "/profile" exact component={()=> <Profile />} />
                                 <Route path = "/cart" exact component={()=> <Cart />} />
-                                 <Route path = "/product/:productID" exact component={()=> <ExpandedProduct/> } />
+                                <Route path = "/product/:productID" exact component={()=> <ExpandedProduct/> } />
                     </main>
                 </div>
                     </CartContext.Provider>

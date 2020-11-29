@@ -43,7 +43,6 @@ const Cart = () => {
                                     <button type="button" className="btn btn-primary mb-2" onClick={()=>{
 
                                     }}>CHECKOUT</button>
-                                    <button type="button" className="btn btn-outlineprimary btn-sm" >CLEAR</button>
                                 </div>
 
                             </div>
