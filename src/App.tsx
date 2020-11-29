@@ -16,8 +16,9 @@ import ExpandedProduct from "./pages/ExpandedProduct";
 import Profile from "./pages/Profile";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Cart from "./pages/Cart";
-import {ProductModel} from "./repositories/ProductRepository";
+import {ProductImage, ProductModel} from "./repositories/ProductRepository";
 import CartContext from "./contexts/CartContext";
+import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
 
 
 export default function  App(){
@@ -68,19 +69,23 @@ export default function  App(){
 
     const addProduct= (newProduct :ProductModel) =>{
         setProducts([...products,newProduct])
+        persistItem(newProduct)
     }
-useEffect(()=>{
-    let product:ProductModel = {
-        productID : 100,
-        name : "pupu",
-        price : 1000,
-        images : []
+    const removeProduct = (toRemove:ProductModel)=>{
+        let copy = [...products]
+        let index = copy.indexOf(toRemove)
+        if(index !== -1){
+            copy.splice(index,1)
+            setProducts(copy)
+            removeItem(toRemove)
+        }
+
     }
-    product.images.push({imageURl : "bf7ea39a-d972-47a9-8b0d-d61401f4211b.jpeg"})
 
-    addProduct(product)
-
-},[])
+   useEffect(()=>{
+       let persistedItems = getCartItems()
+       setProducts(persistedItems)
+   },[])
 
 
         if(localStorage.getItem("token") === null){
@@ -98,7 +103,7 @@ useEffect(()=>{
         return (
             <Router>
                 <Switch>
-                    <CartContext.Provider value={{products: products,setProducts: setProducts, addProduct: addProduct}}>
+                    <CartContext.Provider value={{products: products,setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
                 <div style={{display:"flex"}}>
                     <SideDrawer />
                     <CssBaseline />

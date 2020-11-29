@@ -4,19 +4,16 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {ProductModel} from "../repositories/ProductRepository";
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";
+import {ProductQuantity} from "../repositories/ProductQuantity";
 import CartContext from "../contexts/CartContext";
 
-type Props= {
-    product:ProductModel
-}
-const CartItem = (props:Props) => {
-      let product = props.product
-      let quantity  = 2
 
+const CartItem = (props:ProductQuantity) => {
+      let product = props.product
+      let quantity  = props.quantity
+      const context = useContext(CartContext)
 
     return (
-        <CartContext.Consumer>
-            { ({products,setProducts,addProduct}) => (
                 <div className="row no-gutters py-2">
                     <div className="col-sm-2 p-2">
                         <img
@@ -26,22 +23,24 @@ const CartItem = (props:Props) => {
                     </div>
                     <div className="col-sm-4 p-2">
                         <h5 className="mb-1">{product.name}</h5>
-                        <p className="mb-1">Price: {"100 pounzi"} </p>
+                        <p className="mb-1">Price: {"£" + product.price} </p>
 
                     </div>
                     <div className="col-sm-2 p-2 text-center ">
-                        <p className="mb-0">Quantity: {products.length}</p>
+                        <p className="mb-0">Quantity: {quantity}</p>
                     </div>
                     <div className="col-sm-4 p-2 text-right">
                         <button
                             onClick={() => {
-                                let product:ProductModel = {
-                                    productID : 100,
-                                    name : "pupu",
-                                    price : 1000,
-                                    images : []
+                                let product: ProductModel = {
+                                    productID: 100,
+                                    name: "pupu",
+                                    price: 1000,
+                                    images: []
                                 }
-                                addProduct(product)}}
+                               context.addProduct(product)
+                            }
+                            }
                             className="btn btn-primary btn-sm mr-2 mb-1">
                             <AddIcon width={"20px"}/>
                         </button>
@@ -49,7 +48,7 @@ const CartItem = (props:Props) => {
                         {
                             quantity > 1 &&
                             <button
-                                onClick={() => {}}
+                                onClick={() => context.removeProduct(product)}
                                 className="btn btn-danger btn-sm mb-1">
                                 <RemoveIcon width={"20px"}/>
                             </button>
@@ -58,7 +57,7 @@ const CartItem = (props:Props) => {
                         {
                             quantity === 1 &&
                             <button
-                                onClick={() => {}}
+                                onClick={() => context.removeProduct(product)}
                                 className="btn btn-danger btn-sm mb-1">
                                 <DeleteIcon width={"20px"}/>
                             </button>
@@ -68,9 +67,6 @@ const CartItem = (props:Props) => {
                 </div>
             )
 
-            }
-        </CartContext.Consumer>
-     );
 }
  
 export default CartItem;

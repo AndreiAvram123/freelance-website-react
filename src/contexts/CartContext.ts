@@ -7,6 +7,11 @@ const CartContext = createContext({
 
     },
     addProduct:(product:ProductModel) => {
+    },
+    removeProduct:(product:ProductModel)=>{
+
     }
+
+
 });
 export default CartContext;

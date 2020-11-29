@@ -7,6 +7,10 @@ const Cart = () => {
 
     const context = useContext(CartContext)
     let products = context.products
+    let totalPrice = 0
+    products.forEach(product=>{
+        totalPrice+=product.price
+    })
     return (
         <div>
             <div >
@@ -33,7 +37,7 @@ const Cart = () => {
                                 <p className="mb-1">Total Items</p>
                                 <h4 className=" mb-3 txt-right">{products.length}</h4>
                                 <p className="mb-1">Total Payment</p>
-                                <h3 className="m-0 txt-right">{"100 pounds"}</h3>
+                                <h3 className="m-0 txt-right">{"£" + totalPrice}</h3>
                                 <hr className="my-4"/>
                                 <div className="text-center">
                                     <button type="button" className="btn btn-primary mb-2" onClick={()=>{
