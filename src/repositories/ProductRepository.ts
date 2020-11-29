@@ -1,6 +1,5 @@
-import {strict} from "assert";
 import {resizeImage} from "../utils/ImageUtils";
-import {URL_FETCH_PRODUCT} from "../utils/ApiConstants";
+import {URL_FETCH_PRODUCT, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
 
 export type ProductModel = {
     productID:number,
@@ -22,6 +21,38 @@ export type ResultProduct ={
 
 }
 
+export type UpdateProductRequest = {
+    name :string,
+    price :number
+}
+
+export async function updateProduct(productID :number, request:UpdateProductRequest){
+    return new Promise<ResultProduct>(((resolve, reject) => {
+        let token = localStorage.getItem("token");
+        let url = URL_UPDATE_PRODUCT + productID + "/update"
+        fetch(url,{
+                method : "PUT",
+                headers : {
+                    Authorization: "Bearer " + token,
+                    "Content-type" : "application/json; charset=UTF-8"
+
+                },
+                body: JSON.stringify(request)
+        }).then(function (response){
+            return response.text()
+        }).then(data=>{
+            let response = JSON.parse(data) as ResultProduct
+            let result = {data : response.data, error : response.error}
+            resolve(result)
+        }).catch(error =>{
+            let response = {
+                data : undefined,
+                error : error.toString()
+            }
+            reject(response)
+        })
+    }))
+}
 
 
 export async function fetchProduct(id:number){

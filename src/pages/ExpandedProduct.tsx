@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {persistItem} from "../components/StorageHandler";
 import CartContext from "../contexts/CartContext";
+import ModifyProductModal from "../components/ModifyProductModal";
 
 export default function ExpandedProduct(){
 
@@ -47,6 +48,17 @@ export default function ExpandedProduct(){
         }}>
             Add to basket
         </Button>
+        <div className={"mt-5"}>
+        <Button variant="contained" color="primary"  data-toggle="modal" data-target="#modifyProductModal">
+            Edit
+        </Button></div>
+        {
+            product !== initial &&
+            <ModifyProductModal product={product} />
+        }
+
+
+
     </div>
         </div>
     )
