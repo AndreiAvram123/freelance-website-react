@@ -1,24 +1,26 @@
+.drawer {
+  flex-shrink: 0;
+  width: 240px;
+}
+
 .search-box {
   width: 60% !important;
   margin: auto;
 }
-
-.search-field {
+.search-box .search-field {
   border-radius: 10px !important;
   color: #4D0C02;
   width: 50%;
 }
-.search-field::placeholder {
+.search-box .search-field::placeholder {
   color: #4D0C02;
 }
-
-.search-button {
+.search-box .search-button {
   color: #4D0C02 !important;
   border-radius: 100px !important;
   background-color: #457CFF !important;
 }
-
-.autocomplete {
+.search-box .autocomplete {
   position: relative;
   display: inline-block;
 }

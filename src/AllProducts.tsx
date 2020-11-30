@@ -1,6 +1,6 @@
 
 import React, {useEffect, useState} from "react";
-import {fetchRecentProducts, fetchSearchSuggestions} from "./repositories/ProductRepository";
+import {fetchRecentProducts} from "./repositories/ProductRepository";
 import Product from "./components/Product";
 import SearchIcon from '@material-ui/icons/Search';
 import {performSearch} from "./LiveSearch";
