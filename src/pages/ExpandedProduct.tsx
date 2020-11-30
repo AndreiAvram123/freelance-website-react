@@ -6,6 +6,7 @@ import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {persistItem} from "../components/StorageHandler";
 import CartContext from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
+import SuccessSnackbar from "../components/SuccessSnackbar";
 
 export default function ExpandedProduct(){
 
@@ -17,7 +18,6 @@ export default function ExpandedProduct(){
         images: []
     }
     const [product, setProduct] = useState<ProductModel>(initial)
-
 
     useEffect(()=>{
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)

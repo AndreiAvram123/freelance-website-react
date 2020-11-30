@@ -4,7 +4,7 @@ import {fetchRecentProducts, fetchSearchSuggestions} from "./repositories/Produc
 import Product from "./components/Product";
 import SearchIcon from '@material-ui/icons/Search';
 import {performSearch} from "./LiveSearch";
-export default  function Home () {
+export default  function AllProducts () {
 
     const [products, setProducts] = useState(new Array<JSX.Element>())
     const [list1, setList1] = useState(new Array<JSX.Element>())

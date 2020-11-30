@@ -3,7 +3,7 @@ import './App.css';
 import React, {useEffect, useState} from "react";
 import SignIn from "./components/SignIn";
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
-import Home from "./Home";
+import AllProducts from "./AllProducts";
 import Admin from "./pages/Admin";
 import Register from "./pages/Register";
 import SideDrawer from "./components/SideDrawer";
@@ -11,14 +11,17 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
 import ExpandedProduct from "./pages/ExpandedProduct";
 import Profile from "./pages/Profile";
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Cart from "./pages/Cart";
 import CartContext from "./contexts/CartContext";
 import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
-
+import IconButton from '@material-ui/core/IconButton';
+import {Avatar, Badge} from "@material-ui/core";
+import Home from "./pages/Home";
+import RightActionsToolbar from "./components/RightActionsToolbar";
 
 export default function  App(){
     let drawerWidth = 240;
@@ -50,20 +53,11 @@ export default function  App(){
             },
             control: {
                 padding: theme.spacing(2),
-            },
-            wrapperRightActions :{
-                marginLeft : "auto",
-            },
-            imageUser :{
-                marginLeft: "30px",
-                maxWidth : "50px"
-            },
-            basket:{
-                cursor :"pointer"
             }
-
         }),
     );
+
+
     const classes = useStyles();
 
     const [productsIDs,setProducts] = useState(new Array<number>())
@@ -113,17 +107,13 @@ export default function  App(){
                             <Typography variant="h6" noWrap>
                                 Freelance website
                             </Typography>
-                            <div className={classes.wrapperRightActions} >
-                                <ShoppingBasketIcon onClick={()=>window.location.href = "/cart"} className={ classes.basket}/>
-                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>{productsIDs.length}</Typography>
-                                   <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
-                            </div>
+                            <RightActionsToolbar />
                         </Toolbar>
                     </AppBar>
 
                     <main className={classes.content} id={"drawer-content"}>
                         <Toolbar />
-                                <Route path = "/" exact component={()=> <Home />} />
+                                <Route path = "/" exact component={()=> <Home/>} />
                                 <Route path = "/admin" exact component={() => <Admin />} />
                                 <Route path = "/profile" exact component={()=> <Profile />} />
                                 <Route path = "/cart" exact component={()=> <Cart />} />

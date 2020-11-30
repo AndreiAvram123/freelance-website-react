@@ -50,9 +50,9 @@ export default function SideDrawer() {
             <Toolbar />
             <div className={classes.drawerContainer}>
                 <List>
-                    <ListItem button key={"Home"} onClick={()=>window.location.href = "/"}>
+                    <ListItem button key={"AllProducts"} onClick={()=>window.location.href = "/"}>
                         <ListItemIcon> <HomeIcon /> </ListItemIcon>
-                        <ListItemText primary={"Home"} />
+                        <ListItemText primary={"AllProducts"} />
                     </ListItem>
                     <ListItem button key={"Admin"} onClick={()=>window.location.href = "/admin"}>
                         <ListItemIcon><SupervisorAccount/></ListItemIcon>
