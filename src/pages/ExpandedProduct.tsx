@@ -3,10 +3,8 @@ import CarouselImages from "../components/CarouselImages";
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
-import {persistItem} from "../components/StorageHandler";
 import CartContext from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
-import SuccessSnackbar from "../components/SuccessSnackbar";
 
 export default function ExpandedProduct(){
 

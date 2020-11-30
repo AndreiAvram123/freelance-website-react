@@ -1,5 +1,6 @@
 
 import tShirt from '../images/tShirt.png'
+
 export default function Home(){
 
     return (

@@ -1,5 +1,3 @@
-import {Typography} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import {ProductImage} from "../repositories/ProductRepository";
 import React from "react";
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";

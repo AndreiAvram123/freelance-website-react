@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import CartProducts from './CartProducts';
 import CartContext from "../contexts/CartContext";
-import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
+import {fetchProduct} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
 
 

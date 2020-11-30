@@ -1,4 +1,3 @@
-import {ProductModel} from "../repositories/ProductRepository";
 
 const KEY_CART_ITEMS = "KEY_CART_ITEMS"
 export  function getCartItems():Array<number>{
