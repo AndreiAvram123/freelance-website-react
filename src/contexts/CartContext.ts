@@ -2,13 +2,14 @@ import {createContext} from "react";
 import {ProductModel} from "../repositories/ProductRepository";
 
 const CartContext = createContext({
-    products: new Array<ProductModel>(),
-    setProducts: (newProducts:Array<ProductModel>)=>{
+    productsIDs: new Array<number>(),
+
+    setProducts: (newProducts:Array<number>)=>{
 
     },
-    addProduct:(product:ProductModel) => {
+    addProduct:(product:number) => {
     },
-    removeProduct:(product:ProductModel)=>{
+    removeProduct:(product:number)=>{
 
     }
 

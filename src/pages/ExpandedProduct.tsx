@@ -11,9 +11,9 @@ export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
     let initial:ProductModel = {
-        productID : 100,
-        name : "Unknown",
-        price: 100,
+        productID : 0,
+        name : "",
+        price: 0,
         images: []
     }
     const [product, setProduct] = useState<ProductModel>(initial)
@@ -44,7 +44,7 @@ export default function ExpandedProduct(){
             {product?.name}
         </Typography>
         <Button variant="contained" color="primary" onClick={()=>{
-            context.addProduct(product)
+            context.addProduct(product.productID)
         }}>
             Add to basket
         </Button>

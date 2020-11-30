@@ -1,16 +1,42 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CartProducts from './CartProducts';
 import CartContext from "../contexts/CartContext";
+import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
+import {ProductQuantity} from "./CartItem";
 
 
 const Cart = () => {
 
     const context = useContext(CartContext)
-    let products = context.products
-    let totalPrice = 0
-    products.forEach(product=>{
-        totalPrice+=product.price
-    })
+
+    const record: { [productID:number]:number } = {}
+
+    const [cartProducts, setCartProducts] = useState(new Array<ProductQuantity>())
+
+    const [totalPrice ,setTotalPrice] = useState(0)
+
+    useEffect(()=>{
+        context.productsIDs.forEach(productID=>{
+            if(record[productID] === undefined) {
+                record[productID] = 0
+            }
+            record[productID] ++
+        })
+        for (let recordKey in record) {
+            let productID = context.productsIDs.find((productID) => productID === parseInt(recordKey))
+            if (productID !== undefined) {
+                fetchProduct(productID).then(result => {
+                    let product = result.data
+                    let quantity = record[product.productID]
+                    let cartItem: ProductQuantity = {product: product, quantity: quantity}
+                    setTotalPrice(totalPrice + product.price * quantity)
+                    setCartProducts([...cartProducts, cartItem])
+                })
+            }
+        }
+    },[])
+
+
     return (
         <div>
             <div >
@@ -22,20 +48,20 @@ const Cart = () => {
                 <div className="row no-gutters justify-content-center">
                     <div className="col-sm-9 p-3">
                         {
-                            products.length > 0 ?
+                            context.productsIDs.length > 0 ?
 
-                            <CartProducts/> :
+                            <CartProducts products={cartProducts}/> :
                             <div className="p-3 text-center text-muted">
                                 Your cart is empty
                             </div>
                         }
                     </div>
                     {
-                        products.length > 0 &&
+                        context.productsIDs.length > 0 &&
                         <div className="col-sm-3 p-3">
                             <div className="card card-body">
                                 <p className="mb-1">Total Items</p>
-                                <h4 className=" mb-3 txt-right">{products.length}</h4>
+                                <h4 className=" mb-3 txt-right">{context.productsIDs.length}</h4>
                                 <p className="mb-1">Total Payment</p>
                                 <h3 className="m-0 txt-right">{"£" + totalPrice}</h3>
                                 <hr className="my-4"/>

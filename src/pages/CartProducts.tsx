@@ -1,38 +1,20 @@
-import React, { useContext } from 'react';
-
-import CartItem from './CartItem';
-import CartContext from "../contexts/CartContext";
-
-
-const CartProducts = () => {
-
-    const context = useContext(CartContext)
-    let products = context.products
-
-    //keep a map of products along with their quantity
-    //mapped by the product id
-    const record: { [productID:number]:number } = {}
-
-    products.forEach(product=>{
-        if(record[product.productID] === undefined) {
-             record[product.productID] = 0
-        }
-        record[product.productID] ++
-    })
-    let productsList : Array<JSX.Element> = []
-    for (let recordKey in record) {
-        let product = products.find((product) => product.productID === parseInt(recordKey))
-        if (product !== undefined) {
-            productsList.push(
-                <CartItem product={product} quantity={record[product.productID]} key={product.productID} />
+import React from 'react';
+import CartItem, {ProductQuantity} from './CartItem';
+type Props ={
+    products :Array<ProductQuantity>
+}
+const CartProducts = (props :Props) => {
+    let cartProducts = props.products.map(productQuantity =>{
+        return (
+            <CartItem product={productQuantity.product} quantity={productQuantity.quantity} key ={productQuantity.product.productID} />
         )
-        }
-    }
+    })
 
-    return ( 
+
+    return (
         <div >
             <div className="card card-body border-0">
-                {productsList}
+                    {cartProducts}
             </div>
         </div>
 

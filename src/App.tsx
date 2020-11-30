@@ -16,7 +16,6 @@ import ExpandedProduct from "./pages/ExpandedProduct";
 import Profile from "./pages/Profile";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import Cart from "./pages/Cart";
-import {ProductImage, ProductModel} from "./repositories/ProductRepository";
 import CartContext from "./contexts/CartContext";
 import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
 
@@ -54,25 +53,27 @@ export default function  App(){
             },
             wrapperRightActions :{
                 marginLeft : "auto",
-                cursor : "pointer"
             },
             imageUser :{
                 marginLeft: "30px",
                 maxWidth : "50px"
+            },
+            basket:{
+                cursor :"pointer"
             }
 
         }),
     );
     const classes = useStyles();
-    let initialState:Array<ProductModel> = []
-    const [products,setProducts] = useState(initialState)
 
-    const addProduct= (newProduct :ProductModel) =>{
-        setProducts([...products,newProduct])
+    const [productsIDs,setProducts] = useState(new Array<number>())
+
+    const addProduct= (newProduct :number) =>{
+        setProducts([...productsIDs,newProduct])
         persistItem(newProduct)
     }
-    const removeProduct = (toRemove:ProductModel)=>{
-        let copy = [...products]
+    const removeProduct = (toRemove:number)=>{
+        let copy = [...productsIDs]
         let index = copy.indexOf(toRemove)
         if(index !== -1){
             copy.splice(index,1)
@@ -103,7 +104,7 @@ export default function  App(){
         return (
             <Router>
                 <Switch>
-                    <CartContext.Provider value={{products: products,setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
+                    <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
                 <div style={{display:"flex"}}>
                     <SideDrawer />
                     <CssBaseline />
@@ -113,8 +114,8 @@ export default function  App(){
                                 Freelance website
                             </Typography>
                             <div className={classes.wrapperRightActions} >
-                                <ShoppingBasketIcon onClick={()=>window.location.href = "/cart"}/>
-                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>{products.length}</Typography>
+                                <ShoppingBasketIcon onClick={()=>window.location.href = "/cart"} className={ classes.basket}/>
+                                <Typography variant={'overline'} style={{marginLeft:"10px"}}>{productsIDs.length}</Typography>
                                    <img src = {"https://robohash.org/139.162.116.133.png"} className={classes.imageUser} onClick={()=>window.location.href = "/profile"}/>
                             </div>
                         </Toolbar>

@@ -36,7 +36,7 @@ const CartItem = (props:ProductQuantity) => {
                     <div className="col-sm-4 p-2 text-right">
                         <button
                             onClick={() => {
-                               context.addProduct(product)
+                               context.addProduct(product.productID)
                             }
                             }
                             className="btn btn-primary btn-sm mr-2 mb-1">
@@ -46,7 +46,7 @@ const CartItem = (props:ProductQuantity) => {
                         {
                             quantity > 1 &&
                             <button
-                                onClick={() => context.removeProduct(product)}
+                                onClick={() => context.removeProduct(product.productID)}
                                 className="btn btn-danger btn-sm mb-1">
                                 <RemoveIcon width={"20px"}/>
                             </button>
@@ -55,7 +55,7 @@ const CartItem = (props:ProductQuantity) => {
                         {
                             quantity === 1 &&
                             <button
-                                onClick={() => context.removeProduct(product)}
+                                onClick={() => context.removeProduct(product.productID)}
                                 className="btn btn-danger btn-sm mb-1">
                                 <DeleteIcon width={"20px"}/>
                             </button>
