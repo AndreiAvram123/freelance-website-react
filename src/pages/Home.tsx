@@ -1,7 +1,20 @@
 
 import tShirt from '../images/tShirt.png'
+import {useEffect, useState} from "react";
+import {Category, fetchCategories} from "../repositories/ProductRepository";
 
 export default function Home(){
+
+    const [categories,setCategories] = useState<Array<Category>>([])
+
+    useEffect(()=>{
+         fetchCategories().then(result=>{
+             let categories = result.data
+             setCategories(categories)
+         }).catch(error=>{
+             console.log(error.error)
+         })
+    },[])
 
     return (
         <div>
@@ -12,40 +25,21 @@ export default function Home(){
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
             <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </div>
-            <div className={"row container-categories"}>
-                <div className={"card card-style"} >
-                    <img src={tShirt} className="card-img-top" alt="..."/>
+            <div className={"row container-categories"} >
+            {
+                categories.map((category)=>{
+                   return(<div className={"card card-style"} >
+                        <img src={tShirt} className="card-img-top" alt="..."/>
                         <div className="card-body">
-                            <h5 className="card-title">All products</h5>
-                            <p className="card-text">Some quick example text to build on the card title and make up the bulk
-                                of the card's content.</p>
+                            <h5 className="card-title">{category.name}</h5>
+                            <p className="card-text">{category.description}</p>
                         </div>
-                </div>
-                <div className={"card card-style"} onClick={()=>window.location.href = "/products?category=T-Shirts"}>
-                    <img src={tShirt} className="card-img-top" alt="..."/>
-                    <div className="card-body">
-                        <h5 className="card-title">T-shirts</h5>
-                        <p className="card-text">Some quick example text to build on the card title and make up the bulk
-                            of the card's content.</p>
                     </div>
-                </div>
-                <div className={"card card-style"} >
-                    <img src={tShirt} className="card-img-top" alt="..."/>
-                    <div className="card-body">
-                        <h5 className="card-title">Vibrators</h5>
-                        <p className="card-text">Some quick example text to build on the card title and make up the bulk
-                            of the card's content.</p>
-                    </div>
-                </div>
-                <div className={"card card-style"} >
-                    <img src={tShirt} className="card-img-top" alt="..."/>
-                    <div className="card-body">
-                        <h5 className="card-title">Noodles</h5>
-                        <p className="card-text">Some quick example text to build on the card title and make up the bulk
-                            of the card's content.</p>
-                    </div>
-                </div>
-            </div>
+                   )
+                })
+            }
+
+        </div>
         </div>
    )
 }

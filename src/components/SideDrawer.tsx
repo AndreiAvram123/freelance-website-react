@@ -52,7 +52,7 @@ export default function SideDrawer() {
                 <List>
                     <ListItem button key={"Home"} onClick={()=>window.location.href = "/"}>
                         <ListItemIcon> <HomeIcon /> </ListItemIcon>
-                        <ListItemText primary={"AllProducts"} />
+                        <ListItemText primary={"Home"} />
                     </ListItem>
                     <ListItem button key={"Admin"} onClick={()=>window.location.href = "/admin"}>
                         <ListItemIcon><SupervisorAccount/></ListItemIcon>

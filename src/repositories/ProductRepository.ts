@@ -1,11 +1,17 @@
 import {resizeImage} from "../utils/ImageUtils";
 import {URL_FETCH_PRODUCT, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
+import {strict} from "assert";
 
 export type ProductModel = {
     productID:number,
     name:string,
     price:number,
     images:Array<ProductImage>
+}
+
+export type Category ={
+    name: string,
+    description:string
 }
 export type ProductImage = {
     imageURl:string
@@ -19,6 +25,11 @@ export type ResultProduct ={
     data : ProductModel,
     error :string
 
+}
+
+export type ResultCategories ={
+    data : Array<Category>,
+    error:string
 }
 
 export type UpdateProductRequest = {
@@ -142,4 +153,38 @@ export async function createProduct(productName :string,productPrice:number,imag
     }).catch(error=>{
         console.log(error)
     })
+}
+export async function fetchCategories(){
+    return new Promise<ResultCategories>((resolve, reject) => {
+        let token = localStorage.getItem("token")
+        let url = "https://rest-kotlin.herokuapp.com/categories"
+        fetch(url,{
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }).then(function (response){
+            if(response.status === 404){
+                let result :ResultCategories = {
+                    data : [],
+                    error : "Not found"
+                }
+                reject(result)
+            }
+            return response.text()
+        }).then(data=>{
+            let jsonData = JSON.parse(data) as Category[]
+           let result :ResultCategories ={
+                data: jsonData,
+                error: ""
+           }
+           resolve(result)
+        }).catch(error=>{
+            let result :ResultCategories = {
+                data : [],
+                error : error.toString()
+            }
+            reject(result)
+        })
+    })
+
 }
