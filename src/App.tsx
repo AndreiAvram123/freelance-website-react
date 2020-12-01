@@ -57,14 +57,13 @@ export default function  App(){
     const Profile = React.lazy(()=> import('./pages/Profile'))
     const Cart = React.lazy(()=>import('./pages/Cart'))
     const ExpandedProduct = React.lazy(()=> import('./pages/ExpandedProduct'))
-
+    const ProductsPage = React.lazy(()=> import('./pages/ProductsPage'))
 
 
     if(localStorage.getItem("token") === null){
         return (<div>
                 <Router>
                     <Switch>
-
                         <Route path=  "/register" exact component={ () =>
                             <Suspense fallback = {<div>Loading...</div>} >
                                 <Register />
@@ -125,6 +124,11 @@ export default function  App(){
                             <Route path = "/product/:productID" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >
                                     <ExpandedProduct/>
+                                </Suspense>
+                            } />
+                            <Route path={"/products"} exact component={()=>
+                                <Suspense fallback = {<div>Loading...</div>} >
+                                <ProductsPage/>
                                 </Suspense>
                             } />
                         </main>

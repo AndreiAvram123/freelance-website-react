@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: drawerWidth,
         },
         drawerContainer: {
-            overflow: 'auto',
+            overflow: 'auto'
         },
         content: {
             flexGrow: 1,
@@ -50,7 +50,7 @@ export default function SideDrawer() {
             <Toolbar />
             <div className={classes.drawerContainer}>
                 <List>
-                    <ListItem button key={"AllProducts"} onClick={()=>window.location.href = "/"}>
+                    <ListItem button key={"Home"} onClick={()=>window.location.href = "/"}>
                         <ListItemIcon> <HomeIcon /> </ListItemIcon>
                         <ListItemText primary={"AllProducts"} />
                     </ListItem>

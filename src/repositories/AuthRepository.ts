@@ -21,9 +21,12 @@ export function fetchToken(username:string,password:string){
                reject(AuthenticationResponse.INVALID_USERNAME_OR_PASSWORD)
             }else{
                 let token = response.headers.get("Authorization")
-                if(token !=null){
+                console.log(token)
+                if(token !== null){
                     localStorage.setItem("token", token)
+                    console.log(token)
                     resolve(token)
+
                 }
             }
         }).catch(error=>{

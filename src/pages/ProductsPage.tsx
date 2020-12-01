@@ -1,19 +1,26 @@
 
 import React, {useEffect, useState} from "react";
-import {fetchRecentProducts} from "./repositories/ProductRepository";
-import Product from "./components/Product";
+import {fetchProducts} from "../repositories/ProductRepository";
+import Product from "../components/Product";
 import SearchIcon from '@material-ui/icons/Search';
-import {performSearch} from "./LiveSearch";
-export default  function AllProducts () {
-
+import {performSearch} from "../components/LiveSearch";
+import { useLocation } from "react-router-dom";
+export default  function ProductsPage () {
     const [products, setProducts] = useState(new Array<JSX.Element>())
     const [list1, setList1] = useState(new Array<JSX.Element>())
     const [list2, setList2] = useState(new Array<JSX.Element>())
     const [list3, setList3] = useState(new Array<JSX.Element>())
     const [list4, setList4] = useState(new Array<JSX.Element>())
 
+
+    let category ="ALL"
+    let queryCategory = new URLSearchParams(useLocation().search).get("category");
+    if(queryCategory !== null){
+        category = queryCategory
+    }
     useEffect(() => {
-        fetchRecentProducts().then(result => {
+
+        fetchProducts(category).then(result => {
             if (result.error === "") {
                 let products = result.data
                 let mappedProducts = products.map(product => <Product
@@ -28,7 +35,7 @@ export default  function AllProducts () {
         }).catch(error => {
             console.log(error)
         })
-    }, [])
+    }, [category])
 
 
     useEffect(() => {

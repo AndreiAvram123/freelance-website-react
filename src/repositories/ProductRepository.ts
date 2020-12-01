@@ -103,10 +103,10 @@ export function fetchSearchSuggestions(query:string){
 }
 
 
-export function fetchRecentProducts() : Promise<ResultProducts>{
+export function fetchProducts(category:string) : Promise<ResultProducts>{
     return new Promise<ResultProducts>((resolve, reject) => {
         let token = localStorage.getItem("token")
-        let url = "https://rest-kotlin.herokuapp.com/products/recent"
+        let url = "https://rest-kotlin.herokuapp.com/products?category=" + category
         fetch(url, {
                 headers : {
                     Authorization: "Bearer " + token
