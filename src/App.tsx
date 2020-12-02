@@ -8,6 +8,7 @@ import CartContext from "./contexts/CartContext";
 import CategoriesContext from "./contexts/CategoriesContext";
 import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
+import Navbar from "./components/Navbar";
 
 export default function  App(){
     let useStyles = makeStyles((theme: Theme) =>
@@ -89,11 +90,14 @@ export default function  App(){
     }
 
     return (
+
         <Router>
             <Switch>
-                <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
-
-                <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
+                <div>
+                    <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
+                        <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
+                    <Navbar/>
+            <div className={"container-md"}>
 
                             <Route path = "/" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >
@@ -124,9 +128,12 @@ export default function  App(){
                                 <ProductsPage/>
                                 </Suspense>
                             } />
-                </CartContext.Provider>
-                </CategoriesContext.Provider>
+            </div>
+                        </CartContext.Provider>
+                    </CategoriesContext.Provider>
+                </div>
             </Switch>
         </Router>
+
     );
 }
