@@ -1,6 +1,7 @@
 import {resizeImage} from "../utils/ImageUtils";
 import {URL_FETCH_PRODUCT, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
 import {strict} from "assert";
+import {ProductCreationModel} from "./ProductModels";
 
 export type ProductModel = {
     productID:number,
@@ -10,6 +11,7 @@ export type ProductModel = {
 }
 
 export type Category ={
+    id:number,
     name: string,
     description:string
 }
@@ -35,6 +37,9 @@ export type ResultCategories ={
 export type UpdateProductRequest = {
     name :string,
     price :number
+}
+export type SimpleResult ={
+    error:string
 }
 
 export async function updateProduct(productID :number, request:UpdateProductRequest){
@@ -135,24 +140,29 @@ export function fetchProducts(category:string) : Promise<ResultProducts>{
 
 }
 
-export async function createProduct(productName :string,productPrice:number,images:FileList){
-    let token = localStorage.getItem("token")
-    let url = "https://rest-kotlin.herokuapp.com/products/create"
-    let imagesData = new Array<string>()
-    for(let i =0;i<images.length;i++){
-        const base64data =  await resizeImage(images[0],400,400)
-        imagesData.push(base64data)
-    }
-    fetch(url,{
-        method : "POST",
-        headers : {
-            Authorization: "Bearer " + token,
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({productName: productName , price : productPrice, images: imagesData})
-    }).catch(error=>{
-        console.log(error)
-    })
+export async function createProduct(model:ProductCreationModel){
+        let token = localStorage.getItem("token")
+        let url = "https://rest-kotlin.herokuapp.com/products/create"
+        let imagesData = new Array<string>()
+        for(let i =0;i<model.images.length;i++){
+            const base64data =  await resizeImage(model.images[0],400,400)
+            imagesData.push(base64data)
+        }
+        const response  = await fetch(url,{
+            method : "POST",
+            headers : {
+                Authorization: "Bearer " + token,
+                'Content-Type': 'application/json'
+            },
+            //todo
+            //direct serialization
+            body : JSON.stringify({productName: model.productName , price : model.price, images: imagesData, categoryID : model.categoryID})
+        })
+         if(response.status !== 200){
+             throw new Error("Error")
+         }
+         return ""
+
 }
 export async function fetchCategories(){
     return new Promise<ResultCategories>((resolve, reject) => {

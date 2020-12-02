@@ -18,6 +18,8 @@ export default function Home(){
 
     return (
         <div>
+        <div className = "row">
+            <div className={"col"}>
         <div className="jumbotron">
         <h1 className="display-4">I am mercedes !!!!</h1>
         <p className="lead">This is our website and we are going to become ritch </p>
@@ -25,10 +27,12 @@ export default function Home(){
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
             <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
         </div>
+            </div>
+        </div>
             <div className={"row container-categories"} >
             {
                 categories.map((category)=>{
-                   return(<div className={"card card-style"} >
+                   return(<div className={"card card-style" } onClick={()=>window.location.href = "/products?category=" + category.name} >
                         <img src={tShirt} className="card-img-top" alt="..."/>
                         <div className="card-body">
                             <h5 className="card-title">{category.name}</h5>
@@ -40,6 +44,6 @@ export default function Home(){
             }
 
         </div>
-        </div>
+       </div>
    )
 }

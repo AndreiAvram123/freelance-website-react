@@ -2,15 +2,12 @@
 import './App.css';
 import React, {useEffect, useState,Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import SideDrawer from "./components/SideDrawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import CartContext from "./contexts/CartContext";
+import CategoriesContext from "./contexts/CategoriesContext";
 import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
-import RightActionsToolbar from "./components/RightActionsToolbar";
+import {Category, fetchCategories} from "./repositories/ProductRepository";
 
 export default function  App(){
     let useStyles = makeStyles((theme: Theme) =>
@@ -29,6 +26,8 @@ export default function  App(){
     const classes = useStyles();
 
     const [productsIDs,setProducts] = useState(new Array<number>())
+    const [categories,setCategories] = useState<Array<Category>>([])
+
 
     const addProduct= (newProduct :number) =>{
         setProducts([...productsIDs,newProduct])
@@ -48,6 +47,11 @@ export default function  App(){
     useEffect(()=>{
         let persistedItems = getCartItems()
         setProducts(persistedItems)
+        fetchCategories().then(result=>{
+            let data = result.data
+            setCategories(data)
+        })
+
     },[])
 
     const Register = React.lazy(()=> import('./pages/Register'))
@@ -61,7 +65,8 @@ export default function  App(){
 
 
     if(localStorage.getItem("token") === null){
-        return (<div>
+        return (
+            <div>
                 <Router>
                     <Switch>
                         <Route path=  "/register" exact component={ () =>
@@ -86,21 +91,9 @@ export default function  App(){
     return (
         <Router>
             <Switch>
-                <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
-                    <div style={{display:"flex"}}>
-                        <SideDrawer />
-                        <CssBaseline />
-                        <AppBar position="fixed" className={classes.appBar}>
-                            <Toolbar>
-                                <Typography variant="h6" noWrap>
-                                    Freelance website
-                                </Typography>
-                                <RightActionsToolbar />
-                            </Toolbar>
-                        </AppBar>
+                <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
 
-                        <main className={classes.content} id={"drawer-content"}>
-                            <Toolbar />
+                <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
 
                             <Route path = "/" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >
@@ -131,9 +124,8 @@ export default function  App(){
                                 <ProductsPage/>
                                 </Suspense>
                             } />
-                        </main>
-                    </div>
                 </CartContext.Provider>
+                </CategoriesContext.Provider>
             </Switch>
         </Router>
     );
