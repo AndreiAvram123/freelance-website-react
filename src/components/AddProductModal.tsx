@@ -18,7 +18,7 @@ export default function AddProductModal() {
 
     useEffect(()=>{
         setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype && categoryID !== -1)
-    },[productName,productPrice,images])
+    },[productName,productPrice,images,categoryID])
 
         return(
     <div className="modal fade" id="addProductModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
