@@ -145,7 +145,7 @@ export async function createProduct(model:ProductCreationModel){
         let url = "https://rest-kotlin.herokuapp.com/products/create"
         let imagesData = new Array<string>()
         for(let i =0;i<model.images.length;i++){
-            const base64data =  await resizeImage(model.images[0],400,400)
+            const base64data =  await resizeImage(model.images[0])
             imagesData.push(base64data)
         }
         const response  = await fetch(url,{

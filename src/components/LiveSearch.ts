@@ -1,5 +1,4 @@
 import {fetchSearchSuggestions, ProductModel} from "../repositories/ProductRepository";
-import {privateDecrypt} from "crypto";
 
 let suggestionConstainer = document.createElement("div")
 suggestionConstainer.setAttribute("id", "autocomplete-list");

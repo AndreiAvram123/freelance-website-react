@@ -5,6 +5,8 @@ import Product from "../components/Product";
 import SearchIcon from '@material-ui/icons/Search';
 import {performSearch} from "../components/LiveSearch";
 import { useLocation } from "react-router-dom";
+
+
 export default  function ProductsPage () {
     const [products, setProducts] = useState(new Array<JSX.Element>())
     const [list1, setList1] = useState(new Array<JSX.Element>())
@@ -14,6 +16,7 @@ export default  function ProductsPage () {
 
 
     let category ="ALL"
+
     let queryCategory = new URLSearchParams(useLocation().search).get("category");
     if(queryCategory !== null){
         category = queryCategory
@@ -67,8 +70,8 @@ export default  function ProductsPage () {
 
     return (
         <div>
-            <div className="input-group md-form form-sm form-2 pl-0 search-box">
-                <input className="form-control mr-sm-2 search-field" autoComplete="off" placeholder="Search posts..."
+            <div className="input-group md-form form-sm form-2 pl-0 search-box mt-5">
+                <input className="form-control mr-sm-2 search-field" autoComplete="off" placeholder="Search products..."
                        name="search-products-field"
                        id="search-products-field"
                        aria-label="Search"
@@ -78,9 +81,6 @@ export default  function ProductsPage () {
                        }}
 
                 />
-                    <button type="button" className="btn btn-primary mr-2" data-toggle="modal"
-                            data-target="#filtersModal">Filters
-                    </button>
                     <div className="input-group-append">
                         <button type="submit" className="input-group-text search-button" name="search-button">  <SearchIcon /></button>
                     </div>

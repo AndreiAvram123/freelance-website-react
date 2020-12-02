@@ -50,7 +50,7 @@
 }
 
 .container-categories .card-style {
-  width: 20rem;
+  max-width: 20rem;
   margin-left: 20px;
   margin-right: 20px;
   cursor: pointer;

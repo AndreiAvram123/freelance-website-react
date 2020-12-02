@@ -45,12 +45,12 @@ export default function AddProductModal() {
                         </div>
                      <div className="form-group">
                          <label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Category</label>
-                         <select className="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" onChange={(event)=>{
+                         <select className="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" defaultValue={-1} onChange={(event)=>{
                             setCategoryID(parseInt(event.target.value))
                          }}>
-                             <option selected>Choose...</option>
+                             <option value={-1} key={"Choose..."}>Choose...</option>
                              {context.categories.map(category =>{
-                                 return  <option value={category.id}>{category.name}</option>
+                                 return  <option value={category.id} key={category.name}>{category.name}</option>
                              })}
                          </select>
 

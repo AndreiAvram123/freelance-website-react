@@ -20,7 +20,7 @@ export default function Home(){
         <div>
         <div className = "row">
             <div className={"col"}>
-        <div className="jumbotron">
+        <div className="jumbotron mt-5">
         <h1 className="display-4">I am mercedes !!!!</h1>
         <p className="lead">This is our website and we are going to become ritch </p>
         <hr className="my-4"/>
@@ -41,6 +41,7 @@ export default function Home(){
                     </div>
                    )
                 })
+
             }
 
         </div>

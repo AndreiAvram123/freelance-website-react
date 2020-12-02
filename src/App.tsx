@@ -97,7 +97,8 @@ export default function  App(){
                     <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
                         <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
                     <Navbar/>
-            <div className={"container-md"}>
+
+                 <div className={"container-md"}>
 
                             <Route path = "/" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >

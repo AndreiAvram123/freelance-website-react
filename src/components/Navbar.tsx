@@ -5,7 +5,10 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import {Avatar, Badge} from "@material-ui/core";
 import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
 import CartContext from "../contexts/CartContext";
+
+
 export default  function Navbar(){
+
     let context = useContext(CategoriesContext)
     let cartContext = useContext(CartContext)
     let useStyles = makeStyles((theme: Theme) =>
@@ -37,12 +40,12 @@ export default  function Navbar(){
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                    <li className="nav-item active">
+                    <li className="nav-item active" key = {"Home"}>
                         <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
                     </li>
                     {
                        context.categories.map((category=>{
-                           return (<li className="nav-item">
+                           return (<li className="nav-item" key={category.name}>
                                <a className="nav-link" href={"/products?category=" + category.name }>{category.name}</a>
                            </li>)
                        }))
