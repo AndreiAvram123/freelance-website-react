@@ -7,6 +7,7 @@ import CategoriesContext from "./contexts/CategoriesContext";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
 import Navbar from "./components/Navbar";
 import {getToken, persistDefaultToken} from "./components/StorageHandler";
+import UsersChart from "./pages/UsersChart";
 
 export default function  App(){
 
@@ -31,7 +32,6 @@ export default function  App(){
     const SignIn  = React.lazy(()=> import('./pages/SignIn'))
     const Home = React.lazy(()=> import('./pages/Home'))
     const Admin = React.lazy(()=> import('./pages/Admin'))
-    const Profile = React.lazy(()=> import('./pages/Profile'))
     const Cart = React.lazy(()=>import('./pages/Cart'))
     const ExpandedProduct = React.lazy(()=> import('./pages/ExpandedProduct'))
     const ProductsPage = React.lazy(()=> import('./pages/ProductsPage'))
@@ -59,7 +59,7 @@ export default function  App(){
                             />
                             <Route path = "/profile" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >
-                                    <Profile />
+                                    <UsersChart />
                                 </Suspense>
                             } />
                             <Route path = "/cart" exact component={()=>
