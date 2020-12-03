@@ -9,8 +9,7 @@ export default function Home(){
 
     useEffect(()=>{
          fetchCategories().then(result=>{
-             let categories = result.data
-             setCategories(categories)
+             setCategories(result)
          }).catch(error=>{
              console.log(error.error)
          })

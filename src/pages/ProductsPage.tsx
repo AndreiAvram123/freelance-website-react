@@ -23,9 +23,7 @@ export default  function ProductsPage () {
     }
     useEffect(() => {
 
-        fetchProducts(category).then(result => {
-            if (result.error === "") {
-                let products = result.data
+        fetchProducts(category).then(products => {
                 let mappedProducts = products.map(product => <Product
                     key={product.productID + ""}
                     price={product.price}
@@ -34,7 +32,6 @@ export default  function ProductsPage () {
                     images={product.images}
                 />)
                 setProducts(mappedProducts)
-            }
         }).catch(error => {
             console.log(error)
         })

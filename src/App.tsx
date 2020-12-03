@@ -20,8 +20,9 @@ export default function  App(){
 
     useEffect(()=>{
         fetchCategories().then(result=>{
-            let data = result.data
-            setCategories(data)
+            setCategories(result)
+        }).catch(error=>{
+            console.log(error)
         })
 
     },[])

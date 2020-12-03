@@ -1,8 +1,10 @@
 import {resizeImage} from "../utils/ImageUtils";
-import {URL_FETCH_PRODUCT, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
-import {strict} from "assert";
+import {URL_FETCH_CATEGORIES, URL_FETCH_PRODUCT, URL_FETCH_PRODUCTS, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
 import {ProductCreationModel} from "./ProductModels";
 import {getToken} from "../components/StorageHandler";
+import makeCall from "./CallRunner";
+import {url} from "inspector";
+import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 
 export type ProductModel = {
     productID:number,
@@ -120,25 +122,10 @@ export function fetchSearchSuggestions(query:string){
 }
 
 
-export function fetchProducts(category:string) : Promise<ResultProducts>{
-    return new Promise<ResultProducts>((resolve, reject) => {
-        let token = getToken()
-        let url = "https://rest-kotlin.herokuapp.com/products?category=" + category
-        fetch(url, {
-                headers : {
-                    Authorization: "Bearer " + token
-                }
-            }
-        ).then(function (response) {
-            return response.text()
-        }).then(data=>{
-            let jsonData = JSON.parse(data) as ProductModel[]
-             resolve({data : jsonData, error : ""})
-        }).catch(error=> {
-           reject({data : [], error: error.toString()})
-        })
-    })
-
+export async function fetchProducts(category:string) {
+    let url = URL_FETCH_PRODUCTS + "?category="+category
+    let result = await makeCall(new ApiRequest(url,HTTPMethods.GET))
+    return result as ProductModel[]
 }
 
 export async function createProduct(model:ProductCreationModel){
@@ -166,36 +153,6 @@ export async function createProduct(model:ProductCreationModel){
 
 }
 export async function fetchCategories(){
-    return new Promise<ResultCategories>((resolve, reject) => {
-        let token = getToken()
-        let url = "https://rest-kotlin.herokuapp.com/categories"
-        fetch(url,{
-            headers: {
-                Authorization: "Bearer " + token
-            }
-        }).then(function (response){
-            if(response.status === 404){
-                let result :ResultCategories = {
-                    data : [],
-                    error : "Not found"
-                }
-                reject(result)
-            }
-            return response.text()
-        }).then(data=>{
-            let jsonData = JSON.parse(data) as Category[]
-           let result :ResultCategories ={
-                data: jsonData,
-                error: ""
-           }
-           resolve(result)
-        }).catch(error=>{
-            let result :ResultCategories = {
-                data : [],
-                error : error.toString()
-            }
-            reject(result)
-        })
-    })
-
+        let json = await makeCall(new ApiRequest(URL_FETCH_CATEGORIES,HTTPMethods.GET))
+        return  json as Category[]
 }
