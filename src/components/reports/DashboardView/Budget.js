@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
+import {fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Budget = ({ className, ...rest }) => {
   const classes = useStyles();
+
 
   return (
     <Card
@@ -58,7 +60,7 @@ const Budget = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              $24,000
+             24444
             </Typography>
           </Grid>
           <Grid item>

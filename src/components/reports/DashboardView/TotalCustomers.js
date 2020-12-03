@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import {fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,14 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalCustomers = ({ className, ...rest }) => {
   const classes = useStyles();
+
+  const [totalCustomers, setTotalCustomers] = useState(0)
+
+  useEffect(()=>{
+    fetchTotalCustomers().then(data=>{
+      setTotalCustomers(data.total)
+    })
+  },[])
 
   return (
     <Card
@@ -58,7 +67,7 @@ const TotalCustomers = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              1,600
+              {totalCustomers}
             </Typography>
           </Grid>
           <Grid item>
