@@ -3,7 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";
-import CartContext from "../contexts/CartContext";
+import {CartContext} from "../contexts/CartContext";
 import {ProductModel} from "../repositories/ProductRepository";
 
 export type ProductQuantity ={

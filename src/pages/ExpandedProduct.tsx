@@ -3,7 +3,7 @@ import CarouselImages from "../components/CarouselImages";
 import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
-import CartContext from "../contexts/CartContext";
+import {CartContext} from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
 
 export default function ExpandedProduct(){

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import CartProducts from './CartProducts';
-import CartContext from "../contexts/CartContext";
+import {CartContext} from "../contexts/CartContext";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
 
@@ -9,32 +9,40 @@ const Cart = () => {
 
     const context = useContext(CartContext)
 
-    const record: { [productID:number]:number } = {}
+    const [productsIDs,setProductsIDs] = [context.productsIDs,context.setProductsIDs]
 
     const [cartProducts, setCartProducts] = useState(new Array<ProductQuantity>())
 
     const [totalPrice ,setTotalPrice] = useState(0)
 
     useEffect(()=>{
-        context.productsIDs.forEach(productID=>{
-            if(record[productID] === undefined) {
-                record[productID] = 0
+        let record : {[productID:number]: number} = {}
+        let tempPrice = 0
+        let tempCartProducts:Array<ProductQuantity> = []
+
+        productsIDs.forEach((id)=>{
+            if(record[id] === undefined){
+                record[id] = 0
             }
-            record[productID] ++
+            record[id] ++
         })
-        for (let recordKey in record) {
-            let productID = context.productsIDs.find((productID) => productID === parseInt(recordKey))
-            if (productID !== undefined) {
-                fetchProduct(productID).then(result => {
-                    let product = result.data
-                    let quantity = record[product.productID]
-                    let cartItem: ProductQuantity = {product: product, quantity: quantity}
-                    setTotalPrice(totalPrice + product.price * quantity)
-                    setCartProducts([...cartProducts, cartItem])
-                })
-            }
+        let promises = []
+        for (let key in record){
+            promises.push(fetchProduct(parseInt(key)).then(result=>{
+                let productQuantity:ProductQuantity={
+                    product:result.data,
+                    quantity : record[key]
+                }
+                tempCartProducts.push(productQuantity)
+                tempPrice += (productQuantity.quantity * productQuantity.product.price)
+            }))
         }
-    },[])
+        Promise.all(promises).then(()=>{
+            setTotalPrice(tempPrice)
+            setCartProducts(tempCartProducts)
+        })
+
+    },[productsIDs])
 
 
     return (
@@ -48,7 +56,7 @@ const Cart = () => {
                 <div className="row no-gutters justify-content-center">
                     <div className="col-sm-9 p-3">
                         {
-                            context.productsIDs.length > 0 ?
+                            productsIDs.length > 0 ?
 
                             <CartProducts products={cartProducts}/> :
                             <div className="p-3 text-center text-muted">
@@ -57,11 +65,11 @@ const Cart = () => {
                         }
                     </div>
                     {
-                        context.productsIDs.length > 0 &&
+                        productsIDs.length > 0 &&
                         <div className="col-sm-3 p-3">
                             <div className="card card-body">
                                 <p className="mb-1">Total Items</p>
-                                <h4 className=" mb-3 txt-right">{context.productsIDs.length}</h4>
+                                <h4 className=" mb-3 txt-right">{productsIDs.length}</h4>
                                 <p className="mb-1">Total Payment</p>
                                 <h3 className="m-0 txt-right">{"£" + totalPrice}</h3>
                                 <hr className="my-4"/>

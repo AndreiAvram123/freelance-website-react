@@ -2,52 +2,19 @@
 import './App.css';
 import React, {useEffect, useState,Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Toolbar from "@material-ui/core/Toolbar";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import CartContext from "./contexts/CartContext";
+import {CartProvider} from "./contexts/CartContext";
 import CategoriesContext from "./contexts/CategoriesContext";
-import {getCartItems, persistItem, removeItem} from "./components/StorageHandler";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
 import Navbar from "./components/Navbar";
 
 export default function  App(){
-    let useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            appBar: {
-                zIndex: theme.zIndex.drawer + 1,
-            },
-            content: {
-                flexGrow: 1,
-                padding: theme.spacing(3),
-            }
-        }),
-    );
 
 
-    const classes = useStyles();
-
-    const [productsIDs,setProducts] = useState(new Array<number>())
     const [categories,setCategories] = useState<Array<Category>>([])
 
 
-    const addProduct= (newProduct :number) =>{
-        setProducts([...productsIDs,newProduct])
-        persistItem(newProduct)
-    }
-    const removeProduct = (toRemove:number)=>{
-        let copy = [...productsIDs]
-        let index = copy.indexOf(toRemove)
-        if(index !== -1){
-            copy.splice(index,1)
-            setProducts(copy)
-            removeItem(toRemove)
-        }
-
-    }
-
     useEffect(()=>{
-        let persistedItems = getCartItems()
-        setProducts(persistedItems)
         fetchCategories().then(result=>{
             let data = result.data
             setCategories(data)
@@ -95,7 +62,7 @@ export default function  App(){
             <Switch>
                 <div>
                     <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
-                        <CartContext.Provider value={{productsIDs: productsIDs, setProducts: setProducts, addProduct: addProduct, removeProduct:removeProduct}}>
+                        <CartProvider>
                     <Navbar/>
 
                  <div className={"container-md"}>
@@ -130,7 +97,7 @@ export default function  App(){
                                 </Suspense>
                             } />
             </div>
-                        </CartContext.Provider>
+                        </CartProvider>
                     </CategoriesContext.Provider>
                 </div>
             </Switch>

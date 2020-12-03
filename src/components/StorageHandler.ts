@@ -9,7 +9,7 @@ export  function getCartItems():Array<number>{
 }
 
 export  function persistItem(product:number){
-    let cartItems = getCartItems()
+     let cartItems = getCartItems()
      cartItems.push(product)
      persist(cartItems)
 }

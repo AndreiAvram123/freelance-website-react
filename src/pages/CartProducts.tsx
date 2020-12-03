@@ -1,5 +1,6 @@
 import React from 'react';
 import CartItem, {ProductQuantity} from './CartItem';
+
 type Props ={
     products :Array<ProductQuantity>
 }
