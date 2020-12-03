@@ -22,7 +22,6 @@ export default  function ProductsPage () {
         category = queryCategory
     }
     useEffect(() => {
-
         fetchProducts(category).then(products => {
                 let mappedProducts = products.map(product => <Product
                     key={product.productID + ""}

@@ -8,10 +8,6 @@ import {BASE_URL_IMAGES} from "../utils/ApiConstants";
 
 export default function CarouselImages (props: props){
 
-    let carouselStyle = {
-        maxWidth : "60%",
-        marginLeft: "10rem"
-    }
 
     let imagesItems = props.images.map((productImage,index)=>{
         return ( <div className= {index ===0 ? "carousel-item active" : "carousel-item"} key={index + "image"}>
@@ -26,8 +22,7 @@ export default function CarouselImages (props: props){
 
 
     return (
-            <div className={"col"}>
-                <div id="carouselExampleControls" className="carousel slide" style={carouselStyle}  data-ride="carousel">
+                <div id="carouselExampleControls" className="carousel slide"   data-ride="carousel">
                     <ol className="carousel-indicators">
                         {indicatorItems}
                     </ol>
@@ -43,7 +38,6 @@ export default function CarouselImages (props: props){
                         <span className="sr-only">Next</span>
                     </a>
                 </div>
-            </div>
 
     )
 }
