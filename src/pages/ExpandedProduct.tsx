@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
-import {Typography} from "@material-ui/core";
+import {Snackbar, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
+import {Alert} from "@material-ui/lab";
 
 export default function ExpandedProduct(){
 
@@ -15,6 +16,7 @@ export default function ExpandedProduct(){
         price: 0,
         images: []
     }
+
     const [product, setProduct] = useState<ProductModel>(initial)
 
     useEffect(()=>{
@@ -54,8 +56,6 @@ export default function ExpandedProduct(){
             product !== initial &&
             <ModifyProductModal product={product} />
         }
-
-
 
     </div>
         </div>

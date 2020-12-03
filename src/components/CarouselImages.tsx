@@ -21,7 +21,7 @@ export default function CarouselImages (props: props){
     })
 
     let indicatorItems = props.images.map((product,index)=>{
-         return ( <li data-target="#carouselExampleIndicators" data-slide-to={index} className={index ===0 ? "active" : ""}/>)
+         return ( <li data-target="#carouselExampleIndicators"  key = {product.imageURl} data-slide-to={index} className={index ===0 ? "active" : ""}/>)
     })
 
 
