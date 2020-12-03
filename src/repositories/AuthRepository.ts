@@ -38,7 +38,7 @@ export function fetchToken(username:string,password:string){
 export function register(username:string,email:string,password:string){
     return new Promise(((resolve, reject) => {
         let url = "https://rest-kotlin.herokuapp.com/register"
-        let bodyJson = JSON.stringify({username: email, email: email ,password: password})
+        let bodyJson = JSON.stringify({username: username, email: email ,password: password})
         return fetch(url,{
             method : "POST",
             body: bodyJson,
