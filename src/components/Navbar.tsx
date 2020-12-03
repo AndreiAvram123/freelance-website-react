@@ -50,8 +50,11 @@ export default  function Navbar(){
                            </li>)
                        }))
                     }
-                    <li className="nav-item">
-                        <a className="nav-link" href={"/admin"}>Admin</a>
+                    <li className="nav-item" key={"Create"}>
+                        <a className="nav-link" href={"/create"}>Create</a>
+                    </li>
+                    <li className="nav-item" key={"Dashboard"}>
+                        <a className="nav-link" href={"/dashboard"}>Dashboard</a>
                     </li>
                 </ul>
                 <div className={classes.wrapperRightActions}>

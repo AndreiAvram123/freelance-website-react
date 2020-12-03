@@ -7,7 +7,7 @@ import CategoriesContext from "./contexts/CategoriesContext";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
 import Navbar from "./components/Navbar";
 import {getToken, persistDefaultToken} from "./components/StorageHandler";
-import UsersChart from "./pages/UsersChart";
+import Dashboard from "./components/reports/DashboardView/Dashboard";
 
 export default function  App(){
 
@@ -43,53 +43,59 @@ export default function  App(){
                 <div>
                     <CategoriesContext.Provider value = {{categories : categories,setCategories:setCategories}}>
                         <CartProvider>
-                    <Navbar/>
+                            <Navbar/>
 
-                 <div className={"container-md"}>
-
-                            <Route path = "/" exact component={()=>
+                            <Route path = "/dashboard" exact component={()=>
                                 <Suspense fallback = {<div>Loading...</div>} >
-                                    <Home/>
-                                </Suspense>} />
-                            <Route path = "/admin" exact component={() =>
-                                <Suspense fallback = {<div>Loading...</div>} >
-                                    <Admin/>
-                                </Suspense>
-                            }
-                            />
-                            <Route path = "/profile" exact component={()=>
-                                <Suspense fallback = {<div>Loading...</div>} >
-                                    <UsersChart />
+                                    <Dashboard />
                                 </Suspense>
                             } />
-                            <Route path = "/cart" exact component={()=>
-                                <Suspense fallback = {<div>Loading...</div>} >
-                                    <Cart />
-                                </Suspense>} />
-                            <Route path = "/product/:productID" exact component={()=>
-                                <Suspense fallback = {<div>Loading...</div>} >
-                                    <ExpandedProduct/>
-                                </Suspense>
-                            } />
-                            <Route path={"/products"} exact component={()=>
-                                <Suspense fallback = {<div>Loading...</div>} >
-                                <ProductsPage/>
-                                </Suspense>
-                            } />
-                     <Route path=  "/register" exact component={ () =>
-                         <Suspense fallback = {<div>Loading...</div>} >
-                             <Register />
-                         </Suspense>
-                     } />
+
+                            <div className={"container-md"}>
+                                <Route path = "/" exact component={()=>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <Home/>
+                                    </Suspense>} />
+                                <Route path = "/admin" exact component={() =>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <Admin/>
+                                    </Suspense>
+                                }
+                                />
+                                <Route path = "/cart" exact component={()=>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <Cart />
+                                    </Suspense>} />
+                                <Route path = "/product/:productID" exact component={()=>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <ExpandedProduct/>
+                                    </Suspense>
+                                } />
+                                <Route path={"/products"} exact component={()=>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <ProductsPage/>
+                                    </Suspense>
+                                } />
+                                <Route path=  "/register" exact component={ () =>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <Register />
+                                    </Suspense>
+                                } />
+                                <Route path = "/create" exact component={()=>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <Admin />
+                                    </Suspense>
+                                } />
 
 
-                     <Route path = "/login" exact component={() =>
-                         <Suspense fallback = {<div>Loading...</div>} >
-                             <SignIn />
-                         </Suspense>
-                     }
-                     />
-            </div>
+
+                                <Route path = "/login" exact component={() =>
+                                    <Suspense fallback = {<div>Loading...</div>} >
+                                        <SignIn />
+                                    </Suspense>
+                                }
+                                />
+                            </div>
                         </CartProvider>
                     </CategoriesContext.Provider>
                 </div>
