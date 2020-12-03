@@ -2,6 +2,7 @@ import {resizeImage} from "../utils/ImageUtils";
 import {URL_FETCH_PRODUCT, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
 import {strict} from "assert";
 import {ProductCreationModel} from "./ProductModels";
+import {getToken} from "../components/StorageHandler";
 
 export type ProductModel = {
     productID:number,
@@ -44,7 +45,7 @@ export type SimpleResult ={
 
 export async function updateProduct(productID :number, request:UpdateProductRequest){
     return new Promise<ResultProduct>(((resolve, reject) => {
-        let token = localStorage.getItem("token");
+        let token = getToken();
         let url = URL_UPDATE_PRODUCT + productID + "/update"
         fetch(url,{
                 method : "PUT",
@@ -73,7 +74,7 @@ export async function updateProduct(productID :number, request:UpdateProductRequ
 
 export async function fetchProduct(id:number){
     return new Promise<ResultProduct>((resolve, reject) => {
-        let token = localStorage.getItem("token");
+        let token =  getToken()
         let url = URL_FETCH_PRODUCT + id
         fetch(url,{
             headers : {
@@ -96,7 +97,7 @@ export async function fetchProduct(id:number){
 
 export function fetchSearchSuggestions(query:string){
     return new Promise<ResultProducts>(((resolve, reject) => {
-         let token = localStorage.getItem("token");
+         let token = getToken();
          let url = "https://rest-kotlin.herokuapp.com/products/search/" + query
         fetch(url,{
             headers : {
@@ -121,7 +122,7 @@ export function fetchSearchSuggestions(query:string){
 
 export function fetchProducts(category:string) : Promise<ResultProducts>{
     return new Promise<ResultProducts>((resolve, reject) => {
-        let token = localStorage.getItem("token")
+        let token = getToken()
         let url = "https://rest-kotlin.herokuapp.com/products?category=" + category
         fetch(url, {
                 headers : {
@@ -141,7 +142,7 @@ export function fetchProducts(category:string) : Promise<ResultProducts>{
 }
 
 export async function createProduct(model:ProductCreationModel){
-        let token = localStorage.getItem("token")
+        let token = getToken()
         let url = "https://rest-kotlin.herokuapp.com/products/create"
         let imagesData = new Array<string>()
         for(let i =0;i<model.images.length;i++){
@@ -166,7 +167,7 @@ export async function createProduct(model:ProductCreationModel){
 }
 export async function fetchCategories(){
     return new Promise<ResultCategories>((resolve, reject) => {
-        let token = localStorage.getItem("token")
+        let token = getToken()
         let url = "https://rest-kotlin.herokuapp.com/categories"
         fetch(url,{
             headers: {

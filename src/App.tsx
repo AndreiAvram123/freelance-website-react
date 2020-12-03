@@ -2,17 +2,21 @@
 import './App.css';
 import React, {useEffect, useState,Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {CartProvider} from "./contexts/CartContext";
 import CategoriesContext from "./contexts/CategoriesContext";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
 import Navbar from "./components/Navbar";
+import {getToken, persistDefaultToken} from "./components/StorageHandler";
 
 export default function  App(){
 
 
+
     const [categories,setCategories] = useState<Array<Category>>([])
 
+    if(getToken()== null){
+        persistDefaultToken()
+    }
 
     useEffect(()=>{
         fetchCategories().then(result=>{
@@ -30,31 +34,6 @@ export default function  App(){
     const Cart = React.lazy(()=>import('./pages/Cart'))
     const ExpandedProduct = React.lazy(()=> import('./pages/ExpandedProduct'))
     const ProductsPage = React.lazy(()=> import('./pages/ProductsPage'))
-
-
-    if(localStorage.getItem("token") === null){
-        return (
-            <div>
-                <Router>
-                    <Switch>
-                        <Route path=  "/register" exact component={ () =>
-                            <Suspense fallback = {<div>Loading...</div>} >
-                                <Register />
-                            </Suspense>
-                        } />
-
-
-                        <Route path = "/*" exact component={() =>
-                            <Suspense fallback = {<div>Loading...</div>} >
-                                <SignIn />
-                            </Suspense>
-                        }
-                        />
-                    </Switch>
-                </Router>
-            </div>
-        )
-    }
 
     return (
 
@@ -96,6 +75,19 @@ export default function  App(){
                                 <ProductsPage/>
                                 </Suspense>
                             } />
+                     <Route path=  "/register" exact component={ () =>
+                         <Suspense fallback = {<div>Loading...</div>} >
+                             <Register />
+                         </Suspense>
+                     } />
+
+
+                     <Route path = "/login" exact component={() =>
+                         <Suspense fallback = {<div>Loading...</div>} >
+                             <SignIn />
+                         </Suspense>
+                     }
+                     />
             </div>
                         </CartProvider>
                     </CategoriesContext.Provider>

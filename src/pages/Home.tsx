@@ -32,7 +32,8 @@ export default function Home(){
             <div className={"row container-categories"} >
             {
                 categories.map((category)=>{
-                   return(<div className={"card card-style col" } onClick={()=>window.location.href = "/products?category=" + category.name} >
+                   return(
+                       <div key={category.id} className={"card card-style col" } onClick={()=>window.location.href = "/products?category=" + category.name} >
                         <img src={tShirt} className="card-img-top" alt="..."/>
                         <div className="card-body">
                             <h5 className="card-title">{category.name}</h5>
