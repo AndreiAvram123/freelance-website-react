@@ -1,5 +1,11 @@
 import {resizeImage} from "../utils/ImageUtils";
-import {URL_FETCH_CATEGORIES, URL_FETCH_PRODUCT, URL_FETCH_PRODUCTS, URL_UPDATE_PRODUCT} from "../utils/ApiConstants";
+import {
+    URL_FETCH_CATEGORIES,
+    URL_FETCH_PRODUCT,
+    URL_FETCH_PRODUCTS,
+    URL_FETCH_SUGGESTIONS,
+    URL_UPDATE_PRODUCT
+} from "../utils/ApiConstants";
 import {ProductCreationModel} from "./ProductModels";
 import {getToken} from "../components/StorageHandler";
 import makeCall from "./CallRunner";
@@ -97,28 +103,10 @@ export async function fetchProduct(id:number){
     })
 }
 
-export function fetchSearchSuggestions(query:string){
-    return new Promise<ResultProducts>(((resolve, reject) => {
-         let token = getToken();
-         let url = "https://rest-kotlin.herokuapp.com/products/search/" + query
-        fetch(url,{
-            headers : {
-                Authorization: "Bearer " + token
-            }
-        }).then(function (response){return  response.text()})
-            .then(data =>{
-                let jsonData = JSON.parse(data) as ProductModel[]
-                let response = {data : jsonData, error: ""}
-                resolve(response)
-            }).catch(error =>{
-                let response = {
-                    data : [],
-                    error : error.toString()
-                }
-                reject(response)
-        })
-    }))
-
+export async function fetchSearchSuggestions(query:string){
+    let url = URL_FETCH_SUGGESTIONS + query
+    const response = await makeCall(new ApiRequest(url,HTTPMethods.GET))
+    return response  as ProductModel[]
 }
 
 

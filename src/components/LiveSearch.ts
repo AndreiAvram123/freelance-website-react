@@ -1,4 +1,5 @@
 import {fetchSearchSuggestions, ProductModel} from "../repositories/ProductRepository";
+import {BASE_URL_IMAGES} from "../utils/ApiConstants";
 
 let suggestionConstainer = document.createElement("div")
 suggestionConstainer.setAttribute("id", "autocomplete-list");
@@ -22,7 +23,7 @@ class ProductSuggestion{
         this.suggestionView = document.createElement("div");
         let image = document.createElement("img");
         image.className = "postSuggestionImage";
-        image.src = product.images[0].imageURl;
+        image.src = BASE_URL_IMAGES +  product.images[0].imageURl;
         this.suggestionView.append(image);
 
         this.suggestionView.innerHTML += name;
@@ -36,8 +37,8 @@ class ProductSuggestion{
 
 export function performSearch(query :string){
     if(query.trim()!== "") {
-        fetchSearchSuggestions(query).then(result => {
-            insertSuggestions(result.data)
+        fetchSearchSuggestions(query).then(data => {
+            insertSuggestions(data)
         }).catch(error => {
             console.log(error)
         })
