@@ -92,7 +92,7 @@ const TotalCustomers = () => {
             color="textSecondary"
             variant="caption"
           >
-            New Customers this month
+            New Customers in the last 30 days
           </Typography>
         </Box>
       </CardContent>

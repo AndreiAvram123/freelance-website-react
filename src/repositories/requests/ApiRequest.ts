@@ -12,6 +12,7 @@ export class ApiRequest {
     constructor(url:string, method :string,bodyJson?:string) {
         this.url = url
         this.requestBody.method = method
+
         this.requestBody.headers = {
             Authorization: "Bearer " + getToken()
         }

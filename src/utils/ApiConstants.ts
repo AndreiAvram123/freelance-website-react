@@ -6,5 +6,10 @@ export const URL_FETCH_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
 export const URL_UPDATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
 export const URL_FETCH_PRODUCTS = "https://rest-kotlin.herokuapp.com/products"
 export const URL_FETCH_SUGGESTIONS = "https://rest-kotlin.herokuapp.com/products/search/"
-export const URL_ANALYTICS_TOTAL_CUSTOMERS = "https://rest-kotlin.herokuapp.com/analytics/totalCustomers"
 export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders/create"
+
+
+
+
+export const URL_ANALYTICS_TOTAL_CUSTOMERS = "https://rest-kotlin.herokuapp.com/analytics/totalCustomers"
+export const URL_ANALYTICS_TOTAL_AMOUNT = "https://rest-kotlin.herokuapp.com/orders/totalAmount"

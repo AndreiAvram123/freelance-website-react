@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -13,7 +13,8 @@ import {
 } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
-import {fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
+import {fetchTotalAmount, fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,14 +34,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Budget = ({ className, ...rest }) => {
+const TotalAmount = () => {
   const classes = useStyles();
 
+  const [totalAmount,setTotalAmount] = useState(0)
+
+  useEffect(()=>{
+        fetchTotalAmount().then(result=>{
+            setTotalAmount(result.total)
+        })
+  },[])
 
   return (
     <Card
-      className={clsx(classes.root, className)}
-      {...rest}
     >
       <CardContent>
         <Grid
@@ -60,7 +66,7 @@ const Budget = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-             24444
+              {totalAmount}
             </Typography>
           </Grid>
           <Grid item>
@@ -74,18 +80,11 @@ const Budget = ({ className, ...rest }) => {
           display="flex"
           alignItems="center"
         >
-          <ArrowDownwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            12%
-          </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            In the last 30 days
           </Typography>
         </Box>
       </CardContent>
@@ -93,8 +92,8 @@ const Budget = ({ className, ...rest }) => {
   );
 };
 
-Budget.propTypes = {
+TotalAmount.propTypes = {
   className: PropTypes.string
 };
 
-export default Budget;
+export default TotalAmount;
