@@ -64,10 +64,13 @@ const CartItem = (props:ProductQuantity) => {
 
                     </div>
                     {
-                        props.product.stock === 0 &&
+                       product.stock === 0 &&
                         <Alert severity="error">Unfortunately the product is no longer in stock</Alert>
                     }
-
+                    {
+                        product.stock > 0 && props.quantity > product.stock &&
+                        <Alert severity="error">Unfortunately we only have {product.stock} in stock </Alert>
+                    }
                 </div>
             )
 

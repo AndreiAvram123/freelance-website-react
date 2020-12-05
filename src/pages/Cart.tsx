@@ -15,6 +15,8 @@ const Cart = () => {
 
     const [totalPrice ,setTotalPrice] = useState(0)
 
+    const [canCheckout, setCanCheckout] = useState(false)
+
     useEffect(()=>{
         let record : {[productID:number]: number} = {}
         let tempPrice = 0
@@ -40,11 +42,30 @@ const Cart = () => {
         Promise.all(promises).then(()=>{
             setTotalPrice(tempPrice)
             setCartProducts(tempCartProducts)
+            validateCart(tempCartProducts)
         })
 
     },[productsIDs])
 
+    const handleCheckout = ()=>{
+        if(canCheckout){
+            //checkout
+        }else{
 
+            // @ts-ignore
+            $('#cartErrorModal').modal('show')
+        }
+    }
+
+    function validateCart(products:Array<ProductQuantity>){
+        let valid = true
+        products.forEach(productQuantity=>{
+            if(productQuantity.product.stock === 0 || productQuantity.quantity > productQuantity.product.stock){
+                valid = false
+            }
+        })
+        setCanCheckout(valid)
+    }
     return (
         <div>
             <div >
@@ -74,15 +95,32 @@ const Cart = () => {
                                 <h3 className="m-0 txt-right">{"£" + totalPrice}</h3>
                                 <hr className="my-4"/>
                                 <div className="text-center">
-                                    <button type="button" className="btn btn-primary mb-2" onClick={()=>{
-
-                                    }}>CHECKOUT</button>
+                                    <button type="button" className="btn btn-primary mb-2"  onClick={handleCheckout}>CHECKOUT</button>
                                 </div>
 
                             </div>
                         </div>
                     }
                     
+                </div>
+            </div>
+
+            <div className="modal fade" id="cartErrorModal" tabIndex={-1} role="dialog" aria-labelledby="cartErrorModal" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                             Some of the products are not available
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
