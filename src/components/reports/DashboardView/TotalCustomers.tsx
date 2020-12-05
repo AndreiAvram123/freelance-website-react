@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
-import {fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
+import {fetchTotalCustomers, TotalCustomersResponse} from "../../../repositories/AnalyticsRepository";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,22 +33,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const TotalCustomers = ({ className, ...rest }) => {
+const TotalCustomers = () => {
   const classes = useStyles();
 
-  const [totalCustomers, setTotalCustomers] = useState(0)
+  const [totalCustomersResponse, setTotalCustomersResponse] = useState<TotalCustomersResponse>({
+     newUsersThisMonth : 0,
+    total : 0
+  })
 
   useEffect(()=>{
     fetchTotalCustomers().then(data=>{
-      setTotalCustomers(data.total)
+      setTotalCustomersResponse(data)
     })
   },[])
 
   return (
-    <Card
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card>
       <CardContent>
         <Grid
           container
@@ -67,7 +67,7 @@ const TotalCustomers = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              {totalCustomers}
+              {totalCustomersResponse.total}
             </Typography>
           </Grid>
           <Grid item>
@@ -86,13 +86,13 @@ const TotalCustomers = ({ className, ...rest }) => {
             className={classes.differenceValue}
             variant="body2"
           >
-            16%
+            {totalCustomersResponse.newUsersThisMonth}
           </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            New Customers this month
           </Typography>
         </Box>
       </CardContent>
