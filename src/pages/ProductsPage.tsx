@@ -29,6 +29,7 @@ export default  function ProductsPage () {
                     productID={product.productID}
                     name={product.name}
                     images={product.images}
+                    stock={product.stock}
                 />)
                 setProducts(mappedProducts)
         }).catch(error => {

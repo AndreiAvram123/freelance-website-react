@@ -17,6 +17,7 @@ export type ProductModel = {
     name:string,
     price:number,
     images:Array<ProductImage>
+    stock :number
 }
 
 export type Category ={
@@ -81,26 +82,8 @@ export async function updateProduct(productID :number, request:UpdateProductRequ
 
 
 export async function fetchProduct(id:number){
-    return new Promise<ResultProduct>((resolve, reject) => {
-        let token =  getToken()
-        let url = URL_FETCH_PRODUCT + id
-        fetch(url,{
-            headers : {
-                Authorization: "Bearer " + token
-            }
-        }).then(function (response){return  response.text()})
-            .then(data =>{
-                let response = JSON.parse(data) as ResultProduct
-                let result = {data: response.data, error : response.error}
-                resolve(result)
-            }).catch(error =>{
-            let response = {
-                data : undefined,
-                error : error.toString()
-            }
-            reject(response)
-        })
-    })
+    const response = await makeCall(new ApiRequest(URL_FETCH_PRODUCT + id, HTTPMethods.GET))
+    return response as ProductModel
 }
 
 export async function fetchSearchSuggestions(query:string){

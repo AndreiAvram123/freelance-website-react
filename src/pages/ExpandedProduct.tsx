@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
+import {ApiError} from "../repositories/CallRunner";
 
 export default function ExpandedProduct(){
 
@@ -13,7 +14,8 @@ export default function ExpandedProduct(){
         productID : 0,
         name : "",
         price: 0,
-        images: []
+        images: [],
+        stock: 0
     }
 
     const [product, setProduct] = useState<ProductModel>(initial)
@@ -22,21 +24,21 @@ export default function ExpandedProduct(){
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
         if(!isNaN(Number(productID))){
             fetchProduct(Number(productID)).then((result)=>{
-                let data = result.data
-                setProduct(data)
+               setProduct(result)
             }).catch(error=>{
-                console.log(error)
+                if (error instanceof ApiError) {
+                    console.log(error)
+                }
             })
-        }else{
-
         }
     },[])
+
 
 
     return (
         <div className={"row"}>
             <div className={"col-md"}>
-            <CarouselImages  images={ product !== undefined ?product.images : []} />
+                <CarouselImages images={product !==undefined ? product.images : []} />
             </div>
             <div className={"col-md"}>
                 <Typography

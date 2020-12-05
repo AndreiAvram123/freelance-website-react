@@ -30,7 +30,7 @@ const Cart = () => {
         for (let key in record){
             promises.push(fetchProduct(parseInt(key)).then(result=>{
                 let productQuantity:ProductQuantity={
-                    product:result.data,
+                    product:result,
                     quantity : record[key]
                 }
                 tempCartProducts.push(productQuantity)

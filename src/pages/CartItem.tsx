@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";
 import {CartContext} from "../contexts/CartContext";
 import {ProductModel} from "../repositories/ProductRepository";
+import {Alert} from "@material-ui/lab";
 
 export type ProductQuantity ={
     product:ProductModel,
@@ -62,6 +63,11 @@ const CartItem = (props:ProductQuantity) => {
                         }
 
                     </div>
+                    {
+                        props.product.stock === 0 &&
+                        <Alert severity="error">Unfortunately the product is no longer in stock</Alert>
+                    }
+
                 </div>
             )
 
