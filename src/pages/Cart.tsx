@@ -3,6 +3,7 @@ import CartProducts from './CartProducts';
 import {CartContext} from "../contexts/CartContext";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
+import {isUserLoggedIn} from "../utils/UserManager";
 
 
 const Cart = () => {
@@ -49,7 +50,11 @@ const Cart = () => {
 
     const handleCheckout = ()=>{
         if(canCheckout){
-            //checkout
+            if(isUserLoggedIn()){
+
+            }else{
+                window.location.href = "/login"
+            }
         }else{
 
             // @ts-ignore

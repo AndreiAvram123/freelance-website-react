@@ -12,6 +12,11 @@ export function getToken(){
     return defaultToken
 }
 
+export function isDefaultToken(){
+    let storedToken = localStorage.getItem(KEY_TOKEN)
+    return storedToken ===null || storedToken === defaultToken
+}
+
 export  function getCartItems():Array<number>{
     let cartItems = localStorage.getItem(KEY_CART_ITEMS)
     if(cartItems == null){
