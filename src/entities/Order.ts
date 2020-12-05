@@ -1,7 +1,5 @@
 
-import {ProductQuantity} from "../pages/CartItem";
-
-export type Order = {
-     products:Array<ProductQuantity>,
-
+export interface Order {
+     products:Array<number>,
+     userID:number
 }

@@ -1,3 +1,5 @@
+import {saveToken} from "../components/StorageHandler";
+
 export enum RegisterResponse{
     USERNAME_TAKEN = "Username already exists",
     EMAIL_TAKEN = "Email already exists"
@@ -23,8 +25,7 @@ export function fetchToken(username:string,password:string){
                 let token = response.headers.get("Authorization")
                 console.log(token)
                 if(token !== null){
-                    localStorage.setItem("token", token)
-                    console.log(token)
+                     saveToken(token)
                     resolve(token)
 
                 }

@@ -16,6 +16,9 @@ export function isDefaultToken(){
     let storedToken = localStorage.getItem(KEY_TOKEN)
     return storedToken ===null || storedToken === defaultToken
 }
+export function saveToken(token:string){
+    localStorage.setItem(KEY_TOKEN, token)
+}
 
 export  function getCartItems():Array<number>{
     let cartItems = localStorage.getItem(KEY_CART_ITEMS)

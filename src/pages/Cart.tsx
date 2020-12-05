@@ -1,9 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import CartProducts from './CartProducts';
 import {CartContext} from "../contexts/CartContext";
-import {fetchProduct} from "../repositories/ProductRepository";
+import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
 import {isUserLoggedIn} from "../utils/UserManager";
+import {placeOrder} from "../repositories/OrderRepository";
 
 
 const Cart = () => {
@@ -51,6 +52,18 @@ const Cart = () => {
     const handleCheckout = ()=>{
         if(canCheckout){
             if(isUserLoggedIn()){
+                let productsForOrder:Array<number> = []
+
+                cartProducts.forEach(productQuantity =>{
+                    for(let i = 0;i<productQuantity.quantity;i++){
+                        productsForOrder.push(productQuantity.product.productID)
+                    }
+                })
+               placeOrder(productsForOrder).then((data)=>{
+
+               }).catch(error=>{
+
+               })
 
             }else{
                 window.location.href = "/login"
