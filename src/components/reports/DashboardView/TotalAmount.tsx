@@ -66,7 +66,7 @@ const TotalAmount = () => {
               color="textPrimary"
               variant="h3"
             >
-              {totalAmount}
+              {"£" +totalAmount}
             </Typography>
           </Grid>
           <Grid item>

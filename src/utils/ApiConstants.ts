@@ -13,3 +13,4 @@ export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders/create"
 
 export const URL_ANALYTICS_TOTAL_CUSTOMERS = "https://rest-kotlin.herokuapp.com/analytics/totalCustomers"
 export const URL_ANALYTICS_TOTAL_AMOUNT = "https://rest-kotlin.herokuapp.com/orders/totalAmount"
+export const URL_ANALYTICS_RECENT_ORDERS = "https://rest-kotlin.herokuapp.com/orders/recent"

@@ -1,10 +1,10 @@
-import {Order} from "../entities/Order";
+import {CreateOrderModel, Order} from "../entities/Order";
 import makeCall from "./CallRunner";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 import {URL_PLACE_ORDER} from "../utils/ApiConstants";
 
 export async function placeOrder(products:Array<number>){
-        let order:Order = {
+        let order:CreateOrderModel = {
                products :products,
                userID : 1
         }
