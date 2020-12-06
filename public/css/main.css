@@ -56,4 +56,10 @@
   cursor: pointer;
 }
 
+.wrapper-button-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /*# sourceMappingURL=main.css.map */

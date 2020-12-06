@@ -3,7 +3,7 @@ import {
     URL_CREATE_PRODUCT,
     URL_FETCH_CATEGORIES,
     URL_FETCH_PRODUCT,
-    URL_FETCH_PRODUCTS,
+    URL_FETCH_PRODUCTS, URL_FETCH_RECENT_PRODUCTS,
     URL_FETCH_SUGGESTIONS,
     URL_UPDATE_PRODUCT
 } from "../utils/ApiConstants";
@@ -80,6 +80,11 @@ export async function updateProduct(productID :number, request:UpdateProductRequ
     }))
 }
 
+
+export async function fetchRecentlyCreatedProducts(){
+    const response = await makeCall(new ApiRequest(URL_FETCH_RECENT_PRODUCTS,HTTPMethods.GET))
+    return response as ProductModel[]
+}
 
 export async function fetchProduct(id:number){
     const response = await makeCall(new ApiRequest(URL_FETCH_PRODUCT + id, HTTPMethods.GET))

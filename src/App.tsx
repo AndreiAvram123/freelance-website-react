@@ -31,7 +31,6 @@ export default function  App(){
     const Register = React.lazy(()=> import('./pages/Register'))
     const SignIn  = React.lazy(()=> import('./pages/SignIn'))
     const Home = React.lazy(()=> import('./pages/Home'))
-    const Admin = React.lazy(()=> import('./pages/Admin'))
     const Cart = React.lazy(()=>import('./pages/Cart'))
     const ExpandedProduct = React.lazy(()=> import('./pages/ExpandedProduct'))
     const ProductsPage = React.lazy(()=> import('./pages/ProductsPage'))
@@ -56,12 +55,6 @@ export default function  App(){
                                     <Suspense fallback = {<div>Loading...</div>} >
                                         <Home/>
                                     </Suspense>} />
-                                <Route path = "/admin" exact component={() =>
-                                    <Suspense fallback = {<div>Loading...</div>} >
-                                        <Admin/>
-                                    </Suspense>
-                                }
-                                />
                                 <Route path = "/cart" exact component={()=>
                                     <Suspense fallback = {<div>Loading...</div>} >
                                         <Cart />
@@ -79,11 +72,6 @@ export default function  App(){
                                 <Route path=  "/register" exact component={ () =>
                                     <Suspense fallback = {<div>Loading...</div>} >
                                         <Register />
-                                    </Suspense>
-                                } />
-                                <Route path = "/create" exact component={()=>
-                                    <Suspense fallback = {<div>Loading...</div>} >
-                                        <Admin />
                                     </Suspense>
                                 } />
 

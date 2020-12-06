@@ -87,7 +87,7 @@ export default function AddProductModal() {
 
                                 createProduct(model,images).then((data)=>[
                                     // @ts-ignore
-                                    $('#addProductModal').modal('hide')
+                                    $('#addProductModal').modal('dismiss')
                                 ]).catch(error =>{
                                     console.log(error)
                                 })

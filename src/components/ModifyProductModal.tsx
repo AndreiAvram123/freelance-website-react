@@ -1,12 +1,20 @@
-import React from "react";
+import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
 import {ProductModel, updateProduct} from "../repositories/ProductRepository";
 
 type ModifyProductModalProps = {
-    product:ProductModel
+    product: ProductModel
 }
 
 export default function ModifyProductModal(props:ModifyProductModalProps) {
-    let product = props.product
+
+    const product= props.product
+
+    const [newProduct, setNewProduct] = useState(product)
+
+    useEffect(()=>{
+        setNewProduct(product)
+    },[product])
+
 
     return(
         <div className="modal fade" id="modifyProductModal" tabIndex={-1} aria-labelledby="modifyProductModalLabel" aria-hidden="true">
@@ -22,10 +30,14 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="product-name" className="col-form-label">Product name</label>
-                                <input type="text" className="form-control" id="product-name"
-                                       defaultValue={product.name}
+                                <input type="text" className="form-control" id="product-name" required={true}
+                                       value={newProduct?.name}
                                        onChange={(event) => {
-                                           product.name = event.target.value
+                                           let json = JSON.stringify(product)
+                                           let newObject = JSON.parse(json) as ProductModel
+                                           newObject.name = event.target.value
+                                            setNewProduct(newObject)
+
                                        }}
                                 />
                             </div>
@@ -33,7 +45,11 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                                 <label htmlFor="product-price" className="col-form-label">Product price</label>
                                 <input type="number" className="form-control" id="product-price" defaultValue={product.price}
                                        onChange={(event) => {
-                                           product.price = parseFloat(event.target.value)
+                                           let json = JSON.stringify(product)
+                                           let newObject = JSON.parse(json) as ProductModel
+                                           newObject.price = parseFloat(event.target.value)
+                                           setNewProduct(newObject)
+
                                        }} />
                             </div>
                         </form>
@@ -41,7 +57,8 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary"  onClick={()=>{
-                              updateProduct(product.productID,{price:product.price, name:product.name}).then(data=>{
+
+                              updateProduct(product.productID,{price:newProduct.price, name:newProduct.name}).then(data=>{
                                    window.location.reload()
                                   }
                               ).catch(error=>{

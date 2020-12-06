@@ -5,11 +5,13 @@ import {
 } from '@material-ui/core';
 import TotalAmount from './TotalAmount';
 import LatestOrders from './LatestOrders';
-import Sales from './Sales';
 import TasksProgress from './TasksProgress';
 import TotalCustomers from './TotalCustomers';
 import TotalProfit from './TotalProfit';
-
+import AddProductModal from "../../AddProductModal";
+import Button from "@material-ui/core/Button";
+import AddIcon from '@material-ui/icons/Add';
+import LatestProducts from "./LatestProducts";
 const Dashboard = () => {
 
   return (
@@ -61,8 +63,28 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <Sales />
+            <LatestProducts />
           </Grid>
+          <Grid
+            lg={4}
+            md={12}
+            xl ={3}
+            xs = {12}
+            >
+            <div className={"wrapper-button-center mt-5"}>
+            <Button type="button"
+                    variant="contained"
+                    color={"primary"}
+                    className="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#addProductModal"
+                    startIcon={<AddIcon />}
+            >
+              Add product
+            </Button>
+            <AddProductModal/>
+            </div>
+        </Grid>
           <Grid
             item
             lg={4}
