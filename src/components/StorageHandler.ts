@@ -20,6 +20,10 @@ export function saveToken(token:string){
     localStorage.setItem(KEY_TOKEN, token)
 }
 
+export function deleteCartItems(){
+    localStorage.removeItem(KEY_CART_ITEMS)
+}
+
 export  function getCartItems():Array<number>{
     let cartItems = localStorage.getItem(KEY_CART_ITEMS)
     if(cartItems == null){

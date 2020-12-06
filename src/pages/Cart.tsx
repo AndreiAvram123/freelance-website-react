@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import CartProducts from './CartProducts';
 import {CartContext} from "../contexts/CartContext";
-import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
+import {fetchProduct} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
 import {isUserLoggedIn} from "../utils/UserManager";
 import {placeOrder} from "../repositories/OrderRepository";
+import {deleteCartItems} from "../components/StorageHandler";
 
 
 const Cart = () => {
@@ -39,6 +40,8 @@ const Cart = () => {
                 }
                 tempCartProducts.push(productQuantity)
                 tempPrice += (productQuantity.quantity * productQuantity.product.price)
+            }).catch(error=>{
+                console.log(error)
             }))
         }
         Promise.all(promises).then(()=>{
@@ -60,7 +63,8 @@ const Cart = () => {
                     }
                 })
                placeOrder(productsForOrder).then((data)=>{
-
+                   deleteCartItems()
+                   window.location.reload()
                }).catch(error=>{
 
                })

@@ -9,7 +9,6 @@ import {
 import {ProductCreationModel} from "./ProductModels";
 import {getToken} from "../components/StorageHandler";
 import makeCall from "./CallRunner";
-import {url} from "inspector";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 
 export type ProductModel = {
