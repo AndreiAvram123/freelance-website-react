@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {fetchToken} from "../repositories/AuthRepository";
+import {isUserLoggedIn} from "../utils/UserManager";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+
+    if(isUserLoggedIn()){
+        window.location.href = "/"
+    }
+
     const classes = useStyles();
 
      const [usernameValue, setUsernameValue] = useState("")

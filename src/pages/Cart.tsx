@@ -62,11 +62,11 @@ const Cart = () => {
                         productsForOrder.push(productQuantity.product.productID)
                     }
                 })
-               placeOrder(productsForOrder).then((data)=>{
+               placeOrder(productsForOrder).then((result)=>{
                    deleteCartItems()
                    window.location.reload()
                }).catch(error=>{
-
+                 console.log(error)
                })
 
             }else{

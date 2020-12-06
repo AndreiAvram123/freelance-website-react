@@ -2,9 +2,10 @@ import React, {useContext} from "react";
 import CategoriesContext from "../contexts/CategoriesContext";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import {Avatar, Badge} from "@material-ui/core";
+import {Avatar, Badge, Button} from "@material-ui/core";
 import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {CartContext} from "../contexts/CartContext";
+import {isUserLoggedIn, signOut} from "../utils/UserManager";
 
 
 export default  function Navbar(){
@@ -18,7 +19,8 @@ export default  function Navbar(){
                 display : "flex"
             },
             basket:{
-                cursor :"pointer"
+                cursor :"pointer",
+                marginRight : "10px"
             },
             avatar: {
                 cursor:  "pointer"
@@ -36,6 +38,14 @@ export default  function Navbar(){
         }),
     )(Badge);
     const classes = useStyles();
+
+    const handleSignIn = ()=>{
+        window.location.href = "/login"
+    }
+
+    const handleSignOut = () =>{
+        signOut()
+    }
     return(
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="collapse navbar-collapse" id="navbarNav">
@@ -58,13 +68,24 @@ export default  function Navbar(){
                     </li>
                 </ul>
                 <div className={classes.wrapperRightActions}>
-                    <IconButton aria-label="cart" onClick={() => window.location.href = "/cart"}>
+                    <IconButton aria-label="cart" className={classes.basket} onClick={() => window.location.href = "/cart"}>
                         <StyledBadge badgeContent={cartContext.productsIDs.length} color="secondary">
                             <ShoppingCartIcon/>
                         </StyledBadge>
                     </IconButton>
-                    <Avatar className={classes.avatar} alt="Remy Sharp" src={"https://robohash.org/139.162.116.133.png"}
-                            onClick={() => window.location.href = "/profile"}/>
+                    {
+                        isUserLoggedIn() &&
+                        <Button  size = "small" variant="contained" color="primary" onClick={handleSignOut} >
+                           Log out
+                        </Button>
+                    }
+                    {
+                        !isUserLoggedIn() &&
+                        <Button size = "medium" variant="contained" color="primary" onClick={handleSignIn}>
+                            Sign in
+                        </Button>
+                    }
+
                 </div>
             </div>
         </nav>

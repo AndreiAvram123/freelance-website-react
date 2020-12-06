@@ -11,6 +11,7 @@ export enum AuthenticationResponse{
 }
 
 export function fetchToken(username:string,password:string){
+
     return new Promise((resolve, reject) => {
         let url = "https://rest-kotlin.herokuapp.com/login"
         let bodyJson = JSON.stringify({username: username, password: password})
@@ -26,7 +27,7 @@ export function fetchToken(username:string,password:string){
                 console.log(token)
                 if(token !== null){
                      saveToken(token)
-                    resolve(token)
+                     resolve(token)
 
                 }
             }

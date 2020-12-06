@@ -10,8 +10,7 @@ export default async  function makeCall(request:ApiRequest){
         throw new ApiError(404)
     }
 
-    let json = await response.json()
-    return json
+    return await response.json()
 
 }
 
