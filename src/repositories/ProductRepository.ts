@@ -1,5 +1,6 @@
 import {resizeImage} from "../utils/ImageUtils";
 import {
+    URL_CREATE_PRODUCT,
     URL_FETCH_CATEGORIES,
     URL_FETCH_PRODUCT,
     URL_FETCH_PRODUCTS,
@@ -56,13 +57,13 @@ export async function updateProduct(productID :number, request:UpdateProductRequ
         let token = getToken();
         let url = URL_UPDATE_PRODUCT + productID + "/update"
         fetch(url,{
-                method : "PUT",
-                headers : {
-                    Authorization: "Bearer " + token,
-                    "Content-type" : "application/json; charset=UTF-8"
+            method : "PUT",
+            headers : {
+                Authorization: "Bearer " + token,
+                "Content-type" : "application/json; charset=UTF-8"
 
-                },
-                body: JSON.stringify(request)
+            },
+            body: JSON.stringify(request)
         }).then(function (response){
             return response.text()
         }).then(data=>{
@@ -98,31 +99,16 @@ export async function fetchProducts(category:string) {
     return result as ProductModel[]
 }
 
-export async function createProduct(model:ProductCreationModel){
-        let token = getToken()
-        let url = "https://rest-kotlin.herokuapp.com/products/create"
-        let imagesData = new Array<string>()
-        for(let i =0;i<model.images.length;i++){
-            const base64data =  await resizeImage(model.images[0])
-            imagesData.push(base64data)
-        }
-        const response  = await fetch(url,{
-            method : "POST",
-            headers : {
-                Authorization: "Bearer " + token,
-                'Content-Type': 'application/json'
-            },
-            //todo
-            //direct serialization
-            body : JSON.stringify({productName: model.productName , price : model.price, images: imagesData, categoryID : model.categoryID})
-        })
-         if(response.status !== 200){
-             throw new Error("Error")
-         }
-         return ""
+export async function createProduct(model:ProductCreationModel, images:FileList){
+    for(let i =0;i<images.length;i++){
+        const base64data =  await resizeImage(images[0])
+        model.images.push(base64data)
+    }
+    const response = await makeCall(new ApiRequest(URL_CREATE_PRODUCT,HTTPMethods.POST,JSON.stringify(model)))
+    return response
 
 }
 export async function fetchCategories(){
-        let json = await makeCall(new ApiRequest(URL_FETCH_CATEGORIES,HTTPMethods.GET))
-        return  json as Category[]
+    let json = await makeCall(new ApiRequest(URL_FETCH_CATEGORIES,HTTPMethods.GET))
+    return  json as Category[]
 }

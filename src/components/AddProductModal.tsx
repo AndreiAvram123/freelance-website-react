@@ -1,6 +1,7 @@
-import {createProduct} from "../repositories/ProductRepository";
+import {createProduct, ProductModel} from "../repositories/ProductRepository";
 import {useContext, useEffect, useState} from "react";
 import CategoriesContext from "../contexts/CategoriesContext";
+import {ProductCreationModel} from "../repositories/ProductModels";
 
 export default function AddProductModal() {
 
@@ -8,6 +9,7 @@ export default function AddProductModal() {
 
     const [productName, setProductName] = useState("")
     const [productPrice,setProductPrice] = useState(0)
+    const [productStock,setProductStock] = useState(0)
     const [images,setImages] = useState(FileList.prototype)
    const [categoryID, setCategoryID] = useState(-1)
 
@@ -17,8 +19,8 @@ export default function AddProductModal() {
 
 
     useEffect(()=>{
-        setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype && categoryID !== -1)
-    },[productName,productPrice,images,categoryID])
+        setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype && categoryID !== -1 && productStock > 0)
+    },[productName,productPrice,images,categoryID,productStock])
 
         return(
     <div className="modal fade" id="addProductModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -55,6 +57,12 @@ export default function AddProductModal() {
                          </select>
 
                      </div>
+                        <div className="form-group">
+                            <label htmlFor="product-stock" className="col-form-label">Products in stock</label>
+                            <input type="number" className="form-control" id="product-stock"
+                                   onChange={(event) => setProductStock(parseInt(event.target.value))}/>
+                        </div>
+
                         <input type="file" id="product-images" multiple onChange={(event) => {
                             if (event.target.files != null) {
                                 setImages(event.target.files)
@@ -69,7 +77,15 @@ export default function AddProductModal() {
                     <button type="button" className="btn btn-primary" data-dismiss="modal"
                             disabled={!isFormValid}
                             onClick={() => {
-                                createProduct({productName:productName,price: productPrice,categoryID: categoryID, images:images}).then((data)=>[
+                                let model :ProductCreationModel = {
+                                    productName : productName,
+                                    price : productPrice,
+                                    categoryID : categoryID,
+                                    images : [],
+                                    stock: productStock
+                                }
+
+                                createProduct(model,images).then((data)=>[
                                     // @ts-ignore
                                     $('#addProductModal').modal('hide')
                                 ]).catch(error =>{
