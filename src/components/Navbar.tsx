@@ -5,7 +5,7 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import {Avatar, Badge, Button} from "@material-ui/core";
 import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {CartContext} from "../contexts/CartContext";
-import {isUserLoggedIn, signOut} from "../utils/UserManager";
+import {isUserAdmin, isUserLoggedIn, signOut} from "../utils/UserManager";
 
 
 export default  function Navbar(){
@@ -60,9 +60,12 @@ export default  function Navbar(){
                            </li>)
                        }))
                     }
-                    <li className="nav-item" key={"Dashboard"}>
-                        <a className="nav-link" href={"/dashboard"}>Dashboard</a>
-                    </li>
+                    {
+                        isUserAdmin() &&
+                        <li className="nav-item" key={"Dashboard"}>
+                            <a className="nav-link" href={"/dashboard"}>Dashboard</a>
+                        </li>
+                    }
                 </ul>
                 <div className={classes.wrapperRightActions}>
                     <IconButton aria-label="cart" className={classes.basket} onClick={() => window.location.href = "/cart"}>

@@ -6,7 +6,6 @@ import {CartProvider} from "./contexts/CartContext";
 import CategoriesContext from "./contexts/CategoriesContext";
 import {Category, fetchCategories} from "./repositories/ProductRepository";
 import Navbar from "./components/Navbar";
-import {getToken, persistDefaultToken} from "./components/StorageHandler";
 import Dashboard from "./components/reports/DashboardView/Dashboard";
 
 export default function  App(){
@@ -15,9 +14,6 @@ export default function  App(){
 
     const [categories,setCategories] = useState<Array<Category>>([])
 
-    if(getToken()== null){
-        persistDefaultToken()
-    }
 
     useEffect(()=>{
         fetchCategories().then(result=>{

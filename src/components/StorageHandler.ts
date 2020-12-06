@@ -3,7 +3,7 @@ const KEY_CART_ITEMS = "KEY_CART_ITEMS"
 const KEY_TOKEN = "KEY_TOKEN"
 const defaultToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyZWkxMjM5IiwiZXhwIjoxNjM3NzcyNjgxLCJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYW5kcmVpMTIzOSJ9.2MdDiQRetHvNNFiZaYPRiVY6M7krj4w6VjmbbEdSx7UZV6WRoZc__15Ey9UMsQwCEfaqzLFdd45ogd4IAgEo7w"
 
-export function persistDefaultToken(){
+function persistDefaultToken(){
     localStorage.setItem(KEY_TOKEN,defaultToken)
 }
 export function getToken():string{
@@ -15,6 +15,9 @@ export function getToken():string{
         return localStorage.getItem(KEY_TOKEN)!
     }
 
+}
+export function deleteToken() {
+    localStorage.removeItem(KEY_TOKEN)
 }
 
 export function isDefaultToken(){
