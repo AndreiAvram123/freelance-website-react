@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
   Box,
   Button,
   Card,
   CardHeader,
   Chip,
-  Divider,
+  Divider, Menu, MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -21,6 +22,7 @@ import {
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {Order} from "../../../entities/Order";
 import {getRecentOrders} from "../../../repositories/AnalyticsRepository";
+import {ConfirmationModal} from "../../ConfirmationModal";
 
 const LatestOrders = () => {
     const [latestOrders,setLatestOrders] = useState<Array<Order>>([])
@@ -32,6 +34,17 @@ const LatestOrders = () => {
         })
 
     },[])
+
+  const [changedOrder,setChangedOrder] = useState<Order>()
+
+   useEffect(()=>{
+      if(changedOrder !== undefined){
+        // @ts-ignore
+        $('#confirmationModalOrderChanged').modal('show')
+      }
+   },[changedOrder])
+
+
   return (
     <Card
     >
@@ -64,6 +77,7 @@ const LatestOrders = () => {
                 <TableCell>
                   Status
                 </TableCell>
+                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -88,6 +102,18 @@ const LatestOrders = () => {
                       size="small"
                     />
                   </TableCell>
+                  <TableCell>
+                    <div className="dropdown">
+                      <MoreVertIcon className="dropdown-toggle" type="button" id="dropdownMenu2"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                      </MoreVertIcon>
+
+                      <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button className="dropdown-item" type="button" onClick={(event)=>setChangedOrder(order)}>Mark as delivered</button>
+                      </div>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -108,6 +134,10 @@ const LatestOrders = () => {
           View all
         </Button>
       </Box>
+      {
+        changedOrder!== undefined &&
+      <ConfirmationModal order={changedOrder}/>
+       }
     </Card>
   );
 };

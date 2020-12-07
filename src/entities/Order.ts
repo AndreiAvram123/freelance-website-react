@@ -5,6 +5,7 @@ export interface CreateOrderModel {
      products:Array<number>,
      userID:number
 }
+
 export interface Order {
      orderID :number,
      created:string,
@@ -12,3 +13,14 @@ export interface Order {
      products:Array<ProductModel>
      user:User
 }
+
+export enum OrderStatus {
+     PENDING= "PENDING",
+     COMPLETED = "COMPLETED",
+     REFUNDED = "REFUNDED"
+
+}
+
+
+
+
