@@ -99,10 +99,6 @@ export default function SignIn() {
                            hidden = {errorMessage.trim() === ""}
 
                     >{errorMessage}</Alert>
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
                     <Button
                         fullWidth
                         variant="contained"
