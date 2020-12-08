@@ -2,20 +2,26 @@ import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 
 import {Category, ProductModel, updateProduct} from "../repositories/ProductRepository";
 
 type ModifyProductModalProps = {
-    product: ProductModel
+    state: [product :ProductModel,setProductModel:Dispatch<SetStateAction<ProductModel>>],
     categories:Array<Category>
 }
 
 export default function ModifyProductModal(props:ModifyProductModalProps) {
 
-    const product= props.product
+    const [product,setProduct]= props.state
 
-    const [newProduct, setNewProduct] = useState(product)
-    const [categoryID, setCategoryID] = useState(-1)
+    const [modifiedProduct, setModifiedProduct] = useState(product)
+    const [categoryID, setCategoryID] = useState(product.category.id)
 
-    useEffect(()=>{
-        setNewProduct(product)
-    },[product])
+     useEffect(()=>{
+         setCategoryID(product.category.id)
+         setModifiedProduct(product)
+     },[product])
+
+    const handleCategoryChange = (event:ChangeEvent<HTMLSelectElement>)=>{
+        let newCategory = parseInt(event.target.value)
+        setCategoryID(newCategory)
+    }
 
 
     return(
@@ -33,12 +39,12 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                             <div className="form-group">
                                 <label htmlFor="product-name" className="col-form-label">Product name</label>
                                 <input type="text" className="form-control" id="product-name" required={true}
-                                       value={newProduct?.name}
+                                       value={modifiedProduct?.name}
                                        onChange={(event) => {
                                            let json = JSON.stringify(product)
                                            let newObject = JSON.parse(json) as ProductModel
                                            newObject.name = event.target.value
-                                            setNewProduct(newObject)
+                                            setModifiedProduct(newObject)
 
                                        }}
                                 />
@@ -50,18 +56,15 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                                            let json = JSON.stringify(product)
                                            let newObject = JSON.parse(json) as ProductModel
                                            newObject.price = parseFloat(event.target.value)
-                                           setNewProduct(newObject)
+                                           setModifiedProduct(newObject)
 
                                        }} />
                             </div>
                             <div className="form-group">
                                 <label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Category</label>
-                                <select className="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" defaultValue={-1} onChange={(event)=>{
-                                    setCategoryID(parseInt(event.target.value))
-                                }}>
-                                    <option value={-1} key={"Choose..."}>Choose...</option>
+                                <select className="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" value={product.category.id} onChange={handleCategoryChange}>
                                     {props.categories.map(category =>{
-                                        return  <option value={category.id} key={category.name}>{category.name}</option>
+                                        return  <option value={category.id} key={category.name} selected={category.id === product.category.id}>{category.name} </option>
                                     })}
                                 </select>
 
@@ -72,8 +75,9 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary"  onClick={()=>{
 
-                              updateProduct(product.productID,{price:newProduct.price, name:newProduct.name,categoryID: categoryID}).then(data=>{
-                                   window.location.reload()
+                              updateProduct(product.productID,{price:modifiedProduct.price, name:modifiedProduct.name,categoryID: categoryID}).then(data=>{
+                                      window.location.reload()
+
                                   }
                               ).catch(error=>{
                               })

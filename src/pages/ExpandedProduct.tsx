@@ -4,7 +4,6 @@ import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
-import ModifyProductModal from "../components/ModifyProductModal";
 import {ApiError} from "../repositories/CallRunner";
 import CategoriesContext from "../contexts/CategoriesContext";
 
@@ -48,16 +47,7 @@ export default function ExpandedProduct(){
                         Add to basket
                     </Button>
                 }
-                <div className={"mt-5"}>
-                    <Button variant="contained" color="primary"  data-toggle="modal" data-target="#modifyProductModal">
-                        Edit
-                    </Button></div>
-                {
-                    product &&
-                    <ModifyProductModal product={product} categories={categories} />
-                }
-
-            </div>
+        </div>
         </div>
     )
 }

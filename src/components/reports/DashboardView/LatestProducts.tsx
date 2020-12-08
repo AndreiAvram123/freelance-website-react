@@ -52,6 +52,7 @@ const LatestProducts = () => {
   function editAction(product:ProductModel){
      setEditProduct(product)
   }
+  // @ts-ignore
   return (
     <Card
     >
@@ -133,8 +134,9 @@ const LatestProducts = () => {
       </Box>
       <div id={"container-modal"}>
         {
-          editProduct!==undefined &&
-          <ModifyProductModal product={editProduct}  categories={categories}/>
+          editProduct &&
+              //@ts-ignore
+            <ModifyProductModal state={[editProduct,setEditProduct]}  categories={categories}/>
         }
       </div>
     </Card>

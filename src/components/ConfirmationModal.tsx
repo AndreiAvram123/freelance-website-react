@@ -50,7 +50,7 @@ return (
                     </button>
                 </div>
                 <div className="modal-body">
-                   Are you sure you want to mark the order number : {props.updateOrderModel.orderID} as completed?
+                   Are you sure you want to mark the order number : {props.updateOrderModel.orderID} as {props.updateOrderModel.newOrderStatus}?
                 </div>
                 <div className="modal-footer">
 
