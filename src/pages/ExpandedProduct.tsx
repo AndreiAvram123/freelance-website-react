@@ -10,15 +10,9 @@ import {ApiError} from "../repositories/CallRunner";
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
-    let initial:ProductModel = {
-        productID : 0,
-        name : "",
-        price: 0,
-        images: [],
-        stock: 0
-    }
 
-    const [product, setProduct] = useState<ProductModel>(initial)
+
+    const [product, setProduct] = useState<ProductModel>()
 
     useEffect(()=>{
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
@@ -46,17 +40,19 @@ export default function ExpandedProduct(){
                 >
                     {product?.name}
                 </Typography>
-                <Button variant="contained" color="primary" onClick={()=>{
-                    context.addProduct(product.productID)
-                }}>
-                    Add to basket
-                </Button>
+                { product &&
+                    <Button variant="contained" color="primary" onClick={() => {
+                        context.addProduct(product.productID)
+                    }}>
+                        Add to basket
+                    </Button>
+                }
                 <div className={"mt-5"}>
                     <Button variant="contained" color="primary"  data-toggle="modal" data-target="#modifyProductModal">
                         Edit
                     </Button></div>
                 {
-                    product !== initial &&
+                    product &&
                     <ModifyProductModal product={product} />
                 }
 
