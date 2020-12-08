@@ -8,7 +8,7 @@ export const URL_UPDATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
 export const URL_FETCH_PRODUCTS = "https://rest-kotlin.herokuapp.com/products"
 export const URL_FETCH_SUGGESTIONS = "https://rest-kotlin.herokuapp.com/products/search/"
 export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders/create"
-export const URL_UPDATE_ORDER = "https://rest-kotlin.herokuapp.com/orders/update"
+export const URL_UPDATE_ORDER = "https://rest-kotlin.herokuapp.com/orders/"
 export const URL_CREATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/create"
 
 

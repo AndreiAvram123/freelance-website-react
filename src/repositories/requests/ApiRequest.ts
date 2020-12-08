@@ -3,6 +3,7 @@ import {getToken} from "../../components/StorageHandler";
 export enum HTTPMethods{
     GET= "GET",
     POST = "POST",
+    PATCH = "PATCH"
 
 }
 
@@ -16,7 +17,7 @@ export class ApiRequest {
         this.requestBody.headers = {
             Authorization: "Bearer " + getToken()
         }
-        if(bodyJson !== undefined && method === HTTPMethods.POST){
+        if(bodyJson !== undefined){
             this.requestBody.body = bodyJson
             this.requestBody.headers = {
                 Authorization: "Bearer " + getToken(),

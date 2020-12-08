@@ -6,7 +6,7 @@ import {getUserID} from "../utils/UserManager";
 
 export interface UpdateOrderModel{
     orderID :number,
-    newStatus: string
+    newOrderStatus: string
 }
 
 export async function placeOrder(products:Array<number>){
@@ -22,5 +22,6 @@ export async function placeOrder(products:Array<number>){
 
 export async function updateOrder(updateOrderModel:UpdateOrderModel){
 
-    return await makeCall(new ApiRequest(URL_UPDATE_ORDER,HTTPMethods.POST, JSON.stringify(updateOrderModel)))
+    let url =URL_UPDATE_ORDER + updateOrderModel.orderID
+    return await makeCall(new ApiRequest(url,HTTPMethods.PATCH, JSON.stringify(updateOrderModel)))
 }

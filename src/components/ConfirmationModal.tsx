@@ -54,13 +54,15 @@ export function ConfirmationModal(props:Props) {
 
     const changeOrder = () => {
         setIsExecutingRequest(true)
-       updateOrder({newStatus : OrderStatus.COMPLETED,orderID: props.order.orderID}).then(()=>{
+       updateOrder({newOrderStatus : OrderStatus.COMPLETED,orderID: props.order.orderID}).then(()=>{
            setIsExecutingRequest(false)
            // @ts-ignore
            $('#confirmationModalOrderChanged').modal('hide')
+           window.location.reload()
        }).catch(error=>{
            // @ts-ignore
            $('#confirmationModalOrderChanged').modal('hide')
+           window.location.reload()
        })
     }
 
