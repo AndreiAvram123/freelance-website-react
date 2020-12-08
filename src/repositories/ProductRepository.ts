@@ -17,7 +17,8 @@ export type ProductModel = {
     name:string,
     price:number,
     images:Array<ProductImage>
-    stock :number
+    stock :number,
+    category:Category
 }
 
 export type Category ={
@@ -46,38 +47,17 @@ export type ResultCategories ={
 
 export type UpdateProductRequest = {
     name :string,
-    price :number
+    price :number,
+    categoryID:number
 }
 export type SimpleResult ={
     error:string
 }
 
 export async function updateProduct(productID :number, request:UpdateProductRequest){
-    return new Promise<ResultProduct>(((resolve, reject) => {
-        let token = getToken();
-        let url = URL_UPDATE_PRODUCT + productID + "/update"
-        fetch(url,{
-            method : "PUT",
-            headers : {
-                Authorization: "Bearer " + token,
-                "Content-type" : "application/json; charset=UTF-8"
-
-            },
-            body: JSON.stringify(request)
-        }).then(function (response){
-            return response.text()
-        }).then(data=>{
-            let response = JSON.parse(data) as ResultProduct
-            let result = {data : response.data, error : response.error}
-            resolve(result)
-        }).catch(error =>{
-            let response = {
-                data : undefined,
-                error : error.toString()
-            }
-            reject(response)
-        })
-    }))
+    let url = URL_UPDATE_PRODUCT + productID
+    const response =  await makeCall(new ApiRequest(url,HTTPMethods.PATCH,JSON.stringify(request)))
+    return response as ResultProduct
 }
 
 

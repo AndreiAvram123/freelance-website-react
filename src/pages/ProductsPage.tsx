@@ -23,14 +23,7 @@ export default  function ProductsPage () {
     }
     useEffect(() => {
         fetchProducts(category).then(products => {
-                let mappedProducts = products.map(product => <Product
-                    key={product.productID + ""}
-                    price={product.price}
-                    productID={product.productID}
-                    name={product.name}
-                    images={product.images}
-                    stock={product.stock}
-                />)
+                let mappedProducts = products.map(product => <Product product={product}/>)
                 setProducts(mappedProducts)
         }).catch(error => {
             console.log(error)

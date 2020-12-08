@@ -19,9 +19,15 @@ const useStyles = makeStyles({
     },
 });
 
- function Product(product : ProductModel) {
+type Props ={
+    product:ProductModel
+}
+
+ function Product(props : Props) {
 
     const classes = useStyles();
+
+    const product = props.product
 
      let imageURL = "";
      if(product.images[0]?.imageURl){

@@ -66,6 +66,7 @@ const Dashboard = () => {
             <LatestProducts />
           </Grid>
           <Grid
+              item
             lg={4}
             md={12}
             xl ={3}

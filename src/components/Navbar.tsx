@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import CategoriesContext from "../contexts/CategoriesContext";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import {Avatar, Badge, Button} from "@material-ui/core";
+import { Badge, Button} from "@material-ui/core";
 import {createStyles, makeStyles, Theme, withStyles} from "@material-ui/core/styles";
 import {CartContext} from "../contexts/CartContext";
 import {isUserAdmin, isUserLoggedIn, signOut} from "../utils/UserManager";
@@ -12,6 +12,7 @@ export default  function Navbar(){
 
     let context = useContext(CategoriesContext)
     let cartContext = useContext(CartContext)
+
     let useStyles = makeStyles((theme: Theme) =>
         createStyles({
             wrapperRightActions :{

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes, {func} from 'prop-types';
@@ -26,6 +26,7 @@ import {fetchRecentlyCreatedProducts, ProductModel} from "../../../repositories/
 import ModifyProductModal from "../../ModifyProductModal";
 import ReactDOM from "react-dom";
 import App from "../../../App";
+import CategoriesContext from "../../../contexts/CategoriesContext";
 
 const LatestProducts = () => {
 
@@ -33,6 +34,8 @@ const LatestProducts = () => {
 
 
   const [editProduct,setEditProduct] = useState<ProductModel>()
+
+  const  categories = useContext(CategoriesContext).categories
 
   useEffect(()=>{
        let mounted = true
@@ -49,11 +52,6 @@ const LatestProducts = () => {
   function editAction(product:ProductModel){
      setEditProduct(product)
   }
-  useEffect(()=>{
-    // @ts-ignore
-    $('#modifyProductModal').modal('show')
-  },[editProduct])
-
   return (
     <Card
     >
@@ -75,6 +73,9 @@ const LatestProducts = () => {
                 </TableCell>
                 <TableCell>
                   Stock
+                </TableCell>
+                <TableCell>
+                  Category
                 </TableCell>
                 <TableCell/>
               </TableRow>
@@ -102,7 +103,10 @@ const LatestProducts = () => {
                     />
                   </TableCell>
                   <TableCell>
-                  <Button variant="contained" color="primary" onClick={()=> editAction(product)}>
+                    {product.category.name}
+                  </TableCell>
+                  <TableCell>
+                  <Button variant="contained" color="primary" data-toggle="modal" data-target="#modifyProductModal"  onClick={()=> editAction(product)}>
                     Edit
                   </Button>
                   </TableCell>
@@ -130,7 +134,7 @@ const LatestProducts = () => {
       <div id={"container-modal"}>
         {
           editProduct!==undefined &&
-          <ModifyProductModal product={editProduct} />
+          <ModifyProductModal product={editProduct}  categories={categories}/>
         }
       </div>
     </Card>

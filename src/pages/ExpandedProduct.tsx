@@ -1,16 +1,17 @@
 import React, {useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
-import {Snackbar, Typography} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import ModifyProductModal from "../components/ModifyProductModal";
 import {ApiError} from "../repositories/CallRunner";
+import CategoriesContext from "../contexts/CategoriesContext";
 
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
-
+    const categories = useContext(CategoriesContext).categories
 
     const [product, setProduct] = useState<ProductModel>()
 
@@ -53,7 +54,7 @@ export default function ExpandedProduct(){
                     </Button></div>
                 {
                     product &&
-                    <ModifyProductModal product={product} />
+                    <ModifyProductModal product={product} categories={categories} />
                 }
 
             </div>

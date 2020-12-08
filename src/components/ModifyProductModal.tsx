@@ -1,8 +1,9 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {ProductModel, updateProduct} from "../repositories/ProductRepository";
+import {Category, ProductModel, updateProduct} from "../repositories/ProductRepository";
 
 type ModifyProductModalProps = {
     product: ProductModel
+    categories:Array<Category>
 }
 
 export default function ModifyProductModal(props:ModifyProductModalProps) {
@@ -10,6 +11,7 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
     const product= props.product
 
     const [newProduct, setNewProduct] = useState(product)
+    const [categoryID, setCategoryID] = useState(-1)
 
     useEffect(()=>{
         setNewProduct(product)
@@ -52,17 +54,28 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
 
                                        }} />
                             </div>
+                            <div className="form-group">
+                                <label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">Category</label>
+                                <select className="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" defaultValue={-1} onChange={(event)=>{
+                                    setCategoryID(parseInt(event.target.value))
+                                }}>
+                                    <option value={-1} key={"Choose..."}>Choose...</option>
+                                    {props.categories.map(category =>{
+                                        return  <option value={category.id} key={category.name}>{category.name}</option>
+                                    })}
+                                </select>
+
+                            </div>
                         </form>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary"  onClick={()=>{
 
-                              updateProduct(product.productID,{price:newProduct.price, name:newProduct.name}).then(data=>{
+                              updateProduct(product.productID,{price:newProduct.price, name:newProduct.name,categoryID: categoryID}).then(data=>{
                                    window.location.reload()
                                   }
                               ).catch(error=>{
-
                               })
                         }}
                         >Finish
