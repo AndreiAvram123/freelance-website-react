@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
   Box,
@@ -9,7 +8,7 @@ import {
   Card,
   CardHeader,
   Chip,
-  Divider, Menu, MenuItem,
+  Divider,
   Table,
   TableBody,
   TableCell,
@@ -17,12 +16,12 @@ import {
   TableRow,
   TableSortLabel,
   Tooltip
-
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {Order} from "../../../entities/Order";
+import {Order, OrderStatus} from "../../../entities/Order";
 import {getRecentOrders} from "../../../repositories/AnalyticsRepository";
 import {ConfirmationModal} from "../../ConfirmationModal";
+import {UpdateOrderModel} from "../../../repositories/OrderRepository";
 
 const LatestOrders = () => {
     const [latestOrders,setLatestOrders] = useState<Array<Order>>([])
@@ -35,15 +34,11 @@ const LatestOrders = () => {
 
     },[])
 
-  const [changedOrder,setChangedOrder] = useState<Order>()
+  const [changedOrder,setChangedOrder] = useState<UpdateOrderModel>()
 
-   useEffect(()=>{
-      if(changedOrder !== undefined){
-        // @ts-ignore
-        $('#confirmationModalOrderChanged').modal('show')
-      }
-   },[changedOrder])
-
+const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
+      setChangedOrder({orderID :order.orderID, newOrderStatus: newOrderStatus})
+   }
 
   return (
     <Card
@@ -110,7 +105,8 @@ const LatestOrders = () => {
                       </MoreVertIcon>
 
                       <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button className="dropdown-item" type="button" onClick={(event)=>setChangedOrder(order)}>Mark as delivered</button>
+                        <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.COMPLETED)}>Mark as delivered</button>
+                        <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.PENDING)}>Mark as pending</button>
                       </div>
                     </div>
                   </TableCell>
@@ -136,14 +132,11 @@ const LatestOrders = () => {
       </Box>
       {
         changedOrder!== undefined &&
-      <ConfirmationModal order={changedOrder}/>
+      <ConfirmationModal updateOrderModel={changedOrder} orders={[latestOrders,setLatestOrders]}/>
        }
     </Card>
   );
 };
 
-LatestOrders.propTypes = {
-  className: PropTypes.string
-};
 
 export default LatestOrders;

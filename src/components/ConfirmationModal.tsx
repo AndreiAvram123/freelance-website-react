@@ -1,16 +1,20 @@
 
 import {Order, OrderStatus} from "../entities/Order";
-import {useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {Button, CircularProgress, createStyles, makeStyles, Theme} from "@material-ui/core";
 import {green} from "@material-ui/core/colors";
-import {updateOrder} from "../repositories/OrderRepository";
+import {updateOrder, UpdateOrderModel} from "../repositories/OrderRepository";
 
 type Props = {
-    order:Order
+    updateOrderModel:UpdateOrderModel,
+    orders :[Array<Order>,Dispatch<SetStateAction<Array<Order>>>]
 }
 
 
 export function ConfirmationModal(props:Props) {
+
+    const [orders,setOrders] = props.orders
+    const updateOrderModel = props.updateOrderModel
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -50,19 +54,21 @@ export function ConfirmationModal(props:Props) {
 
     useEffect(()=>{
          setIsExecutingRequest(false)
-    },[props.order])
+    },[props.updateOrderModel])
 
     const changeOrder = () => {
         setIsExecutingRequest(true)
-       updateOrder({newOrderStatus : OrderStatus.COMPLETED,orderID: props.order.orderID}).then(()=>{
+       updateOrder({newOrderStatus : updateOrderModel.newOrderStatus,orderID: updateOrderModel.orderID}).then(()=>{
            setIsExecutingRequest(false)
+           let index  = orders.findIndex(order => order.orderID === props.updateOrderModel.orderID)
+           orders[index].orderStatus = props.updateOrderModel.newOrderStatus
+           let newOrdersList = [...orders]
+            setOrders(newOrdersList)
            // @ts-ignore
            $('#confirmationModalOrderChanged').modal('hide')
-           window.location.reload()
        }).catch(error=>{
            // @ts-ignore
            $('#confirmationModalOrderChanged').modal('hide')
-           window.location.reload()
        })
     }
 
@@ -78,7 +84,7 @@ return (
                     </button>
                 </div>
                 <div className="modal-body">
-                   Are you sure you want to mark the order number : {props.order.orderID} as completed?
+                   Are you sure you want to mark the order number : {props.updateOrderModel.orderID} as completed?
                 </div>
                 <div className="modal-footer">
 
