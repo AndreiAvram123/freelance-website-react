@@ -62,4 +62,17 @@
   justify-content: center;
 }
 
+.wrapper-button-with-loading {
+  margin: 10px;
+  position: relative;
+}
+.wrapper-button-with-loading .button-progress {
+  color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+}
+
 /*# sourceMappingURL=main.css.map */

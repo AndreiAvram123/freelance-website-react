@@ -16,40 +16,6 @@ export function ConfirmationModal(props:Props) {
     const [orders,setOrders] = props.orders
     const updateOrderModel = props.updateOrderModel
 
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                display: 'flex',
-                alignItems: 'center',
-            },
-            wrapper: {
-                margin: theme.spacing(1),
-                position: 'relative',
-            },
-            buttonSuccess: {
-                backgroundColor: green[500],
-                '&:hover': {
-                    backgroundColor: green[700],
-                },
-            },
-            fabProgress: {
-                color: green[500],
-                position: 'absolute',
-                top: -6,
-                left: -6,
-                zIndex: 1,
-            },
-            buttonProgress: {
-                color: green[500],
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: -12,
-                marginLeft: -12,
-            },
-        }),
-    );
-    const classes = useStyles();
     const [isExecutingRequest,setIsExecutingRequest] = useState(false)
 
     useEffect(()=>{
@@ -89,7 +55,7 @@ return (
                 <div className="modal-footer">
 
                     <button type="button" className="btn btn-secondary" data-dismiss="modal" disabled={isExecutingRequest}>Close</button>
-                    <div className={classes.wrapper}>
+                    <div className={"wrapper-button-with-loading"}>
                         <Button
                             variant="contained"
                             color="primary"
@@ -98,7 +64,7 @@ return (
                         >
                             Confirm
                         </Button>
-                        {isExecutingRequest && <CircularProgress size={24} className={classes.buttonProgress} />}
+                        {isExecutingRequest && <CircularProgress size={24} className={"button-progress"} />}
                     </div>
                 </div>
             </div>

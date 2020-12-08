@@ -74,3 +74,18 @@ $primaryDarkColor: #4D0C02;
   justify-content: center;
 
 }
+.wrapper-button-with-loading {
+  margin: 10px;
+  position: relative;
+
+  .button-progress{
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+  }
+
+}
+

@@ -107,6 +107,7 @@ const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
                       <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.COMPLETED)}>Mark as delivered</button>
                         <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.PENDING)}>Mark as pending</button>
+                        <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.REFUNDED)}>Mark as refunded</button>
                       </div>
                     </div>
                   </TableCell>
