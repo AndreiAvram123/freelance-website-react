@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 
+import EditIcon from '@material-ui/icons/Edit';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes, {func} from 'prop-types';
 import {
@@ -8,25 +9,20 @@ import {
   Card,
   CardHeader,
   Chip,
-  Divider,
+  Divider, IconButton,
   Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  TableSortLabel,
-  Tooltip
+  TableRow
 
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {Order} from "../../../entities/Order";
-import {getRecentOrders} from "../../../repositories/AnalyticsRepository";
-import {ProductQuantity} from "../../../pages/CartItem";
 import {fetchRecentlyCreatedProducts, ProductModel} from "../../../repositories/ProductRepository";
 import ModifyProductModal from "../../ModifyProductModal";
-import ReactDOM from "react-dom";
-import App from "../../../App";
+
 import CategoriesContext from "../../../contexts/CategoriesContext";
+import {IncreaseStockModal} from "../../modals/IncreaseStockModal";
 
 const LatestProducts = () => {
 
@@ -36,6 +32,7 @@ const LatestProducts = () => {
   const [editProduct,setEditProduct] = useState<ProductModel>()
 
   const  categories = useContext(CategoriesContext).categories
+
 
   useEffect(()=>{
        let mounted = true
@@ -49,10 +46,6 @@ const LatestProducts = () => {
 
   },[])
 
-  function editAction(product:ProductModel){
-     setEditProduct(product)
-  }
-  // @ts-ignore
   return (
     <Card
     >
@@ -102,12 +95,15 @@ const LatestProducts = () => {
                       label={product.stock}
                       size="small"
                     />
+                    <IconButton aria-label="addStock" data-toggle="modal" data-target="#modalIncreaseStock" onClick={()=>setEditProduct(product)}>
+                      <EditIcon color={"primary"} />
+                    </IconButton>
                   </TableCell>
                   <TableCell>
                     {product.category.name}
                   </TableCell>
                   <TableCell>
-                  <Button variant="contained" color="primary" data-toggle="modal" data-target="#modifyProductModal"  onClick={()=> editAction(product)}>
+                  <Button variant="contained" color="primary" data-toggle="modal" data-target="#modifyProductModal"  onClick={()=>setEditProduct(product)}>
                     Edit
                   </Button>
                   </TableCell>
@@ -135,8 +131,12 @@ const LatestProducts = () => {
       <div id={"container-modal"}>
         {
           editProduct &&
-              //@ts-ignore
-            <ModifyProductModal state={[editProduct,setEditProduct]}  categories={categories}/>
+          //@ts-ignore
+          <ModifyProductModal state={[editProduct, setEditProduct]}  categories={categories}/>
+        }
+        {editProduct &&
+            //@ts-ignore
+        <IncreaseStockModal stateEditProduct={[editProduct, setEditProduct]} state={[latestProducts, setLatestProducts]} />
         }
       </div>
     </Card>

@@ -5,6 +5,10 @@ export const URL_FETCH_CATEGORIES = BASE_URL + "categories"
 export const URL_FETCH_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
 export const URL_FETCH_RECENT_PRODUCTS = "https://rest-kotlin.herokuapp.com/products/recent"
 export const URL_UPDATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
+
+export const URL_UPDATE_STOCK = (productID:number)=>{
+      return `https://rest-kotlin.herokuapp.com/products/${productID}/increaseStock`
+}
 export const URL_FETCH_PRODUCTS = "https://rest-kotlin.herokuapp.com/products"
 export const URL_FETCH_SUGGESTIONS = "https://rest-kotlin.herokuapp.com/products/search/"
 export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders/create"

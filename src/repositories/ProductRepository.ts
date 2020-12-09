@@ -5,7 +5,7 @@ import {
     URL_FETCH_PRODUCT,
     URL_FETCH_PRODUCTS, URL_FETCH_RECENT_PRODUCTS,
     URL_FETCH_SUGGESTIONS,
-    URL_UPDATE_PRODUCT
+    URL_UPDATE_PRODUCT, URL_UPDATE_STOCK
 } from "../utils/ApiConstants";
 import {ProductCreationModel} from "./ProductModels";
 import {getToken} from "../components/StorageHandler";
@@ -52,6 +52,18 @@ export type UpdateProductRequest = {
 }
 export type SimpleResult ={
     error:string
+}
+
+interface UpdateStockModel{
+    newStock:number
+}
+
+export async function increaseStock(productID:number,stock:number){
+    let url =  URL_UPDATE_STOCK(productID)
+    let request:UpdateStockModel = {
+        newStock : stock
+    }
+   return  await makeCall(new ApiRequest(url,HTTPMethods.PATCH,JSON.stringify(request)))
 }
 
 export async function updateProduct(productID :number, request:UpdateProductRequest){
