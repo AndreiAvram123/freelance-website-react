@@ -23,8 +23,9 @@ import ModifyProductModal from "../../ModifyProductModal";
 
 import {IncreaseStockModal} from "../../modals/IncreaseStockModal";
 import {CategoriesContext} from "../../../contexts/CategoriesContext";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-const LatestProducts = () => {
+const   LatestProducts = () => {
 
   const [latestProducts,setLatestProducts] = useState<Array<ProductModel>>([])
 
@@ -106,6 +107,15 @@ const LatestProducts = () => {
                   <Button variant="contained" color="primary" data-toggle="modal" data-target="#modifyProductModal"  onClick={()=>setEditProduct(product)}>
                     Edit
                   </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<DeleteIcon />}
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
 
                 </TableRow>

@@ -6,37 +6,20 @@ import {green} from "@material-ui/core/colors";
 import {updateOrder, UpdateOrderModel} from "../repositories/OrderRepository";
 
 type Props = {
-    updateOrderModel:UpdateOrderModel,
-    orders :[Array<Order>,Dispatch<SetStateAction<Array<Order>>>]
+    confirmationText :string,
+    onConfirm:()=>void
 }
 
 
 export function ConfirmationModal(props:Props) {
 
-    const [orders,setOrders] = props.orders
-    const updateOrderModel = props.updateOrderModel
-
     const [isExecutingRequest,setIsExecutingRequest] = useState(false)
 
-    useEffect(()=>{
-         setIsExecutingRequest(false)
-    },[props.updateOrderModel])
-
-    const changeOrder = () => {
-        setIsExecutingRequest(true)
-       updateOrder({newOrderStatus : updateOrderModel.newOrderStatus,orderID: updateOrderModel.orderID}).then(()=>{
-           setIsExecutingRequest(false)
-           let index  = orders.findIndex(order => order.orderID === props.updateOrderModel.orderID)
-           orders[index].orderStatus = props.updateOrderModel.newOrderStatus
-           let newOrdersList = [...orders]
-            setOrders(newOrdersList)
-           // @ts-ignore
-           $('#confirmationModalOrderChanged').modal('hide')
-       }).catch(error=>{
-           // @ts-ignore
-           $('#confirmationModalOrderChanged').modal('hide')
-       })
+    const confirm= ()=>{
+         setIsExecutingRequest(true)
+         props.onConfirm()
     }
+
 
 
 return (
@@ -50,7 +33,7 @@ return (
                     </button>
                 </div>
                 <div className="modal-body">
-                   Are you sure you want to mark the order number : {props.updateOrderModel.orderID} as {props.updateOrderModel.newOrderStatus}?
+                    {props.confirmationText}
                 </div>
                 <div className="modal-footer">
 
@@ -60,7 +43,7 @@ return (
                             variant="contained"
                             color="primary"
                             disabled={isExecutingRequest}
-                            onClick={changeOrder}
+                            onClick={confirm}
                         >
                             Confirm
                         </Button>

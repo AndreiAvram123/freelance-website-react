@@ -21,7 +21,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {Order, OrderStatus} from "../../../entities/Order";
 import {getRecentOrders} from "../../../repositories/AnalyticsRepository";
 import {ConfirmationModal} from "../../ConfirmationModal";
-import {UpdateOrderModel} from "../../../repositories/OrderRepository";
+import {updateOrder, UpdateOrderModel} from "../../../repositories/OrderRepository";
+import {CHANGE_ORDER_STATUS} from "../../../utils/Messages";
 
 const LatestOrders = () => {
     const [latestOrders,setLatestOrders] = useState<Array<Order>>([])
@@ -35,10 +36,28 @@ const LatestOrders = () => {
     },[])
 
   const [changedOrder,setChangedOrder] = useState<UpdateOrderModel>()
+  const [confirmationMessage,setConfirmationMessage] = useState("")
 
-const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
+  const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
       setChangedOrder({orderID :order.orderID, newOrderStatus: newOrderStatus})
+      setConfirmationMessage(CHANGE_ORDER_STATUS(newOrderStatus))
    }
+   const performChangeOrder = ()=>{
+      if(changedOrder){
+      updateOrder({newOrderStatus : changedOrder.newOrderStatus,orderID: changedOrder.orderID}).then(()=>{
+       let index  = latestOrders.findIndex(order => order.orderID === changedOrder.orderID)
+       latestOrders[index].orderStatus = changedOrder.newOrderStatus
+       let newOrdersList = [...latestOrders]
+       setLatestOrders(newOrdersList)
+       // @ts-ignore
+       $('#confirmationModalOrderChanged').modal('hide')
+     }).catch(error=>{
+       // @ts-ignore
+       $('#confirmationModalOrderChanged').modal('hide')
+     })
+      }
+   }
+
 
   return (
     <Card
@@ -105,7 +124,7 @@ const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
                       </MoreVertIcon>
 
                       <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.COMPLETED)}>Mark as delivered</button>
+                        <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.DELIVERED)}>Mark as delivered</button>
                         <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.PENDING)}>Mark as pending</button>
                         <button className="dropdown-item" type="button" data-toggle="modal" data-target="#confirmationModalOrderChanged" onClick={()=>handleChangeOrder(order,OrderStatus.REFUNDED)}>Mark as refunded</button>
                       </div>
@@ -132,8 +151,8 @@ const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
         </Button>
       </Box>
       {
-        changedOrder!== undefined &&
-      <ConfirmationModal updateOrderModel={changedOrder} orders={[latestOrders,setLatestOrders]}/>
+        confirmationMessage.trim() !== "" &&
+      <ConfirmationModal confirmationText={confirmationMessage} onConfirm={performChangeOrder}/>
        }
     </Card>
   );

@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {ProductModel} from '../repositories/ProductRepository'
 import {BASE_URL_IMAGES} from "../utils/ApiConstants";
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles({
     root: {
@@ -32,13 +33,13 @@ type Props ={
      let imageURL = "";
      if(product.images[0]?.imageURl){
        imageURL = BASE_URL_IMAGES + product.images[0].imageURl
-
     }
+
     return (
         <Card className={classes.root}
            onClick= {()=> {window.location.href = "/product/" + product.productID }}
         >
-            <CardActionArea>
+            <CardActionArea  style={product.stock ===0 ?{opacity : 0.5} :  {}}>
                 <CardMedia
                     component="img"
                     alt={product.name}
@@ -55,6 +56,10 @@ type Props ={
                     </Typography>
                 </CardContent>
             </CardActionArea>
+            {
+                product.stock ===0 &&
+                <Alert severity="warning">Out of stock!</Alert>
+            }
         </Card>
     );
 
