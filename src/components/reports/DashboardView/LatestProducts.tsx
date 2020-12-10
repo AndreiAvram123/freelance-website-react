@@ -39,6 +39,7 @@ const   LatestProducts = () => {
   const  categories = useContext(CategoriesContext).categories
 
 
+
   const performDeleteProduct = () =>{
     closeConfirmationModal()
     if(deleteProduct) {
@@ -79,9 +80,9 @@ const   LatestProducts = () => {
       <PerfectScrollbar>
         <Box minWidth={800}>
           <Table>
-            <TableHead>
+            <TableHead >
               <TableRow>
-                <TableCell className={"table-head-cell"}>
+                <TableCell >
                 </TableCell>
                 <TableCell>
                 Name
@@ -161,7 +162,7 @@ const   LatestProducts = () => {
           size="small"
           variant="text"
         >
-          View all
+          View more
         </Button>
       </Box>
       <div id={"container-modal"}>

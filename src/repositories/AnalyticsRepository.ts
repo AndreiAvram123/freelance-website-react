@@ -1,6 +1,6 @@
 import makeCall from "./CallRunner";
 import {
-    URL_ANALYTICS_RECENT_ORDERS,
+    URL_ANALYTICS_ORDERS,
     URL_ANALYTICS_TOTAL_AMOUNT,
     URL_ANALYTICS_TOTAL_CUSTOMERS
 } from "../utils/ApiConstants";
@@ -25,7 +25,7 @@ export async function fetchTotalAmount(){
     return response as TotalAmount
 }
 
-export async function getRecentOrders(){
-    const response = await makeCall(new ApiRequest(URL_ANALYTICS_RECENT_ORDERS,HTTPMethods.GET))
+export async function getOrders(page:number){
+    const response = await makeCall(new ApiRequest(URL_ANALYTICS_ORDERS(page),HTTPMethods.GET))
     return response as Order[]
 }

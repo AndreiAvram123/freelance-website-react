@@ -19,26 +19,40 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {Order, OrderStatus} from "../../../entities/Order";
-import {getRecentOrders} from "../../../repositories/AnalyticsRepository";
+import {getOrders} from "../../../repositories/AnalyticsRepository";
 import {ConfirmationModal} from "../../ConfirmationModal";
 import {updateOrder, UpdateOrderModel} from "../../../repositories/OrderRepository";
 import {CHANGE_ORDER_STATUS} from "../../../utils/Messages";
+import {v4 as uuidv4} from "uuid";
+
+
 
 const LatestOrders = () => {
+
     const [latestOrders,setLatestOrders] = useState<Array<Order>>([])
+
     useEffect(()=>{
-        getRecentOrders().then(orders=>{
-            setLatestOrders(orders)
+        fetchMoreOrders()
+    },[])
+
+
+    const fetchMoreOrders = ()=>{
+        getOrders(currentPage).then(orders=>{
+            setCurrentPage(prevState =>  prevState + 1)
+            setLatestOrders(prevState => prevState.concat(orders))
         }).catch(error=>{
 
         })
-
-    },[])
+    }
 
   const [changedOrder,setChangedOrder] = useState<UpdateOrderModel>()
   const [confirmationMessage,setConfirmationMessage] = useState("")
+    const [currentPage,setCurrentPage] = useState(1)
 
-  const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
+
+
+
+    const handleChangeOrder = (order:Order,newOrderStatus:OrderStatus) =>{
       setChangedOrder({orderID :order.orderID, newOrderStatus: newOrderStatus})
       setConfirmationMessage(CHANGE_ORDER_STATUS(newOrderStatus))
    }
@@ -95,10 +109,12 @@ const LatestOrders = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {latestOrders.map((order) => (
+              {
+                  latestOrders.length > 0 &&
+                  latestOrders.map((order) => (
                 <TableRow
                   hover
-                  key={order.orderID}
+                  key={uuidv4()}
                 >
                   <TableCell>
                     {order.orderID}
@@ -142,12 +158,13 @@ const LatestOrders = () => {
         p={2}
       >
         <Button
+            onClick={fetchMoreOrders}
           color="primary"
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"
         >
-          View all
+          View more
         </Button>
       </Box>
       {
