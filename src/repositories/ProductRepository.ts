@@ -1,6 +1,6 @@
 import {resizeImage} from "../utils/ImageUtils";
 import {
-    URL_CREATE_PRODUCT,
+    URL_CREATE_PRODUCT, URL_DELETE_PRODUCT,
     URL_FETCH_CATEGORIES,
     URL_FETCH_PRODUCT,
     URL_FETCH_PRODUCTS, URL_FETCH_RECENT_PRODUCTS,
@@ -109,4 +109,9 @@ export async function createProduct(model:ProductCreationModel, images:FileList)
 export async function fetchCategories(){
     let json = await makeCall(new ApiRequest(URL_FETCH_CATEGORIES,HTTPMethods.GET))
     return  json as Category[]
+}
+
+export async function pushDeleteProduct(productID:number){
+    const response = await  makeCall(new ApiRequest(URL_DELETE_PRODUCT(productID),HTTPMethods.DELETE))
+    return response
 }

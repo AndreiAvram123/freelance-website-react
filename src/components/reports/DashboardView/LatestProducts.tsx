@@ -18,12 +18,14 @@ import {
 
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {fetchRecentlyCreatedProducts, ProductModel} from "../../../repositories/ProductRepository";
+import {fetchRecentlyCreatedProducts, ProductModel, pushDeleteProduct} from "../../../repositories/ProductRepository";
 import ModifyProductModal from "../../ModifyProductModal";
 
 import {IncreaseStockModal} from "../../modals/IncreaseStockModal";
 import {CategoriesContext} from "../../../contexts/CategoriesContext";
 import DeleteIcon from "@material-ui/icons/Delete";
+import {ConfirmationModal} from "../../ConfirmationModal";
+import {CONFIRM_DELETE_PRODUCT} from "../../../utils/Messages";
 
 const   LatestProducts = () => {
 
@@ -32,8 +34,25 @@ const   LatestProducts = () => {
 
   const [editProduct,setEditProduct] = useState<ProductModel>()
 
+  const [deleteProduct,setDeleteProduct] = useState<ProductModel>()
+
   const  categories = useContext(CategoriesContext).categories
 
+
+  const performDeleteProduct = () =>{
+    closeConfirmationModal()
+    if(deleteProduct) {
+      pushDeleteProduct(deleteProduct.productID).then((result) => {
+        let index = latestProducts.findIndex(product => product.productID === deleteProduct.productID)
+        setLatestProducts(prevState => {
+           prevState.splice(index,1)
+           return [...prevState]
+        })
+      }).catch((error) => {
+      })
+    }
+     setDeleteProduct(undefined)
+  }
 
   useEffect(()=>{
        let mounted = true
@@ -47,6 +66,11 @@ const   LatestProducts = () => {
 
   },[])
 
+  function closeConfirmationModal(){
+    // @ts-ignore
+    $('#confirmationModalOrderChanged').modal('hide')
+  }
+
   return (
     <Card
     >
@@ -57,8 +81,7 @@ const   LatestProducts = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Product ref
+                <TableCell className={"table-head-cell"}>
                 </TableCell>
                 <TableCell>
                 Name
@@ -110,6 +133,9 @@ const   LatestProducts = () => {
                   </TableCell>
                   <TableCell>
                     <Button
+                        onClick={()=>setDeleteProduct(product)}
+                        data-toggle="modal"
+                        data-target="#confirmationModalOrderChanged"
                         variant="contained"
                         color="secondary"
                         startIcon={<DeleteIcon />}
@@ -147,6 +173,10 @@ const   LatestProducts = () => {
         {editProduct &&
             //@ts-ignore
         <IncreaseStockModal stateEditProduct={[editProduct, setEditProduct]} state={[latestProducts, setLatestProducts]} />
+        }
+        {
+          deleteProduct &&
+              <ConfirmationModal confirmationText={CONFIRM_DELETE_PRODUCT(deleteProduct.productID)} onConfirm={performDeleteProduct} />
         }
       </div>
     </Card>

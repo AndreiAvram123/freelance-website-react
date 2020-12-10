@@ -95,6 +95,10 @@
   background-color: rgba(69, 124, 255, 0.5);
 }
 
+.table-head-cell {
+  font-weight: bold;
+}
+
 .rating {
   width: 50%;
   margin: 0 auto;

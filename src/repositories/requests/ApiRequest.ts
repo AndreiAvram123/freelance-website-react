@@ -3,7 +3,8 @@ import {getToken} from "../../components/StorageHandler";
 export enum HTTPMethods{
     GET= "GET",
     POST = "POST",
-    PATCH = "PATCH"
+    PATCH = "PATCH",
+    DELETE = "DELETE"
 
 }
 
