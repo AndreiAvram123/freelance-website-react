@@ -8,10 +8,11 @@ import {ApiError} from "../repositories/CallRunner";
 import StarIcon from '@material-ui/icons/Star';
 import {fetchReviewsForProduct} from "../repositories/ReviewsRepository";
 import {Review} from "../entities/Review";
-import StarHalfIcon from '@material-ui/icons/StarHalf';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import {StarHalf} from "@material-ui/icons";
-
+import CommentIcon from '@material-ui/icons/Comment';
+import { v4 as uuidv4 } from 'uuid';
+import WriteReviewModal from "../components/modals/WriteReviewModal";
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
@@ -71,13 +72,13 @@ export default function ExpandedProduct(){
     function getStarsBasedOnRating(rating:number){
         let stars = []
         for(let i =1; i <= rating;i++) {
-            stars.push(<StarIcon htmlColor={"#ffd500"}/>)
+            stars.push(<StarIcon key ={uuidv4()} htmlColor={"#ffd500"}/>)
         }
         if(rating %1 !==0){
-            stars.push(<StarHalf htmlColor={"#ffd500"}/>)
+            stars.push(<StarHalf key ={uuidv4() } htmlColor={"#ffd500"}/>)
         }
         for(let j=stars.length+1;j<=5;j++){
-            stars.push(<StarBorderIcon htmlColor={"#ffd500"}/>)
+            stars.push(<StarBorderIcon  key ={uuidv4() } htmlColor={"#ffd500"}/>)
         }
         return stars
     }
@@ -111,6 +112,11 @@ export default function ExpandedProduct(){
                 product &&
 
                 <div>
+                    <div className={"float-button-left"} data-toggle="modal"
+                         data-target="#writeReviewModal">
+                    <CommentIcon style={{marginTop:"17px"}} />
+                    </div>
+                    <WriteReviewModal />
                     <div className={"row mt-5"}>
                         <div className={"col-md"}>
                             <CarouselImages images={product.images }/>
