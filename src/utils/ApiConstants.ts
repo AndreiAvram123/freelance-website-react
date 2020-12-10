@@ -13,6 +13,8 @@ export const URL_UPDATE_STOCK = (productID:number)=>{
 export const URL_FETCH_REVIEWS = (productID:number) =>{
       return `https://rest-kotlin.herokuapp.com/products/${productID}/reviews`
 }
+export const URL_CREATE_REVIEWS=  "https://rest-kotlin.herokuapp.com/reviews"
+
 
 
 export const URL_FETCH_PRODUCTS = "https://rest-kotlin.herokuapp.com/products"

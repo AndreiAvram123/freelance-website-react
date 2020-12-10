@@ -53,6 +53,7 @@ export default function ExpandedProduct(){
     const useStyles = makeStyles({
         root: {
             minWidth: 275,
+            marginTop : 20
         },
         bullet: {
             display: 'inline-block',
@@ -110,13 +111,12 @@ export default function ExpandedProduct(){
         <div>
             {
                 product &&
-
                 <div>
                     <div className={"float-button-left"} data-toggle="modal"
                          data-target="#writeReviewModal">
                     <CommentIcon style={{marginTop:"17px"}} />
                     </div>
-                    <WriteReviewModal />
+                    <WriteReviewModal product={product} />
                     <div className={"row mt-5"}>
                         <div className={"col-md"}>
                             <CarouselImages images={product.images }/>
