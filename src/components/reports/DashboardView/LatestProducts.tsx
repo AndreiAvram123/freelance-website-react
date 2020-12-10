@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 
 import EditIcon from '@material-ui/icons/Edit';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes, {func} from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -21,8 +21,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import {fetchRecentlyCreatedProducts, ProductModel} from "../../../repositories/ProductRepository";
 import ModifyProductModal from "../../ModifyProductModal";
 
-import CategoriesContext from "../../../contexts/CategoriesContext";
 import {IncreaseStockModal} from "../../modals/IncreaseStockModal";
+import {CategoriesContext} from "../../../contexts/CategoriesContext";
 
 const LatestProducts = () => {
 

@@ -7,8 +7,8 @@ import {
     URL_FETCH_SUGGESTIONS,
     URL_UPDATE_PRODUCT, URL_UPDATE_STOCK
 } from "../utils/ApiConstants";
+
 import {ProductCreationModel} from "./ProductModels";
-import {getToken} from "../components/StorageHandler";
 import makeCall from "./CallRunner";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 
@@ -16,6 +16,7 @@ export type ProductModel = {
     productID:number,
     name:string,
     price:number,
+    description:string,
     images:Array<ProductImage>
     stock :number,
     category:Category

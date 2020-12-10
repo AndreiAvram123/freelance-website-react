@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
-import {Card, CardActions, CardContent, makeStyles, Paper, Typography} from "@material-ui/core";
+import {Card, CardContent, makeStyles, Paper, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import {ApiError} from "../repositories/CallRunner";
 import StarIcon from '@material-ui/icons/Star';
-import {Star} from "@material-ui/icons";
+import {fetchReviewsForProduct} from "../repositories/ReviewsRepository";
+import {Review} from "../entities/Review";
 
 
 export default function ExpandedProduct(){
@@ -14,16 +15,23 @@ export default function ExpandedProduct(){
     const context = useContext(CartContext)
 
     const [product, setProduct] = useState<ProductModel>()
+    const [reviews,setReviews] = useState<Array<Review>>([])
 
     useEffect(()=>{
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
         if(!isNaN(Number(productID))){
-            fetchProduct(Number(productID)).then((result)=>{
+            let productIDNumber = Number(productID)
+            fetchProduct(productIDNumber).then((result)=>{
                setProduct(result)
             }).catch(error=>{
                 if (error instanceof ApiError) {
                     console.log(error)
                 }
+            })
+            fetchReviewsForProduct(productIDNumber).then(result=>{
+              setReviews(result)
+            }).catch(error=>{
+
             })
         }
     },[])
@@ -47,8 +55,8 @@ export default function ExpandedProduct(){
 
     const classes = useStyles();
 
-    const review =  <Card className={classes.root}>
-        <CardContent>
+    const ReviewLayout = (review:Review)=>  <Card className={classes.root} key = {review.id}>
+        <CardContent >
             <Typography className={classes.title} color="textSecondary" gutterBottom>
                 12/09/2020
             </Typography>
@@ -56,10 +64,10 @@ export default function ExpandedProduct(){
                 Andrei Avram
             </Typography>
             <div>
-                <StarIcon htmlColor={"#ffd500"}/>
-                <StarIcon htmlColor={"#ffd500"}/>
-                <StarIcon htmlColor={"#ffd500"}/>
-                <StarIcon htmlColor={"#ffd500"}/>
+                <StarIcon  htmlColor={"#ffd500"}/>
+                <StarIcon  htmlColor={"#ffd500"}/>
+                <StarIcon   htmlColor={"#ffd500"}/>
+                <StarIcon  htmlColor={"#ffd500"}/>
                 <StarIcon htmlColor={"#ffd500"}/>
             </div>
             <Typography variant="body2" component="p" className={"mt-3"}>
@@ -69,7 +77,6 @@ export default function ExpandedProduct(){
 
     </Card>
 
-
     return (
         <div>
         <div className={"row mt-5"}>
@@ -77,10 +84,12 @@ export default function ExpandedProduct(){
                 <CarouselImages images={product !==undefined ? product.images : []} />
             </div>
             <div className={"col-md"}>
-                <Typography
-                    variant="h3">
-                    {product?.name}
-                </Typography>
+                {  product &&
+                    <Typography
+                        variant="h3">
+                        {product?.name}
+                    </Typography>
+                }
                 <div>
                 <div>
                         <StarIcon htmlColor={"#ffd500"}/>
@@ -96,11 +105,15 @@ export default function ExpandedProduct(){
                         7 reviews
                     </Typography>
                 </div>
-                <Typography
-                    variant = "subtitle1">
-                    The best cat in the world
-                </Typography>
-                <Typography
+                {
+                    product &&
+                    <Typography
+                        variant="subtitle1">
+                        {product.description}
+                    </Typography>
+
+                }
+                    <Typography
                     variant = "subtitle1">
                    Products in stock : <span style={{color : "blue"}}>{product?.stock}</span>
                 </Typography>
@@ -137,13 +150,35 @@ export default function ExpandedProduct(){
 
             <div className={"row mt-5"}>
                 <div className={"col"}>
-                    {review}
+                    {
+                        // eslint-disable-next-line array-callback-return
+                        reviews.map((review,index) =>{
+                            if(index %3 ===0 || index === 0){
+                                return ReviewLayout(review)
+                            }
+                        })
+                    }
+
                 </div>
                 <div className={"col"}>
-                    {review}
+                    {
+                        // eslint-disable-next-line array-callback-return
+                        reviews.map((review,index) =>{
+                            if(index %3 === 1){
+                                return ReviewLayout(review)
+                            }
+                        })
+                    }
                 </div>
                 <div className={"col"}>
-                    {review}
+                    {
+                        // eslint-disable-next-line array-callback-return
+                        reviews.map((review,index) =>{
+                            if(index %3 === 2){
+                                return ReviewLayout(review)
+                            }
+                        })
+                    }
                 </div>
             </div>
         </div>

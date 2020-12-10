@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import CategoriesContext from "../contexts/CategoriesContext";
+import {CategoriesContext} from "../contexts/CategoriesContext";
 import IconButton from "@material-ui/core/IconButton";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Badge, Button} from "@material-ui/core";

@@ -1,6 +1,6 @@
-import {createProduct, ProductModel} from "../repositories/ProductRepository";
+import {createProduct} from "../repositories/ProductRepository";
 import {useContext, useEffect, useState} from "react";
-import CategoriesContext from "../contexts/CategoriesContext";
+import {CategoriesContext} from "../contexts/CategoriesContext";
 import {ProductCreationModel} from "../repositories/ProductModels";
 
 export default function AddProductModal() {
