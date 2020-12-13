@@ -18,7 +18,7 @@ import {
 
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {fetchRecentlyCreatedProducts, ProductModel, pushDeleteProduct} from "../../../repositories/ProductRepository";
+import {fetchProductsByPage, ProductModel, pushDeleteProduct} from "../../../repositories/ProductRepository";
 import ModifyProductModal from "../../ModifyProductModal";
 
 import {IncreaseStockModal} from "../../modals/IncreaseStockModal";
@@ -27,18 +27,33 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {ConfirmationModal} from "../../ConfirmationModal";
 import {CONFIRM_DELETE_PRODUCT} from "../../../utils/Messages";
 
-const   LatestProducts = () => {
+const  LatestProducts = () => {
 
   const [latestProducts,setLatestProducts] = useState<Array<ProductModel>>([])
-
 
   const [editProduct,setEditProduct] = useState<ProductModel>()
 
   const [deleteProduct,setDeleteProduct] = useState<ProductModel>()
 
+  const [productsPage,setProductsPage] = useState(1)
+
   const  categories = useContext(CategoriesContext).categories
 
+  const [isRequestExecuting,setIsRequestExecuting] = useState(false)
 
+
+const fetchMoreProducts = ()=>{
+    if(!isRequestExecuting) {
+      setIsRequestExecuting(true)
+      fetchProductsByPage(productsPage).then(data => {
+        setProductsPage(prevState => prevState + 1)
+        setLatestProducts(prevState => prevState.concat(data))
+        setIsRequestExecuting(false)
+      }).catch(error => {
+        setIsRequestExecuting(false)
+      })
+    }
+}
 
   const performDeleteProduct = () =>{
     closeConfirmationModal()
@@ -56,15 +71,7 @@ const   LatestProducts = () => {
   }
 
   useEffect(()=>{
-       let mounted = true
-       fetchRecentlyCreatedProducts().then(data=>{
-          if(mounted) {
-            setLatestProducts(data)
-          }
-       }).catch(error=>{
-         console.log(error)
-       })
-
+  fetchMoreProducts()
   },[])
 
   function closeConfirmationModal(){
@@ -157,6 +164,7 @@ const   LatestProducts = () => {
         p={2}
       >
         <Button
+            onClick={()=>fetchMoreProducts()}
           color="primary"
           endIcon={<ArrowRightIcon />}
           size="small"

@@ -42,11 +42,13 @@ export default function ExpandedProduct(){
     },[])
 
     useEffect(()=>{
-        let total = 0
-        reviews.forEach(review=>{
-            total += review.rating
-        })
-        setProductRating(total/reviews.length)
+        if(reviews.length > 0) {
+            let total = 0
+            reviews.forEach(review => {
+                total += review.rating
+            })
+            setProductRating(total / reviews.length)
+        }
 
     },[reviews])
 
@@ -95,12 +97,12 @@ export default function ExpandedProduct(){
                 <Typography variant="h5" component="h2">
                     Andrei Avram
                 </Typography>
-                <div>
-                    {getStarsBasedOnRating(review.rating)}
-                </div>
-                <Typography variant="body2" component="p" className={"mt-3"}>
-                    {review.description}
-                </Typography>
+                    <div>
+                        {getStarsBasedOnRating(review.rating)}
+                    </div>
+                    <Typography variant="body2" component="p" className={"mt-3"}>
+                {review.description}
+                    </Typography>
             </CardContent>
 
         </Card>

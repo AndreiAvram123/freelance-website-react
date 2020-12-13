@@ -45,8 +45,8 @@ const LatestOrders = () => {
         })
     }
 
-  const [changedOrder,setChangedOrder] = useState<UpdateOrderModel>()
-  const [confirmationMessage,setConfirmationMessage] = useState("")
+    const [changedOrder,setChangedOrder] = useState<UpdateOrderModel>()
+    const [confirmationMessage,setConfirmationMessage] = useState("")
     const [currentPage,setCurrentPage] = useState(1)
 
 

@@ -74,8 +74,8 @@ export async function updateProduct(productID :number, request:UpdateProductRequ
 }
 
 
-export async function fetchRecentlyCreatedProducts(){
-    const response = await makeCall(new ApiRequest(URL_FETCH_RECENT_PRODUCTS,HTTPMethods.GET))
+export async function fetchProductsByPage(page:number){
+    const response = await makeCall(new ApiRequest(URL_FETCH_RECENT_PRODUCTS(page),HTTPMethods.GET))
     return response as ProductModel[]
 }
 
