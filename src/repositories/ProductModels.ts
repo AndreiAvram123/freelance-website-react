@@ -5,5 +5,6 @@ export type ProductCreationModel ={
     price:number,
     categoryID:number,
     images:Array<string>,
+    description:string,
     stock:number
 }

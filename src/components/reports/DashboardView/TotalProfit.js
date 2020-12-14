@@ -12,24 +12,10 @@ import {
 } from '@material-ui/core';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100%'
-  },
-  avatar: {
-    backgroundColor: colors.indigo[600],
-    height: 56,
-    width: 56
-  }
-}));
-
-const TotalProfit = ({ className, ...rest }) => {
-  const classes = useStyles();
+const TotalProfit = () => {
 
   return (
     <Card
-      className={clsx(classes.root, className)}
-      {...rest}
     >
       <CardContent>
         <Grid
@@ -53,7 +39,7 @@ const TotalProfit = ({ className, ...rest }) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar className={classes.avatar}>
+            <Avatar >
               <AttachMoneyIcon />
             </Avatar>
           </Grid>

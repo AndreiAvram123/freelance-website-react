@@ -12,7 +12,10 @@ import AddProductModal from "../../AddProductModal";
 import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
 import LatestProducts from "./LatestProducts";
+import AddCategoryModal from "../../modals/AddCategoryModal";
 const Dashboard = () => {
+
+
 
   return (
       <Container maxWidth={false}>
@@ -83,7 +86,20 @@ const Dashboard = () => {
             >
               Add product
             </Button>
-            <AddProductModal/>
+            <AddProductModal />
+            </div>
+            <div className={"wrapper-button-center mt-5"}>
+              <Button type="button"
+                      variant="contained"
+                      color={"primary"}
+                      className="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#addCategoryModal"
+                      startIcon={<AddIcon />}
+              >
+                Add Category
+              </Button>
+              <AddCategoryModal />
             </div>
         </Grid>
           <Grid

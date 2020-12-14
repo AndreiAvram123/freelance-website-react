@@ -25,13 +25,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const TasksProgress = ({ className, ...rest }) => {
+const TasksProgress = (
+) => {
   const classes = useStyles();
 
   return (
     <Card
-      className={clsx(classes.root, className)}
-      {...rest}
     >
       <CardContent>
         <Grid

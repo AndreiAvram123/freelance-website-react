@@ -2,6 +2,7 @@ import {createProduct} from "../repositories/ProductRepository";
 import {useContext, useEffect, useState} from "react";
 import {CategoriesContext} from "../contexts/CategoriesContext";
 import {ProductCreationModel} from "../repositories/ProductModels";
+import {create} from "domain";
 
 export default function AddProductModal() {
 
@@ -10,20 +11,39 @@ export default function AddProductModal() {
     const [productName, setProductName] = useState("")
     const [productPrice,setProductPrice] = useState(0)
     const [productStock,setProductStock] = useState(0)
+    const [productDescription,setProductDescription] = useState("")
     const [images,setImages] = useState(FileList.prototype)
-   const [categoryID, setCategoryID] = useState(-1)
+    const [categoryID, setCategoryID] = useState(-1)
 
 
     const [isFormValid, setIsFormValid] = useState(false)
 
 
+    const handleCreateProduct = () =>{
+        let model :ProductCreationModel = {
+            productName : productName,
+            price : productPrice,
+            categoryID : categoryID,
+            images : [],
+            description : productDescription,
+            stock: productStock
+        }
+
+        createProduct(model,images).then((data)=>[
+            // @ts-ignore
+            $('#addProductModal').modal('hide')
+        ]).catch(error =>{
+            console.log(error)
+        })
+    }
+
 
     useEffect(()=>{
-        setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype && categoryID !== -1 && productStock > 0)
-    },[productName,productPrice,images,categoryID,productStock])
+        setIsFormValid(productName.trim() !== "" && productPrice >0 && images !== FileList.prototype && categoryID !== -1 && productStock > 0 && productDescription.trim().length > 0)
+    },[productName, productPrice, images, categoryID, productStock, productDescription])
 
         return(
-    <div className="modal fade" id="addProductModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal fade" id="addProductModal" tabIndex={-1} aria-labelledby="addProductModal" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
                 <div className="modal-header">
@@ -63,6 +83,12 @@ export default function AddProductModal() {
                                    onChange={(event) => setProductStock(parseInt(event.target.value))}/>
                         </div>
 
+                        <div className="form-group">
+                            <label htmlFor="product-description">Product description</label>
+                            <textarea id="product-description" className="form-control text-area" name="product-description"
+                                      rows={3} onChange={(event) => setProductDescription(event.target.value) }/>
+                        </div>
+
                         <input type="file" id="product-images" multiple onChange={(event) => {
                             if (event.target.files != null) {
                                 setImages(event.target.files)
@@ -76,22 +102,7 @@ export default function AddProductModal() {
                     <button type="button" className="btn btn-secondary" data-dismiss="modal" >Close</button>
                     <button type="button" className="btn btn-primary" data-dismiss="modal"
                             disabled={!isFormValid}
-                            onClick={() => {
-                                let model :ProductCreationModel = {
-                                    productName : productName,
-                                    price : productPrice,
-                                    categoryID : categoryID,
-                                    images : [],
-                                    stock: productStock
-                                }
-
-                                createProduct(model,images).then((data)=>[
-                                    // @ts-ignore
-                                    $('#addProductModal').modal('dismiss')
-                                ]).catch(error =>{
-                                    console.log(error)
-                                })
-                            }}
+                            onClick={() => handleCreateProduct()}
                     >Finish
                     </button>
                 </div>

@@ -35,9 +35,15 @@ export const URL_CREATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/cr
 
 
 
+
 export const URL_ANALYTICS_TOTAL_CUSTOMERS = "https://rest-kotlin.herokuapp.com/analytics/totalCustomers"
 export const URL_ANALYTICS_TOTAL_AMOUNT = "https://rest-kotlin.herokuapp.com/orders/totalAmount"
 
 export const URL_ANALYTICS_ORDERS = (pageNumber :number) => {
       return `https://rest-kotlin.herokuapp.com/orders/page/${pageNumber}`
 }
+
+
+//categories
+
+export const URL_CREATE_CATEGORY = "https://rest-kotlin.herokuapp.com/categories/"
