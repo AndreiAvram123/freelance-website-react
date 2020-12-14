@@ -100,7 +100,7 @@ export default function ExpandedProduct(){
                     <div>
                         {getStarsBasedOnRating(review.rating)}
                     </div>
-                    <Typography variant="body2" component="p" className={"mt-3"}>
+                    <Typography variant="body1" component="p" className={"mt-3"}>
                 {review.description}
                     </Typography>
             </CardContent>

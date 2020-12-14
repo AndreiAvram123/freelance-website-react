@@ -69,6 +69,11 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                                 </select>
 
                             </div>
+                            <div className="mb-3 form-group">
+                                <label htmlFor="exampleFormControlTextarea1" className="form-label">Example
+                                    textarea</label>
+                                <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}></textarea>
+                            </div>
                         </form>
                     </div>
                     <div className="modal-footer">

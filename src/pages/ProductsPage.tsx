@@ -15,20 +15,19 @@ export default  function ProductsPage () {
     const [list4, setList4] = useState(new Array<JSX.Element>())
 
 
-    let category ="ALL"
 
     let queryCategory = new URLSearchParams(useLocation().search).get("category");
-    if(queryCategory !== null){
-        category = queryCategory
-    }
+
     useEffect(() => {
-        fetchProducts(category).then(products => {
+        if(queryCategory!==null){
+        fetchProducts(queryCategory).then(products => {
                 let mappedProducts = products.map(product => <Product product={product}/>)
                 setProducts(mappedProducts)
         }).catch(error => {
             console.log(error)
         })
-    }, [category])
+            }
+    }, [queryCategory])
 
 
     useEffect(() => {
@@ -60,22 +59,27 @@ export default  function ProductsPage () {
 
     return (
         <div>
-            <div className="input-group md-form form-sm form-2 pl-0 search-box mt-5">
-                <input className="form-control mr-sm-2 search-field" autoComplete="off" placeholder="Search products..."
-                       name="search-products-field"
-                       id="search-products-field"
-                       aria-label="Search"
-                       onChange={(event)=> {
+            {
+                queryCategory === "All" &&
+                <div className="input-group md-form form-sm form-2 pl-0 search-box mt-5">
+                    <input className="form-control mr-sm-2 search-field" autoComplete="off"
+                           placeholder="Search products..."
+                           name="search-products-field"
+                           id="search-products-field"
+                           aria-label="Search"
+                           onChange={(event) => {
                                performSearch(event.target.value)
 
-                       }}
+                           }}
 
-                />
+                    />
                     <div className="input-group-append">
-                        <button type="submit" className="input-group-text search-button" name="search-button">  <SearchIcon /></button>
+                        <button type="submit" className="input-group-text search-button" name="search-button">
+                            <SearchIcon/></button>
                     </div>
 
-            </div>
+                </div>
+            }
 
             <div className={"row mt-5"}>
                 <div className={"col"}>{list1}</div>
