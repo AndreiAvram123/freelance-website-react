@@ -18,19 +18,34 @@ export default function Checkout(){
 
     const [isFormValid,setIsFormValid] = useState(false)
 
+    const [fullName,setFullName] = useState("")
+    const [validationErrorFullName,setValidationErrorFullName] = useState<string>()
+
+
     const [address,setAddress] = useState("")
     const [city,setCity] = useState("")
     const [postCode, setPostcode] = useState("")
-    const [fullName,setFullName] = useState("")
     const[country,setCountry] = useState("Select")
 
+   const [calledFirstTime,setCalledFirstTime] = useState(false)
 
     useEffect(()=>{
+        if(!calledFirstTime){
+            setCalledFirstTime(true)
+            return
+        }
+
+        
         setIsFormValid(true)
+        setValidationErrorFullName(undefined)
+
 
         if(fullName.length === 0){
             setIsFormValid(false)
+            setValidationErrorFullName("Fuck you")
         }
+
+
         if(address.length ===0){
             setIsFormValid(false)
         }
@@ -114,10 +129,16 @@ export default function Checkout(){
           <form>
               <div className="form-group mt-5">
                   <label htmlFor="full_name_id" className="control-label">Full Name</label>
-                  <input type="text" className="form-control" id="full_name_id" name="full_name"
+                  <input type="text" className={validationErrorFullName ? "form-control is-invalid" : "form-control"} id="full_name_id" name="full_name"
+                          aria-describedby={"validation-fullname"}
                           placeholder="John Deer"
+
                           onChange = {(event)=> setFullName(event.target.value)}
+
                    />
+                  <div id="validation-fullname" className="invalid-feedback">
+                       Please fill this
+                  </div>
               </div>
 
               <div className="form-group">
