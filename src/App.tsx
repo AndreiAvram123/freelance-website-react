@@ -17,6 +17,9 @@ export default function  App(){
     const ExpandedProduct = React.lazy(()=> import('./pages/ExpandedProduct'))
     const ProductsPage = React.lazy(()=> import('./pages/ProductsPage'))
 
+    const CheckoutPage = React.lazy(()=> import('./pages/Checkout'))
+    const PaymentResultPage = React.lazy(()=>import('./pages/PaymentResult'))
+
     return (
 
         <Router>
@@ -56,6 +59,19 @@ export default function  App(){
                                         <Register />
                                     </Suspense>
                                 } />
+                                <Route path="/pay" exact component={
+                                    ()=> <Suspense fallback={<div>Loading...</div>} >
+                                       <CheckoutPage />
+                                    </Suspense>
+                                }
+                                />
+
+                                <Route path= "/payment" exact component={
+                                    ()=> <Suspense fallback={<div>Loading...</div>}>
+                                       <PaymentResultPage/>
+                                    </Suspense>
+                                } />
+
 
 
                                 <Route path = "/login" exact component={() =>

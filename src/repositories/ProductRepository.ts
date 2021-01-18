@@ -38,8 +38,9 @@ export type ResultProducts ={
 export type ResultProduct ={
     data : ProductModel,
     error :string
-
 }
+
+
 
 export type ResultCategories ={
     data : Array<Category>,

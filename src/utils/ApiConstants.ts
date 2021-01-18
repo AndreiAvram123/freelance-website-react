@@ -1,6 +1,6 @@
 export const BASE_URL_IMAGES = "https://rest-kotlin.herokuapp.com/products/images/"
-const BASE_URL = "https://rest-kotlin.herokuapp.com/"
-export const URL_FETCH_CATEGORIES = BASE_URL + "categories"
+const BASE_URL = "https://rest-kotlin.herokuapp.com"
+export const URL_FETCH_CATEGORIES = BASE_URL + "/categories"
 
 export const URL_FETCH_PRODUCT = "https://rest-kotlin.herokuapp.com/products/"
 
@@ -47,3 +47,7 @@ export const URL_ANALYTICS_ORDERS = (pageNumber :number) => {
 //categories
 
 export const URL_CREATE_CATEGORY = "https://rest-kotlin.herokuapp.com/categories/"
+
+
+//payment
+export const URL_FETCH_SESSION_ID_PAYMENT = BASE_URL +  "/payment/sessionID"

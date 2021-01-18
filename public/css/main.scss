@@ -1,6 +1,8 @@
 $primaryDarkColor: #4D0C02;
 $primaryColor : #457CFF;
 
+@use "paymentStyle.css";
+
 .text-stock{
   color: green;
 }

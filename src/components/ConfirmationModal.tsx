@@ -1,9 +1,7 @@
 
-import {Order, OrderStatus} from "../entities/Order";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import {Button, CircularProgress, createStyles, makeStyles, Theme} from "@material-ui/core";
-import {green} from "@material-ui/core/colors";
-import {updateOrder, UpdateOrderModel} from "../repositories/OrderRepository";
+import {useState} from "react";
+import {Button, CircularProgress} from "@material-ui/core";
+
 
 type Props = {
     confirmationText :string,

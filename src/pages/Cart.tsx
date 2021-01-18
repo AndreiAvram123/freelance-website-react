@@ -62,12 +62,7 @@ const Cart = () => {
                         productsForOrder.push(productQuantity.product.productID)
                     }
                 })
-               placeOrder(productsForOrder).then((result)=>{
-                   deleteCartItems()
-                   window.location.reload()
-               }).catch(error=>{
-                 console.log(error)
-               })
+                window.location.href = "/pay"
 
             }else{
                 window.location.href = "/login"
