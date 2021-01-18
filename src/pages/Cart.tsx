@@ -12,13 +12,14 @@ const Cart = () => {
 
     const context = useContext(CartContext)
 
-    const [productsIDs,setProductsIDs] = [context.productsIDs,context.setProductsIDs]
 
     const [cartProducts, setCartProducts] = useState(new Array<ProductQuantity>())
 
     const [totalPrice ,setTotalPrice] = useState(0)
 
     const [canCheckout, setCanCheckout] = useState(false)
+
+    const [productsIDs,setProductsIDs] = [context.productsIDs,context.setProductsIDs]
 
     useEffect(()=>{
         let record : {[productID:number]: number} = {}
@@ -55,13 +56,6 @@ const Cart = () => {
     const handleCheckout = ()=>{
         if(canCheckout){
             if(isUserLoggedIn()){
-                let productsForOrder:Array<number> = []
-
-                cartProducts.forEach(productQuantity =>{
-                    for(let i = 0;i<productQuantity.quantity;i++){
-                        productsForOrder.push(productQuantity.product.productID)
-                    }
-                })
                 window.location.href = "/pay"
 
             }else{

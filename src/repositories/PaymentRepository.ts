@@ -7,8 +7,11 @@ type PaymentSessionIDResponse ={
     id :string
 }
 
+type PaymentRequest = {
+    amount :number
+}
 
-export async function fetchSessionID(){
-   let response  = await makeCall(new ApiRequest(URL_FETCH_SESSION_ID_PAYMENT,HTTPMethods.GET))
+export async function fetchSessionID(paymentRequest:PaymentRequest){
+   let response  = await makeCall(new ApiRequest(URL_FETCH_SESSION_ID_PAYMENT,HTTPMethods.POST,JSON.stringify(paymentRequest)))
     return response as ApiResponse<PaymentSessionIDResponse>
 }
