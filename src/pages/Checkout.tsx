@@ -2,14 +2,13 @@
 import {loadStripe} from "@stripe/stripe-js/pure";
 import {Button, CircularProgress} from "@material-ui/core";
 import {fetchSessionID} from "../repositories/PaymentRepository";
-import {blue} from "@material-ui/core/colors";
 import React, {useContext, useEffect, useState} from "react";
 import {ProductQuantity} from "./CartItem";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
+import {countriesList} from "../entities/CountriesList";
 
 export default function Checkout(){
-
 
     //first check if all the items are still available
     const stripePromise = loadStripe("pk_test_51IAupoDmEtsgvPpENLIxFZtKfI6tMlKSWvjsApqV1Ec6CIPv5rQfl2Peol02iCLDfQLJPRMUvtd1H8OP329gYD3Z00WzkWJJax");
@@ -18,6 +17,35 @@ export default function Checkout(){
     const[isFetchingInitialData,setIsFetchingInitialData] = useState(true)
 
     const [isFormValid,setIsFormValid] = useState(false)
+
+    const [address,setAddress] = useState("")
+    const [city,setCity] = useState("")
+    const [postCode, setPostcode] = useState("")
+    const [fullName,setFullName] = useState("")
+    const[country,setCountry] = useState("Select")
+
+
+    useEffect(()=>{
+        setIsFormValid(true)
+
+        if(fullName.length === 0){
+            setIsFormValid(false)
+        }
+        if(address.length ===0){
+            setIsFormValid(false)
+        }
+        if(city.length === 0){
+            setIsFormValid(false)
+        }
+        if(country === "Select"){
+            setIsFormValid(false)
+        }
+        if(postCode.length === 0){
+            setIsFormValid(false)
+        }
+
+    },[fullName,address,city,postCode,country])
+
 
      async function startPaymentFlow (){
          setIsCheckoutInProgress(true)
@@ -87,86 +115,41 @@ export default function Checkout(){
               <div className="form-group mt-5">
                   <label htmlFor="full_name_id" className="control-label">Full Name</label>
                   <input type="text" className="form-control" id="full_name_id" name="full_name"
-                         placeholder="John Deer"/>
+                          placeholder="John Deer"
+                          onChange = {(event)=> setFullName(event.target.value)}
+                   />
               </div>
 
               <div className="form-group">
-                  <label htmlFor="street1_id" className="control-label">Street Address 1</label>
+                  <label htmlFor="street1_id" className="control-label">Street Address</label>
                   <input type="text" className="form-control" id="street1_id" name="street1"
-                         placeholder="Street address, P.O. box, company name, c/o"/>
-              </div>
-
-              <div className="form-group">
-                  <label htmlFor="street2_id" className="control-label">Street Address 2</label>
-                  <input type="text" className="form-control" id="street2_id" name="street2"
-                         placeholder="Apartment, suite, unit, building, floor, etc." />
+                         placeholder="Street address, P.O. box, company name, c/o" onChange={(event)=>
+                      setAddress(event.target.value)
+                  }/>
               </div>
 
               <div className="form-group">
                   <label htmlFor="city_id" className="control-label">City</label>
-                  <input type="text" className="form-control" id="city_id" name="city" placeholder="Smallville" />
+                  <input type="text" className="form-control" id="city_id" name="city" placeholder="Smallville"
+                    onChange = {(event)=> setCity(event.target.value) }
+                  />
               </div>
 
               <div className="form-group">
-                  <label htmlFor="state_id" className="control-label">State</label>
-                  <select className="form-control" id="state_id">
-                      <option value="AL">Alabama</option>
-                      <option value="AK">Alaska</option>
-                      <option value="AZ">Arizona</option>
-                      <option value="AR">Arkansas</option>
-                      <option value="CA">California</option>
-                      <option value="CO">Colorado</option>
-                      <option value="CT">Connecticut</option>
-                      <option value="DE">Delaware</option>
-                      <option value="DC">District Of Columbia</option>
-                      <option value="FL">Florida</option>
-                      <option value="GA">Georgia</option>
-                      <option value="HI">Hawaii</option>
-                      <option value="ID">Idaho</option>
-                      <option value="IL">Illinois</option>
-                      <option value="IN">Indiana</option>
-                      <option value="IA">Iowa</option>
-                      <option value="KS">Kansas</option>
-                      <option value="KY">Kentucky</option>
-                      <option value="LA">Louisiana</option>
-                      <option value="ME">Maine</option>
-                      <option value="MD">Maryland</option>
-                      <option value="MA">Massachusetts</option>
-                      <option value="MI">Michigan</option>
-                      <option value="MN">Minnesota</option>
-                      <option value="MS">Mississippi</option>
-                      <option value="MO">Missouri</option>
-                      <option value="MT">Montana</option>
-                      <option value="NE">Nebraska</option>
-                      <option value="NV">Nevada</option>
-                      <option value="NH">New Hampshire</option>
-                      <option value="NJ">New Jersey</option>
-                      <option value="NM">New Mexico</option>
-                      <option value="NY">New York</option>
-                      <option value="NC">North Carolina</option>
-                      <option value="ND">North Dakota</option>
-                      <option value="OH">Ohio</option>
-                      <option value="OK">Oklahoma</option>
-                      <option value="OR">Oregon</option>
-                      <option value="PA">Pennsylvania</option>
-                      <option value="RI">Rhode Island</option>
-                      <option value="SC">South Carolina</option>
-                      <option value="SD">South Dakota</option>
-                      <option value="TN">Tennessee</option>
-                      <option value="TX">Texas</option>
-                      <option value="UT">Utah</option>
-                      <option value="VT">Vermont</option>
-                      <option value="VA">Virginia</option>
-                      <option value="WA">Washington</option>
-                      <option value="WV">West Virginia</option>
-                      <option value="WI">Wisconsin</option>
-                      <option value="WY">Wyoming</option>
+                  <label htmlFor="state_id" className="control-label">Country</label>
+                  <select className="form-control" id="state_id" onChange ={(event)=> setCountry(event.target.value)}>
+                    <option value = "Select">Select</option>
+                      {
+                          countriesList.map(country =>{
+                              return (<option value={country}>{country}</option> )
+                          })
+                      }
                   </select>
               </div>
 
               <div className="form-group">
                   <label htmlFor="zip_id" className="control-label">Zip Code</label>
-                  <input type="text" className="form-control" id="zip_id" name="zip" placeholder="#####"/>
+                  <input type="text" className="form-control" id="zip_id" name="zip" placeholder="#####" onChange={event => setPostcode(event.target.value)}/>
               </div>
 
           </form>
