@@ -35,11 +35,12 @@ export default function  App(){
                                 </Suspense>
                             } />
 
+                            <Route path = "/" exact component={()=>
+                                <Suspense fallback = {<div>Loading...</div>} >
+                                    <Home/>
+                                </Suspense>} />
+
                             <div className={"container-md"}>
-                                <Route path = "/" exact component={()=>
-                                    <Suspense fallback = {<div>Loading...</div>} >
-                                        <Home/>
-                                    </Suspense>} />
                                 <Route path = "/cart" exact component={()=>
                                     <Suspense fallback = {<div>Loading...</div>} >
                                         <Cart />

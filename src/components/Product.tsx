@@ -29,12 +29,7 @@ type Props ={
     const classes = useStyles();
 
     const product = props.product
-
-     let imageURL = "";
-     if(product.images[0]?.imageURl){
-       imageURL = BASE_URL_IMAGES + product.images[0].imageURl
-    }
-
+     
     return (
         <Card className={classes.root}
            onClick= {()=> {window.location.href = "/product/" + product.productID }}
@@ -44,7 +39,7 @@ type Props ={
                     component="img"
                     alt={product.name}
                     height="200"
-                    image= {imageURL}
+                    image= {product.images[0]?.imageURl}
                     title= {product.name}
                 />
                 <CardContent>

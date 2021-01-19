@@ -25,7 +25,7 @@ export type ProductModel = {
 export type Category ={
     id:number,
     name: string,
-    description:string
+    image:ProductImage
 }
 export type ProductImage = {
     imageURl:string

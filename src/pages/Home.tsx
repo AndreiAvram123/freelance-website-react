@@ -1,50 +1,56 @@
-
-import tShirt from '../images/tShirt.png'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Category, fetchCategories} from "../repositories/ProductRepository";
+import image from '../baby-yoda.jpg'
+import {makeStyles} from "@material-ui/core/styles";
+import {Card, CardContent, Typography} from "@material-ui/core";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardMedia from "@material-ui/core/CardMedia";
 
 export default function Home(){
 
     const [categories,setCategories] = useState<Array<Category>>([])
 
     useEffect(()=>{
-         fetchCategories().then(result=>{
-             setCategories(result)
-         }).catch(error=>{
-             console.log(error.error)
-         })
+        fetchCategories().then(result=>{
+            setCategories(result)
+        }).catch(error=>{
+            console.log(error.error)
+        })
     },[])
 
     return (
         <div>
-        <div className = "row">
-            <div className={"col"}>
-        <div className="jumbotron mt-5">
-        <h1 className="display-4">I am mercedes !!!!</h1>
-        <p className="lead">This is our website and we are going to become ritch </p>
-        <hr className="my-4"/>
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <a className="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </div>
+        <img src={image} className={"image-full-width"}/>
+        <div className={"container-fluid mt-5 "}>
+            <div className={"row container-categories"} >
+                {
+                    categories.map((category)=>{
+                        return(
+
+                            <div className={"col"}>
+                            <Card className={"card-style"} onClick={()=> window.location.href ="/products?category=" + category.name}>
+                                <CardActionArea >
+                                    <CardMedia
+                                        component="img"
+                                        height="200"
+                                        image= {category.image.imageURl}
+                                        title= {category.name}
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {category.name}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                            </div>
+                        )
+                    })
+
+                }
+
             </div>
         </div>
-            <div className={"row container-categories"} >
-            {
-                categories.map((category)=>{
-                   return(
-                       <div key={category.id} className={"card card-style col" } onClick={()=>window.location.href = "/products?category=" + category.name} >
-                        <img src={tShirt} className="card-img-top" alt="..."/>
-                        <div className="card-body">
-                            <h5 className="card-title">{category.name}</h5>
-                            <p className="card-text">{category.description}</p>
-                        </div>
-                    </div>
-                   )
-                })
-
-            }
-
         </div>
-       </div>
-   )
+    )
 }

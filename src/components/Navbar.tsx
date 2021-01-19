@@ -25,6 +25,9 @@ export default  function Navbar(){
             },
             avatar: {
                 cursor:  "pointer"
+            },
+            navbar:{
+                background : "black"
             }
         }))
 
@@ -48,7 +51,7 @@ export default  function Navbar(){
         signOut()
     }
     return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg">
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item active" key = {"Home"}>

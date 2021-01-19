@@ -1,0 +1,9 @@
+.navbar {
+  background: #333333 !important;
+}
+.navbar .nav-link {
+  color: #EDEDED !important;
+  background: transparent;
+}
+
+/*# sourceMappingURL=navbar.css.map */

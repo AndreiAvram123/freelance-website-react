@@ -1,0 +1,10 @@
+
+$backgroundColor :  #333333;
+$textColor : #EDEDED;
+.navbar {
+  background: $backgroundColor !important;
+  .nav-link{
+    color: $textColor !important;
+    background: transparent;
+  }
+}
