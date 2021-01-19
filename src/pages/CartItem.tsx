@@ -24,7 +24,7 @@ const CartItem = (props:ProductQuantity) => {
                         <img
                             alt={product.name}
                             style={{margin: "0 auto", maxHeight: "50px"}}
-                            src={product.images[0] !== undefined ? (BASE_URL_IMAGES + product.images[0].imageURl ) : ""} className="img-fluid d-block"/>
+                            src={product.images[0]?.imageURl} className="img-fluid d-block"/>
                     </div>
                     <div className="col-sm-4 p-2">
                         <h5 className="mb-1">{product.name}</h5>

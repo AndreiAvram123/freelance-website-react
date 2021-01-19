@@ -10,7 +10,7 @@ export default function CarouselImages (props: props){
 
     let imagesItems = props.images.map((productImage,index)=>{
         return ( <div className= {index ===0 ? "carousel-item active" : "carousel-item"} key={index + "image"}>
-                <img className="d-block w-100" src={BASE_URL_IMAGES + productImage.imageURl} alt="First slide"/>
+                <img className="d-block w-100" src={productImage.imageURl} alt="First slide"/>
             </div>)
 
     })
