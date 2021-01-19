@@ -19,10 +19,21 @@ export default function Home(){
     },[])
 
     return (
-        <div>
-        <img src={image} className={"image-full-width"}/>
-        <div className={"container-fluid mt-5 "}>
+        <div className={"container mt-5 "}>
+            <div className={"row"}>
+                <div className="col-md-12">
+                    <div className="jumbotron">
+                        <h2 className="h2-responsive">Welcome to our website</h2>
+                        <hr/>
+                            <p className={"mt-5"}>We have items made by our artists</p>
+                                <p>Click on one of the categories below to check the products</p>
+
+                       </div>
+                </div>
+
+           
             <div className={"row container-categories"} >
+
                 {
                     categories.map((category)=>{
                         return(
@@ -48,9 +59,9 @@ export default function Home(){
                     })
 
                 }
+            </div>
 
             </div>
-        </div>
         </div>
     )
 }
