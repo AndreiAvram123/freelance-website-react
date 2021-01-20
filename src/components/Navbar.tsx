@@ -81,7 +81,7 @@ export default  function Navbar(){
                 <div className={classes.wrapperRightActions}>
                     <IconButton aria-label="cart" className={classes.basket} onClick={() => window.location.href = "/cart"}>
                         <StyledBadge badgeContent={cartContext.productsIDs.length} color="secondary">
-                            <ShoppingCartIcon/>
+                            <ShoppingCartIcon color={"primary"}/>
                         </StyledBadge>
                     </IconButton>
                     {

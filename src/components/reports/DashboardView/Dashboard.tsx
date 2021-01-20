@@ -7,18 +7,19 @@ import TotalAmount from './TotalAmount';
 import LatestOrders from './LatestOrders';
 import TasksProgress from './TasksProgress';
 import TotalCustomers from './TotalCustomers';
-import TotalProfit from './TotalProfit';
+
 import AddProductModal from "../../AddProductModal";
 import Button from "@material-ui/core/Button";
 import AddIcon from '@material-ui/icons/Add';
 import LatestProducts from "./LatestProducts";
 import AddCategoryModal from "../../modals/AddCategoryModal";
+import TotalProducts from "./TotalProducts";
 const Dashboard = () => {
 
 
 
   return (
-      <Container maxWidth={false}>
+      <Container maxWidth={false} className={"mt-4"}>
         <Grid
           container
           spacing={3}
@@ -42,23 +43,16 @@ const Dashboard = () => {
             <TotalCustomers />
           </Grid>
           <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
           >
-            <TasksProgress />
+            <TotalProducts />
           </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalProfit />
-          </Grid>
+
+
           <Grid
             item
             lg={8}

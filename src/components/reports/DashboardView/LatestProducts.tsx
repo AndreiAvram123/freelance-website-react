@@ -140,12 +140,11 @@ const fetchMoreProducts = ()=>{
                   </Button>
                   </TableCell>
                   <TableCell>
-                    <Button
+                    <Button className={"delete-button"}
                         onClick={()=>setDeleteProduct(product)}
                         data-toggle="modal"
                         data-target="#confirmationModalOrderChanged"
                         variant="contained"
-                        color="secondary"
                         startIcon={<DeleteIcon />}
                     >
                       Delete

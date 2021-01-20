@@ -30,9 +30,18 @@ export default function Home(){
 
                        </div>
                 </div>
+            </div>
+             <div className={"row"}>
+                 <div className = {"col"}>
+                     <Typography variant="h4" component="h2">
+                         Categories
+                     </Typography>
+                 </div>
 
+             </div>
            
-            <div className={"row container-categories"} >
+            <div className={"row container-categories mt-5"} >
+
 
                 {
                     categories.map((category)=>{
@@ -59,8 +68,6 @@ export default function Home(){
                     })
 
                 }
-            </div>
-
             </div>
         </div>
     )

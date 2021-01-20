@@ -6,9 +6,20 @@ import {CartProvider} from "./contexts/CartContext";
 import  {CategoriesProvider} from "./contexts/CategoriesContext";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/reports/DashboardView/Dashboard";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core";
+import {blue} from "@material-ui/core/colors";
 
 export default function  App(){
-
+    const theme = createMuiTheme({
+        palette: {
+            primary: {
+                main:'#90C751'
+            },
+            secondary : {
+                main : '#639949'
+            }
+        },
+    });
 
     const Register = React.lazy(()=> import('./pages/Register'))
     const SignIn  = React.lazy(()=> import('./pages/SignIn'))
@@ -21,7 +32,7 @@ export default function  App(){
     const PaymentResultPage = React.lazy(()=>import('./pages/PaymentResult'))
 
     return (
-
+     <MuiThemeProvider theme={theme}>
         <Router>
             <Switch>
                 <div>
@@ -88,5 +99,6 @@ export default function  App(){
             </Switch>
         </Router>
 
+     </MuiThemeProvider>
     );
 }

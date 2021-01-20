@@ -1,5 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import { makeCreateCategoryCall} from "../../repositories/CategoriesRepository";
+import {resizeImage} from "../../utils/ImageUtils";
 
 
 
@@ -7,9 +8,11 @@ export default function AddCategoryModal() {
 
     const [isValid,setIsValid] = useState(false)
     const [categoryName,setCategoryName] = useState("")
+    const [images,setImages] = useState(FileList.prototype)
 
-    const addCategory = () =>{
-        makeCreateCategoryCall({categoryName : categoryName}).then((result)=>{
+    const addCategory = async () =>{
+        let imageData = await resizeImage(images[0])
+        makeCreateCategoryCall({categoryName : categoryName,imageData:imageData}).then((result)=>{
             window.location.reload()
         }).catch(error=>{
 
@@ -22,8 +25,9 @@ export default function AddCategoryModal() {
 
 
     useEffect(()=>{
-        setIsValid(categoryName.trim().length > 0)
-    },[categoryName])
+        setIsValid(categoryName.trim().length > 0 &&
+        images !== FileList.prototype)
+    },[categoryName, images])
 
     return (
         <div className="modal fade" id="addCategoryModal" tabIndex={-1} aria-labelledby="exampleModalLabel"
@@ -39,6 +43,12 @@ export default function AddCategoryModal() {
                             <label htmlFor="category-name" className="col-form-label">Category name</label>
                             <input type="text" className="form-control" id="category-name" onChange={handleCategoryTextChanged}/>
                         </div>
+                        <input type="file" id="product-images"  onChange={(event) => {
+                            if (event.target.files != null) {
+                                setImages(event.target.files)
+                            }
+
+                        }}/>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

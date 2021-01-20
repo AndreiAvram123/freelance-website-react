@@ -64,7 +64,6 @@ body {
 
 .container-categories .card-style {
   max-width: 20rem;
-  margin-left: 20px;
   margin-right: 20px;
   cursor: pointer;
 }
@@ -98,7 +97,7 @@ body {
   height: 60px;
   bottom: 40px;
   right: 70px;
-  background-color: #AC7F74;
+  background-color: #639949;
   color: white;
   border-radius: 50px;
   text-align: center;
@@ -154,10 +153,9 @@ body {
   float: none;
 }
 
-.card-style {
-  max-width: 345px;
-  margin-top: 20px;
-  margin-left: 30px;
+.delete-button {
+  background: #DC3545 !important;
+  color: white !important;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -139,7 +139,7 @@ export default function ExpandedProduct(){
                                 </div>
 
                                 <Typography
-                                    color={"primary"}
+                                    color={"secondary"}
                                     variant="subtitle1">
                                     {reviews.length} reviews
                                 </Typography>
