@@ -8,6 +8,10 @@ export default function PaymentResult(){
     let success = queryParams.get("success")
     let canceled = queryParams.get("canceled")
 
+    if(success === "true"){
+        localStorage.clear()
+    }
+
     return (
             <div className="row">
                 <div className="col-md-6 mx-auto mt-5">
@@ -17,17 +21,13 @@ export default function PaymentResult(){
                         </div>
                             {success === "true" &&
                                 <div className="content-success">
-                                <h1>Payment Success !</h1>
-                                <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
-                                graphic or web designs. </p>
+                                <h1>Payment Successful !</h1>
                                 <a href="#">Go to Home</a>
                                 </div>
                             }
                             {(success === "false" || canceled === "true") &&
                             <div className="content-fail">
                                 <h1>Payment failed !</h1>
-                                <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print,
-                                    graphic or web designs. </p>
                                 <a href="#">Go to Home</a>
                             </div>
                             }

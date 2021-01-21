@@ -1,5 +1,6 @@
-import makeCall from "./CallRunner";
+import makeCall, {makeAPICall} from "./CallRunner";
 import {
+    URL_ANALYTICS_COUNT_AVAILABLE_PRODUCTS,
     URL_ANALYTICS_ORDERS,
     URL_ANALYTICS_TOTAL_AMOUNT,
     URL_ANALYTICS_TOTAL_CUSTOMERS
@@ -11,8 +12,17 @@ export type TotalCustomersResponse ={
     total:number,
     newUsersThisMonth:number
 }
+export type TotalAvailableProductsResponse ={
+    total:number
+}
+
+
 export interface TotalAmount{
    total :number
+}
+
+export async function fetchTotalNumberAvailableProducts(){
+    return await makeAPICall<TotalAvailableProductsResponse>(new ApiRequest(URL_ANALYTICS_COUNT_AVAILABLE_PRODUCTS,HTTPMethods.GET))
 }
 
 export async function fetchTotalCustomers(){

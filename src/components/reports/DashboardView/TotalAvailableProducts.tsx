@@ -13,7 +13,11 @@ import {
 } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
-import {fetchTotalCustomers, TotalCustomersResponse} from "../../../repositories/AnalyticsRepository";
+import {
+  fetchTotalCustomers, fetchTotalNumberAvailableProducts,
+  TotalCustomersResponse,
+  TotalAvailableProductsResponse
+} from "../../../repositories/AnalyticsRepository";
 import {ShoppingBasket} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
 const TotalCustomers = () => {
   const classes = useStyles();
 
-  const [totalCustomersResponse, setTotalCustomersResponse] = useState<TotalCustomersResponse>({
-     newUsersThisMonth : 0,
-    total : 0
-  })
+  const [totalProducts,setTotalProducts] = useState(0)
 
   useEffect(()=>{
-    fetchTotalCustomers().then(data=>{
-      setTotalCustomersResponse(data)
+    fetchTotalNumberAvailableProducts().then(response=>{
+       if(response.data?.total){
+          setTotalProducts(response.data.total)
+       }
+
     })
   },[])
 
@@ -68,7 +72,7 @@ const TotalCustomers = () => {
               color="textPrimary"
               variant="h3"
             >
-              {totalCustomersResponse.total}
+              {totalProducts}
             </Typography>
           </Grid>
           <Grid item>
