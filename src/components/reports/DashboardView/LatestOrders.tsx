@@ -158,8 +158,8 @@ const LatestOrders = () => {
         p={2}
       >
         <Button
-            onClick={fetchMoreOrders}
-          color="primary"
+          className={"view-more-button"}
+          onClick={fetchMoreOrders}
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"

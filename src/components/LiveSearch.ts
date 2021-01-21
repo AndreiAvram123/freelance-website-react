@@ -23,7 +23,7 @@ class ProductSuggestion{
         this.suggestionView = document.createElement("div");
         let image = document.createElement("img");
         image.className = "postSuggestionImage";
-        image.src = BASE_URL_IMAGES +  product.images[0].imageURl;
+        image.src =  product.images[0].imageURl;
         this.suggestionView.append(image);
 
         this.suggestionView.innerHTML += name;

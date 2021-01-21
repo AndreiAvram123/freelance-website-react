@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
-import {Card, CardContent, makeStyles, Paper, Typography} from "@material-ui/core";
+import {Card, CardContent, makeStyles, Paper, Snackbar, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
@@ -13,6 +13,7 @@ import {StarHalf} from "@material-ui/icons";
 import CommentIcon from '@material-ui/icons/Comment';
 import { v4 as uuidv4 } from 'uuid';
 import WriteReviewModal from "../components/modals/WriteReviewModal";
+import {Alert} from "@material-ui/lab";
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
@@ -20,6 +21,24 @@ export default function ExpandedProduct(){
     const [product, setProduct] = useState<ProductModel>()
     const [reviews,setReviews] = useState<Array<Review>>([])
     const [productRating,setProductRating] = useState(0)
+
+    const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
+
+
+    const handleClose = (event: any, reason: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setIsSnackbarOpen(false);
+    };
+
+    const handleAddToBasket = ()=>{
+        if(product?.productID){
+            context.addProduct(product.productID)
+            setIsSnackbarOpen(true)
+        }
+    }
 
 
     useEffect(()=>{
@@ -111,6 +130,13 @@ export default function ExpandedProduct(){
 
     return (
         <div>
+
+            <Snackbar open={isSnackbarOpen} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={()=>setIsSnackbarOpen(false)} severity="success">
+                   Product added to basket
+                </Alert>
+            </Snackbar>
+
             {
                 product &&
                 <div>
@@ -168,9 +194,7 @@ export default function ExpandedProduct(){
                                         £{product?.price}
                                     </Typography>
                                     {product &&
-                                    <Button variant="contained" color="primary" className={"mt-3"} onClick={() => {
-                                        context.addProduct(product.productID)
-                                    }}>
+                                    <Button variant="contained" color="primary" className={"mt-3"} onClick={handleAddToBasket}>
                                         Add to basket
                                     </Button>
                                     }

@@ -82,7 +82,6 @@ const Cart = () => {
             <div >
                 <div className="text-center mt-5">
                     <h1>Cart</h1>
-                    <p>This is the Cart Page.</p>
                 </div>
 
                 <div className="row no-gutters justify-content-center">

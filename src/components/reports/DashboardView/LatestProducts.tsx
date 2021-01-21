@@ -163,8 +163,8 @@ const fetchMoreProducts = ()=>{
         p={2}
       >
         <Button
-            onClick={()=>fetchMoreProducts()}
-          color="primary"
+          onClick={()=>fetchMoreProducts()}
+          className={"view-more-button"}
           endIcon={<ArrowRightIcon />}
           size="small"
           variant="text"

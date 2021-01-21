@@ -42,7 +42,6 @@ export default function Home(){
            
             <div className={"row container-categories mt-5"} >
 
-
                 {
                     categories.map((category)=>{
                         return(
