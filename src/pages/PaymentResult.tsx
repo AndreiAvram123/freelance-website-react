@@ -1,4 +1,7 @@
 import {useLocation} from "react-router-dom";
+import {placeOrder} from "../repositories/OrderRepository";
+import {useContext} from "react";
+import { CartContext } from "../contexts/CartContext";
 
 export default function PaymentResult(){
     function useQueryParams() {
@@ -7,9 +10,15 @@ export default function PaymentResult(){
     let queryParams = useQueryParams()
     let success = queryParams.get("success")
     let canceled = queryParams.get("canceled")
-
+    let productsIDs = useContext(CartContext).productsIDs
+    
     if(success === "true"){
-        localStorage.clear()
+        placeOrder(productsIDs).then(result=>{
+            localStorage.clear()
+        }).catch(error=>{
+
+        })
+
     }
 
     return (
