@@ -11,7 +11,7 @@ export default function PaymentResult(){
     let success = queryParams.get("success")
     let canceled = queryParams.get("canceled")
     let productsIDs = useContext(CartContext).productsIDs
-    
+
     if(success === "true"){
         placeOrder(productsIDs).then(result=>{
             localStorage.clear()
