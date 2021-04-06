@@ -45,9 +45,9 @@ const  LatestProducts = () => {
 const fetchMoreProducts = ()=>{
     if(!isRequestExecuting) {
       setIsRequestExecuting(true)
-      fetchProductsByPage(productsPage).then(data => {
+      fetchProductsByPage(productsPage).then(response => {
         setProductsPage(prevState => prevState + 1)
-        setLatestProducts(prevState => prevState.concat(data))
+        setLatestProducts(prevState => prevState.concat(response.data))
         setIsRequestExecuting(false)
       }).catch(error => {
         setIsRequestExecuting(false)

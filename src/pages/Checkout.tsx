@@ -102,9 +102,9 @@ export default function Checkout(){
         })
         let promises = []
         for (let key in record){
-            promises.push(fetchProduct(parseInt(key)).then(result=>{
+            promises.push(fetchProduct(parseInt(key)).then(response=>{
                 let productQuantity:ProductQuantity={
-                    product:result,
+                    product:response.data,
                     quantity : record[key]
                 }
                 tempPrice += (productQuantity.quantity * productQuantity.product.price)

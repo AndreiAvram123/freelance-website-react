@@ -1,22 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Category, fetchCategories} from "../repositories/ProductRepository";
 import image from '../baby-yoda.jpg'
 import {makeStyles} from "@material-ui/core/styles";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
+import {CategoriesContext} from "../contexts/CategoriesContext";
 
 export default function Home(){
 
-    const [categories,setCategories] = useState<Array<Category>>([])
+   const categoryContext = useContext(CategoriesContext)
 
-    useEffect(()=>{
-        fetchCategories().then(result=>{
-            setCategories(result)
-        }).catch(error=>{
-            console.log(error.error)
-        })
-    },[])
+
 
     return (
         <div className={"container mt-5 "}>
@@ -43,7 +38,7 @@ export default function Home(){
             <div className={"row container-categories mt-5"} >
 
                 {
-                    categories.map((category)=>{
+                     categoryContext.categories && categoryContext.categories.map((category)=>{
                         return(
 
                             <div className={"col"}>

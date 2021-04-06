@@ -4,7 +4,7 @@ import {Card, CardContent, makeStyles, Paper, Snackbar, Typography} from "@mater
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
-import {ApiError} from "../repositories/CallRunner";
+import {ApiError} from "../repositories/NetworkExecutor";
 import StarIcon from '@material-ui/icons/Star';
 import {fetchReviewsForProduct} from "../repositories/ReviewsRepository";
 import {Review} from "../entities/Review";
@@ -14,12 +14,18 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { v4 as uuidv4 } from 'uuid';
 import WriteReviewModal from "../components/modals/WriteReviewModal";
 import {Alert} from "@material-ui/lab";
+import {errorState, instanceOfSuccess, LoadingState, State, successState} from "../utils/State";
+
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
 
-    const [product, setProduct] = useState<ProductModel>()
-    const [reviews,setReviews] = useState<Array<Review>>([])
+    const defaultState:LoadingState = {}
+
+    const [productState,setProductState] = useState<State<ProductModel>>(defaultState)
+
+    const [reviewsState,setReviewsState] = useState<State<Array<Review>>>(defaultState)
+
     const [productRating,setProductRating] = useState(0)
 
     const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
@@ -34,7 +40,9 @@ export default function ExpandedProduct(){
     };
 
     const handleAddToBasket = ()=>{
-        if(product?.productID){
+        if(instanceOfSuccess<ProductModel>(productState)){
+            let product = productState.data
+
             context.addProduct(product.productID)
             setIsSnackbarOpen(true)
         }
@@ -45,31 +53,36 @@ export default function ExpandedProduct(){
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
         if(!isNaN(Number(productID))){
             let productIDNumber = Number(productID)
-            fetchProduct(productIDNumber).then((result)=>{
-               setProduct(result)
+            fetchProduct(productIDNumber).then((response)=>{
+                setProductState(successState(response.data))
             }).catch(error=>{
-                if (error instanceof ApiError) {
-                    console.log(error)
-                }
+                 setProductState(errorState(error))
             })
-            fetchReviewsForProduct(productIDNumber).then(result=>{
-              setReviews(result)
-            }).catch(error=>{
 
+            fetchReviewsForProduct(productIDNumber).then(response=>{
+              setReviewsState(successState(response.data))
+            }).catch(error=>{
+                 setReviewsState(errorState(error))
             })
         }
     },[])
 
     useEffect(()=>{
-        if(reviews.length > 0) {
-            let total = 0
-            reviews.forEach(review => {
-                total += review.rating
+        if(instanceOfSuccess(reviewsState)) {
+            let numberOfReviews = reviewsState.data.length
+            if (numberOfReviews === 0) {
+                setProductRating(0)
+            } else {
+                let totalSum = 0
+                reviewsState.data.forEach(review => {
+                totalSum += review.rating
             })
-            setProductRating(total / reviews.length)
+                setProductRating(totalSum / numberOfReviews)
         }
 
-    },[reviews])
+        }
+
+    },[reviewsState])
 
     const useStyles = makeStyles({
         root: {
@@ -138,24 +151,22 @@ export default function ExpandedProduct(){
             </Snackbar>
 
             {
-                product &&
+                instanceOfSuccess(productState) &&
                 <div>
                     <div className={"float-button-left"} data-toggle="modal"
                          data-target="#writeReviewModal">
                     <CommentIcon style={{marginTop:"17px"}} />
                     </div>
-                    <WriteReviewModal product={product} />
+                    <WriteReviewModal product={productState.data} />
                     <div className={"row mt-5"}>
                         <div className={"col-md"}>
-                            <CarouselImages images={product.images }/>
+                            <CarouselImages images={productState.data.images }/>
                         </div>
                         <div className={"col-md"}>
-                            {product &&
                             <Typography
                                 variant="h3">
-                                {product?.name}
+                                {productState.data.name}
                             </Typography>
-                            }
                             <div>
                                 <div>
                                     {
@@ -163,24 +174,22 @@ export default function ExpandedProduct(){
                                     }
                                     <span  className={"align-middle ml-2"}>{productRating}</span>
                                 </div>
-
-                                <Typography
-                                    color={"secondary"}
-                                    variant="subtitle1">
-                                    {reviews.length} reviews
-                                </Typography>
+                                {
+                                   instanceOfSuccess(reviewsState) &&
+                                    <Typography
+                                        color={"secondary"}
+                                        variant="subtitle1">
+                                        {reviewsState.data.length} reviews
+                                    </Typography>
+                                }
                             </div>
-                            {
-                                product &&
                                 <Typography
                                     variant="subtitle1">
-                                    {product.description}
+                                    {productState.data.description}
                                 </Typography>
-
-                            }
                             <Typography
                                 variant="subtitle1">
-                                Products in stock : <span style={{color: "blue"}}>{product?.stock}</span>
+                                Products in stock : <span style={{color: "blue"}}>{productState.data.stock}</span>
                             </Typography>
                             <Typography>
                             </Typography>
@@ -191,13 +200,11 @@ export default function ExpandedProduct(){
                                 <div style={{padding: "15px"}}>
                                     <Typography
                                         variant="h4">
-                                        £{product?.price}
+                                        £{productState.data.price}
                                     </Typography>
-                                    {product &&
                                     <Button variant="contained" color="primary" className={"mt-3"} onClick={handleAddToBasket}>
                                         Add to basket
                                     </Button>
-                                    }
                                 </div>
                             </Paper>
 
@@ -210,41 +217,44 @@ export default function ExpandedProduct(){
                     >
                         Reviews
                     </Typography>
+                    {
+                        instanceOfSuccess(reviewsState) &&
+                        <div className={"row mt-5"}>
+                            <div className={"col"}>
+                                {
+                                    // eslint-disable-next-line array-callback-return
+                                    reviewsState.data.map((review, index) => {
+                                        if (index % 3 === 0 || index === 0) {
+                                            return ReviewLayout(review)
+                                        }
+                                    })
+                                }
 
-                    <div className={"row mt-5"}>
-                        <div className={"col"}>
-                            {
-                                // eslint-disable-next-line array-callback-return
-                                reviews.map((review, index) => {
-                                    if (index % 3 === 0 || index === 0) {
-                                        return ReviewLayout(review)
-                                    }
-                                })
-                            }
-
+                            </div>
+                            <div className={"col"}>
+                                {
+                                    // eslint-disable-next-line array-callback-return
+                                    reviewsState.data.map((review, index) => {
+                                        if (index % 3 === 1) {
+                                            return ReviewLayout(review)
+                                        }
+                                    })
+                                }
+                            </div>
+                            <div className={"col"}>
+                                {
+                                    // eslint-disable-next-line array-callback-return
+                                    reviewsState.data.map((review, index) => {
+                                        if (index % 3 === 2) {
+                                            return ReviewLayout(review)
+                                        }
+                                    })
+                                }
+                            </div>
                         </div>
-                        <div className={"col"}>
-                            {
-                                // eslint-disable-next-line array-callback-return
-                                reviews.map((review, index) => {
-                                    if (index % 3 === 1) {
-                                        return ReviewLayout(review)
-                                    }
-                                })
-                            }
-                        </div>
-                        <div className={"col"}>
-                            {
-                                // eslint-disable-next-line array-callback-return
-                                reviews.map((review, index) => {
-                                    if (index % 3 === 2) {
-                                        return ReviewLayout(review)
-                                    }
-                                })
-                            }
-                        </div>
-                    </div>
+                    }
                 </div>
+
             }
         </div>
     )

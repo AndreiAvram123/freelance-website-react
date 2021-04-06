@@ -38,12 +38,12 @@ const TotalCustomers = () => {
 
   const [totalCustomersResponse, setTotalCustomersResponse] = useState<TotalCustomersResponse>({
      newUsersThisMonth : 0,
-    total : 0
+       total : 0
   })
 
   useEffect(()=>{
-    fetchTotalCustomers().then(data=>{
-      setTotalCustomersResponse(data)
+    fetchTotalCustomers().then(response=>{
+      setTotalCustomersResponse(response.data)
     })
   },[])
 

@@ -20,10 +20,7 @@ export class ApiRequest {
         }
         if(bodyJson !== undefined){
             this.requestBody.body = bodyJson
-            this.requestBody.headers = {
-                Authorization: "Bearer " + getToken(),
-                'Content-Type': 'application/json'
-            }
+
         }
     }
 }

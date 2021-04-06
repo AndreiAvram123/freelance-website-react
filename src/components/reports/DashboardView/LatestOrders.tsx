@@ -37,9 +37,9 @@ const LatestOrders = () => {
 
 
     const fetchMoreOrders = ()=>{
-        getOrders(currentPage).then(orders=>{
+        getOrders(currentPage).then(response=>{
             setCurrentPage(prevState =>  prevState + 1)
-            setLatestOrders(prevState => prevState.concat(orders))
+            setLatestOrders(prevState => prevState.concat(response.data))
         }).catch(error=>{
 
         })

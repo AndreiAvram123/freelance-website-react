@@ -40,8 +40,8 @@ const TotalAmount = () => {
   const [totalAmount,setTotalAmount] = useState(0)
 
   useEffect(()=>{
-        fetchTotalAmount().then(result=>{
-            setTotalAmount(result.total)
+        fetchTotalAmount().then(response=>{
+            setTotalAmount(response.data.total)
         })
   },[])
 

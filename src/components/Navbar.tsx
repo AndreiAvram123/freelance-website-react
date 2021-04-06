@@ -58,13 +58,13 @@ export default  function Navbar(){
                         <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
                     </li>
                     {
-                        context.categories.length > 0 &&
+                       context.categories &&  context.categories.length > 0 &&
                         <li className="nav-item" key={"All"}>
                             <a className="nav-link" href={"/products?category=All"}>All</a>
                         </li>
                     }
                     {
-                       context.categories.map((category=>{
+                       context.categories && context.categories.map((category=>{
                            return (
                                <li className="nav-item" key={category.name}>
                                <a className="nav-link" href={"/products?category=" + category.name }>{category.name}</a>

@@ -1,10 +1,11 @@
-import makeCall, {makeAPICall} from "./CallRunner";
+import  {makeAPICall} from "./NetworkExecutor";
 import {
     URL_ANALYTICS_COUNT_AVAILABLE_PRODUCTS,
     URL_ANALYTICS_ORDERS,
     URL_ANALYTICS_TOTAL_AMOUNT,
     URL_ANALYTICS_TOTAL_CUSTOMERS
 } from "../utils/ApiConstants";
+
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 import {Order} from "../entities/Order";
 
@@ -26,16 +27,13 @@ export async function fetchTotalNumberAvailableProducts(){
 }
 
 export async function fetchTotalCustomers(){
-    const response = await makeCall(new ApiRequest(URL_ANALYTICS_TOTAL_CUSTOMERS,HTTPMethods.GET))
-    return response  as TotalCustomersResponse
+   return  await makeAPICall<TotalCustomersResponse>(new ApiRequest(URL_ANALYTICS_TOTAL_CUSTOMERS,HTTPMethods.GET))
 }
 
 export async function fetchTotalAmount(){
-    const response = await makeCall(new ApiRequest(URL_ANALYTICS_TOTAL_AMOUNT,HTTPMethods.GET))
-    return response as TotalAmount
+   return  await makeAPICall<TotalAmount>(new ApiRequest(URL_ANALYTICS_TOTAL_AMOUNT,HTTPMethods.GET))
 }
 
 export async function getOrders(page:number){
-    const response = await makeCall(new ApiRequest(URL_ANALYTICS_ORDERS(page),HTTPMethods.GET))
-    return response as Order[]
+    return await makeAPICall<Order[]>(new ApiRequest(URL_ANALYTICS_ORDERS(page),HTTPMethods.GET))
 }

@@ -21,8 +21,8 @@ export const CategoriesProvider = (props:PropsProvider) =>{
     const [categories,setCategories] = useState<Array<Category>>([])
 
     useEffect(()=>{
-         fetchCategories().then(result=>{
-                setCategories(result)
+         fetchCategories().then(response=>{
+                setCategories(response.data)
             }).catch(error=>{
                 console.log(error)
             })

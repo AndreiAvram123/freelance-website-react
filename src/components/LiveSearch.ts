@@ -37,8 +37,8 @@ class ProductSuggestion{
 
 export function performSearch(query :string){
     if(query.trim()!== "") {
-        fetchSearchSuggestions(query).then(data => {
-            insertSuggestions(data)
+        fetchSearchSuggestions(query).then(response => {
+            insertSuggestions(response.data)
         }).catch(error => {
             console.log(error)
         })

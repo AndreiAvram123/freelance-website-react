@@ -1,7 +1,8 @@
-import makeCall from "./CallRunner";
+
 import {URL_CREATE_REVIEWS,  URL_FETCH_REVIEWS} from "../utils/ApiConstants";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 import {Review} from "../entities/Review";
+import {makeAPICall} from "./NetworkExecutor";
 
 
 export interface CreateReviewModel{
@@ -13,11 +14,9 @@ export interface CreateReviewModel{
 }
 
 export async function createReview(createReviewModel:CreateReviewModel){
-    const response = await makeCall(new ApiRequest(URL_CREATE_REVIEWS,HTTPMethods.POST,JSON.stringify(createReviewModel)))
-    return response
+   return  await makeAPICall(new ApiRequest(URL_CREATE_REVIEWS,HTTPMethods.POST,JSON.stringify(createReviewModel)))
 }
 
 export async function fetchReviewsForProduct(productID:number){
-   const response = await makeCall(new ApiRequest(URL_FETCH_REVIEWS(productID),HTTPMethods.GET))
-    return response as Review[]
+   return  await makeAPICall<Review[]>(new ApiRequest(URL_FETCH_REVIEWS(productID),HTTPMethods.GET))
 }

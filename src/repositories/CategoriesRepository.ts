@@ -1,4 +1,4 @@
-import makeCall from "./CallRunner";
+import  {makeAPICall} from "./NetworkExecutor";
 import {URL_CREATE_CATEGORY} from "../utils/ApiConstants";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 
@@ -7,5 +7,5 @@ import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
      imageData:string
 }
 export function makeCreateCategoryCall(creationModel :CategoryCreationModel){
-      return makeCall(new ApiRequest(URL_CREATE_CATEGORY,HTTPMethods.POST,JSON.stringify(creationModel)))
+      return makeAPICall(new ApiRequest(URL_CREATE_CATEGORY,HTTPMethods.POST,JSON.stringify(creationModel)))
 }
