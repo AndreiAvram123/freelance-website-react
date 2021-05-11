@@ -2,6 +2,7 @@ import {useLocation} from "react-router-dom";
 import {placeOrder} from "../repositories/OrderRepository";
 import {useContext} from "react";
 import { CartContext } from "../contexts/CartContext";
+import {validatePaymentReference} from "../repositories/PaymentRepository";
 
 export default function PaymentResult(){
     function useQueryParams() {
@@ -11,15 +12,26 @@ export default function PaymentResult(){
     let success = queryParams.get("success")
     let canceled = queryParams.get("canceled")
     let productsIDs = useContext(CartContext).productsIDs
+    let paymentReference= queryParams.get("referenceID")
 
-    if(success === "true"){
-        placeOrder(productsIDs).then(result=>{
-            localStorage.clear()
-        }).catch(error=>{
+    if(success === "true" && paymentReference != null){
+        validatePaymentReference(paymentReference).then(()=>{
+            continueFlow()
+        }).catch(()=>{
 
         })
 
     }
+
+    function continueFlow(){
+        placeOrder(productsIDs).then(result=>{
+            localStorage.clear()
+        }).catch(()=>{
+
+        })
+
+    }
+
 
     return (
             <div className="row">
@@ -31,13 +43,13 @@ export default function PaymentResult(){
                             {success === "true" &&
                                 <div className="content-success">
                                 <h1>Payment Successful !</h1>
-                                <a href="#">Go to Home</a>
+                                <a href="#">Go to Main Page</a>
                                 </div>
                             }
                             {(success === "false" || canceled === "true") &&
                             <div className="content-fail">
-                                <h1>Payment failed !</h1>
-                                <a href="#">Go to Home</a>
+                                <h1>Payment Cancelled !</h1>
+                                <a href="#">Go to Main Page</a>
                             </div>
                             }
 

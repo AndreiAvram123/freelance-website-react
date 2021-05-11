@@ -4,8 +4,6 @@ import {CartContext} from "../contexts/CartContext";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {ProductQuantity} from "./CartItem";
 import {isUserLoggedIn} from "../utils/UserManager";
-import {placeOrder} from "../repositories/OrderRepository";
-import {deleteCartItems} from "../components/StorageHandler";
 
 
 const Cart = () => {
@@ -19,7 +17,7 @@ const Cart = () => {
 
     const [canCheckout, setCanCheckout] = useState(false)
 
-    const [productsIDs,setProductsIDs] = [context.productsIDs,context.setProductsIDs]
+    const  productsIDs = context.productsIDs
 
     useEffect(()=>{
         let record : {[productID:number]: number} = {}

@@ -130,10 +130,14 @@ export default function ExpandedProduct(){
                     Andrei Avram
                 </Typography>
                     <div>
-                        {getStarsBasedOnRating(review.rating)}
+                        {
+                            getStarsBasedOnRating(review.rating)
+                        }
                     </div>
                     <Typography variant="body1" component="p" className={"mt-3"}>
-                {review.description}
+                {
+                    review.description
+                }
                     </Typography>
             </CardContent>
 
@@ -144,8 +148,11 @@ export default function ExpandedProduct(){
     return (
         <div>
 
-            <Snackbar open={isSnackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={()=>setIsSnackbarOpen(false)} severity="success">
+            <Snackbar anchorOrigin={{vertical : "bottom", horizontal : "center" }}
+                      open={isSnackbarOpen}
+                      autoHideDuration={6000}
+                      onClose={handleClose}>
+                <Alert onClose={() =>setIsSnackbarOpen(false)} severity="success">
                    Product added to basket
                 </Alert>
             </Snackbar>

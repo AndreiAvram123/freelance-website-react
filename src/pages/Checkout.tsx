@@ -7,10 +7,10 @@ import {ProductQuantity} from "./CartItem";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import {countriesList} from "../entities/CountriesList";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Checkout(){
 
-    //first check if all the items are still available
     const stripePromise = loadStripe("pk_test_51IAupoDmEtsgvPpENLIxFZtKfI6tMlKSWvjsApqV1Ec6CIPv5rQfl2Peol02iCLDfQLJPRMUvtd1H8OP329gYD3Z00WzkWJJax");
 
     const [checkoutInProgress,setIsCheckoutInProgress] = useState(false)
@@ -64,10 +64,13 @@ export default function Checkout(){
 
      async function startPaymentFlow (){
          setIsCheckoutInProgress(true)
-         fetchSessionID({amount :  totalPrice}).then((response)=>{
+         fetchSessionID(
+             {itemsIDs: productsIDs}).then((response)=>{
              if(response.data?.id){
                  presentPaymentCheckout(response.data.id)
              }
+         }).catch(e => {
+            console.log(e)
          })
      }
 
@@ -85,7 +88,7 @@ export default function Checkout(){
     }
     const context = useContext(CartContext)
 
-    const productsIDs =context.productsIDs
+    const productsIDs = context.productsIDs
 
 
     const [totalPrice ,setTotalPrice] = useState(0)

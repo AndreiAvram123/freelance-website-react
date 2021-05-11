@@ -29,7 +29,7 @@ export const URL_CREATE_REVIEWS=  "https://rest-kotlin.herokuapp.com/reviews"
 
 export const URL_FETCH_PRODUCTS = "https://rest-kotlin.herokuapp.com/products"
 export const URL_FETCH_SUGGESTIONS = "https://rest-kotlin.herokuapp.com/products/search/"
-export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders/create"
+export const URL_PLACE_ORDER = "https://rest-kotlin.herokuapp.com/orders"
 export const URL_UPDATE_ORDER = "https://rest-kotlin.herokuapp.com/orders/"
 export const URL_CREATE_PRODUCT = "https://rest-kotlin.herokuapp.com/products/create"
 
@@ -52,3 +52,6 @@ export const URL_CREATE_CATEGORY = "https://rest-kotlin.herokuapp.com/categories
 
 //payment
 export const URL_FETCH_SESSION_ID_PAYMENT = BASE_URL +  "/payment/sessionID"
+
+export const  URL_VALIDATE_PAYMENT_REFERENCE = (paymentReference:string) =>   BASE_URL + "/payment/paymentReference/" + paymentReference
+

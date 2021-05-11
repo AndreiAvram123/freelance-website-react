@@ -11,16 +11,17 @@ export enum HTTPMethods{
 export class ApiRequest {
     url:string;
     requestBody:RequestInit = {}
+
     constructor(url:string, method :string,bodyJson?:string) {
         this.url = url
         this.requestBody.method = method
 
         this.requestBody.headers = {
-            Authorization: "Bearer " + getToken()
+            Authorization: "Bearer " + getToken(),
+            "Content-Type": "application/json"
         }
         if(bodyJson !== undefined){
             this.requestBody.body = bodyJson
-
         }
     }
 }
