@@ -3,6 +3,7 @@ import {placeOrder} from "../repositories/OrderRepository";
 import {useContext} from "react";
 import { CartContext } from "../contexts/CartContext";
 import {validatePaymentReference} from "../repositories/PaymentRepository";
+import {navigateHome} from "../helpers/RouterUtils";
 
 export default function PaymentResult(){
     function useQueryParams() {
@@ -15,10 +16,14 @@ export default function PaymentResult(){
     let paymentReference= queryParams.get("referenceID")
 
     if(success === "true" && paymentReference != null){
-        validatePaymentReference(paymentReference).then(()=>{
-            continueFlow()
+        validatePaymentReference(paymentReference).then((response)=>{
+            if(response.data.valid) {
+                continueFlow()
+            }else{
+                navigateHome()
+            }
         }).catch(()=>{
-
+            navigateHome()
         })
 
     }
