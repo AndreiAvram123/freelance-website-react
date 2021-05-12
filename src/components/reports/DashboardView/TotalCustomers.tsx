@@ -14,6 +14,7 @@ import {
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import {fetchTotalCustomers, TotalCustomersResponse} from "../../../repositories/AnalyticsRepository";
+import {errorState, instanceOfSuccess, successState, useRequestState} from "../../../utils/State";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,16 +37,15 @@ const useStyles = makeStyles((theme) => ({
 const TotalCustomers = () => {
   const classes = useStyles();
 
-  const [totalCustomersResponse, setTotalCustomersResponse] = useState<TotalCustomersResponse>({
-     newUsersThisMonth : 0,
-       total : 0
-  })
+  const [totalCustomersResponse, setTotalCustomersResponse] = useRequestState<TotalCustomersResponse>()
 
   useEffect(()=>{
-    fetchTotalCustomers().then(response=>{
-      setTotalCustomersResponse(response.data)
+    fetchTotalCustomers().then((response)=>{
+      setTotalCustomersResponse(successState(response.data))
+    }).catch(error=>{
+        setTotalCustomersResponse(errorState(error))
     })
-  },[])
+  })
 
   return (
     <Card>
@@ -67,7 +67,9 @@ const TotalCustomers = () => {
               color="textPrimary"
               variant="h3"
             >
-              {totalCustomersResponse.total}
+              {
+                instanceOfSuccess(totalCustomersResponse) && totalCustomersResponse.data.total
+              }
             </Typography>
           </Grid>
           <Grid item>
@@ -86,7 +88,7 @@ const TotalCustomers = () => {
             className={classes.differenceValue}
             variant="body2"
           >
-            {totalCustomersResponse.newUsersThisMonth}
+            { instanceOfSuccess(totalCustomersResponse) && totalCustomersResponse.data.newUsersThisMonth}
           </Typography>
           <Typography
             color="textSecondary"

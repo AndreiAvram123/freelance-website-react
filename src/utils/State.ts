@@ -1,3 +1,4 @@
+import {Dispatch, SetStateAction, useState} from "react";
 
 export interface State<T>{}
 
@@ -13,6 +14,10 @@ export interface LoadingState extends State<undefined>{
 
 }
 
+export function  useRequestState<T> () : [State<T>, Dispatch<SetStateAction<State<T>>>]{
+    let defaultState:LoadingState  = {}
+    return useState<State<T>>(defaultState)
+}
 
 export function instanceOfSuccess <T> (object: State<T>): object is SuccessState<T> {
     return 'data' in object;

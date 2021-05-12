@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {Dispatch, SetStateAction, useContext, useEffect, useState} from "react";
 import CarouselImages from "../components/CarouselImages";
 import {Card, CardContent, makeStyles, Paper, Snackbar, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {fetchProduct, ProductModel} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
-import {ApiError} from "../repositories/NetworkExecutor";
 import StarIcon from '@material-ui/icons/Star';
 import {fetchReviewsForProduct} from "../repositories/ReviewsRepository";
 import {Review} from "../entities/Review";
@@ -14,21 +13,21 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { v4 as uuidv4 } from 'uuid';
 import WriteReviewModal from "../components/modals/WriteReviewModal";
 import {Alert} from "@material-ui/lab";
-import {errorState, instanceOfSuccess, LoadingState, State, successState} from "../utils/State";
+import {errorState, instanceOfSuccess, successState, useRequestState} from "../utils/State";
 
 export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
 
-    const defaultState:LoadingState = {}
 
-    const [productState,setProductState] = useState<State<ProductModel>>(defaultState)
+    const [productState,setProductState] = useRequestState<ProductModel>()
 
-    const [reviewsState,setReviewsState] = useState<State<Array<Review>>>(defaultState)
+    const [reviewsState,setReviewsState] = useRequestState<Array<Review>>()
 
     const [productRating,setProductRating] = useState(0)
 
     const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
+
 
 
     const handleClose = (event: any, reason: string) => {
@@ -42,7 +41,6 @@ export default function ExpandedProduct(){
     const handleAddToBasket = ()=>{
         if(instanceOfSuccess<ProductModel>(productState)){
             let product = productState.data
-
             context.addProduct(product.productID)
             setIsSnackbarOpen(true)
         }
@@ -53,6 +51,7 @@ export default function ExpandedProduct(){
         const productID = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
         if(!isNaN(Number(productID))){
             let productIDNumber = Number(productID)
+
             fetchProduct(productIDNumber).then((response)=>{
                 setProductState(successState(response.data))
             }).catch(error=>{

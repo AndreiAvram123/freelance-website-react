@@ -34,7 +34,7 @@ export default function PaymentResult(){
             placeOrder(productsIDs, paymentReference).then(() => {
                deleteCartItems()
             }).catch(() => {
-
+                
             })
         }
 

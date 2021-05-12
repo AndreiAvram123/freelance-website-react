@@ -15,6 +15,7 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
 import {fetchTotalAmount, fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import {errorState, useRequestState} from "../../../utils/State";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,13 +38,15 @@ const useStyles = makeStyles((theme) => ({
 const TotalAmount = () => {
   const classes = useStyles();
 
-  const [totalAmount,setTotalAmount] = useState(0)
+  const [totalAmount,setTotalAmount] = useRequestState()
 
   useEffect(()=>{
         fetchTotalAmount().then(response=>{
             setTotalAmount(response.data.total)
+        }).catch((error)=>{
+          setTotalAmount(errorState(error))
         })
-  },[])
+  })
 
   return (
     <Card
