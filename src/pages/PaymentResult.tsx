@@ -4,6 +4,7 @@ import {useContext} from "react";
 import { CartContext } from "../contexts/CartContext";
 import {validatePaymentReference} from "../repositories/PaymentRepository";
 import {navigateHome} from "../helpers/RouterUtils";
+import {deleteCartItems} from "../components/StorageHandler";
 
 export default function PaymentResult(){
     function useQueryParams() {
@@ -31,7 +32,7 @@ export default function PaymentResult(){
     function continueFlow(){
         if(paymentReference != null) {
             placeOrder(productsIDs, paymentReference).then(() => {
-                localStorage.clear()
+               deleteCartItems()
             }).catch(() => {
 
             })

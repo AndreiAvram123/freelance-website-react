@@ -55,6 +55,7 @@ export function removeItem(toRemove:number){
         persist(cartItems)
     }
 }
+
 function persist(products:Array<number>){
     localStorage.setItem(KEY_CART_ITEMS, JSON.stringify(products))
 }
