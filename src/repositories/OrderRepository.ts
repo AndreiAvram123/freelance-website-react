@@ -1,18 +1,16 @@
-import {CreateOrderModel} from "../entities/Order";
+import {CreateOrderModel, UpdateOrderModel} from "../entities/Order";
 import  {makeAPICall} from "./NetworkExecutor";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 import {URL_PLACE_ORDER, URL_UPDATE_ORDER} from "../utils/ApiConstants";
 import {getUserID} from "../utils/UserManager";
 
-export interface UpdateOrderModel{
-    orderID :number,
-    newOrderStatus: string
-}
 
-export async function placeOrder(products:Array<number>){
+
+export async function placeOrder(products:Array<number>, paymentReference:string){
       let userID =  getUserID()
       if(userID !== 0) {
         let order: CreateOrderModel = {
+            paymentReference : paymentReference,
             products: products,
             userID: userID
         }

@@ -1,7 +1,13 @@
 import {ProductModel} from "../repositories/ProductRepository";
 import {User} from "./User";
 
+export interface UpdateOrderModel{
+     orderID :number,
+     newOrderStatus: string
+}
+
 export interface CreateOrderModel {
+     paymentReference:String,
      products:Array<number>,
      userID:number
 }

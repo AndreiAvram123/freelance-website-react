@@ -29,11 +29,13 @@ export default function PaymentResult(){
     }
 
     function continueFlow(){
-        placeOrder(productsIDs).then(result=>{
-            localStorage.clear()
-        }).catch(()=>{
+        if(paymentReference != null) {
+            placeOrder(productsIDs, paymentReference).then(() => {
+                localStorage.clear()
+            }).catch(() => {
 
-        })
+            })
+        }
 
     }
 

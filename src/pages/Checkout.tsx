@@ -7,7 +7,6 @@ import {ProductQuantity} from "./CartItem";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import {countriesList} from "../entities/CountriesList";
-import { v4 as uuidv4 } from 'uuid';
 
 export default function Checkout(){
 
