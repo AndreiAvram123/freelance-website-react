@@ -18,10 +18,10 @@ import {
   Tooltip
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import {Order, OrderStatus} from "../../../entities/Order";
+import {Order, OrderStatus, UpdateOrderModel} from "../../../entities/Order";
 import {getOrders} from "../../../repositories/AnalyticsRepository";
 import {ConfirmationModal} from "../../ConfirmationModal";
-import {updateOrder, UpdateOrderModel} from "../../../repositories/OrderRepository";
+import {updateOrder} from "../../../repositories/OrderRepository";
 import {CHANGE_ORDER_STATUS} from "../../../utils/Messages";
 import {v4 as uuidv4} from "uuid";
 
