@@ -34,10 +34,8 @@ export default function Checkout(){
             return
         }
 
-        
         setIsFormValid(true)
         setValidationErrorFullName(undefined)
-
 
         if(fullName.length === 0){
             setIsFormValid(false)
@@ -199,9 +197,7 @@ export default function Checkout(){
                               </div>
                           </div>
                           </div>
-
                       </div>
-
           </div>
   )
 }

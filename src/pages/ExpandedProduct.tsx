@@ -19,7 +19,6 @@ export default function ExpandedProduct(){
 
     const context = useContext(CartContext)
 
-
     const [productState,setProductState] = useRequestState<ProductModel>()
 
     const [reviewsState,setReviewsState] = useRequestState<Array<Review>>()
@@ -29,12 +28,10 @@ export default function ExpandedProduct(){
     const [isSnackbarOpen, setIsSnackbarOpen] = React.useState(false);
 
 
-
     const handleClose = (event: any, reason: string) => {
         if (reason === 'clickaway') {
             return;
         }
-
         setIsSnackbarOpen(false);
     };
 

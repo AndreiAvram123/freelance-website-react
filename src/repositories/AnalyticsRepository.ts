@@ -16,11 +16,10 @@ export type TotalCustomersResponse ={
 export type TotalAvailableProductsResponse ={
     total:number
 }
-
-
 export interface TotalAmount{
    total :number
 }
+
 
 export async function fetchTotalNumberAvailableProducts(){
     return await makeAPICall<TotalAvailableProductsResponse>(new ApiRequest(URL_ANALYTICS_COUNT_AVAILABLE_PRODUCTS,HTTPMethods.GET))

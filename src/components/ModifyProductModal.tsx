@@ -80,7 +80,7 @@ export default function ModifyProductModal(props:ModifyProductModalProps) {
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" className="btn btn-primary"  onClick={()=>{
 
-                              updateProduct(product.productID,{price:modifiedProduct.price, name:modifiedProduct.name,categoryID: categoryID}).then(data=>{
+                              updateProduct(product.productID,{price:modifiedProduct.price, name:modifiedProduct.name,categoryID: categoryID}).then(()=>{
                                       window.location.reload()
 
                                   }

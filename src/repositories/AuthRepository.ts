@@ -1,4 +1,8 @@
 import {saveToken} from "../components/StorageHandler";
+import {makeAPICall} from "./NetworkExecutor";
+import {User} from "../entities/User";
+import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
+import {URL_LOGIN, URL_REGISTER} from "../utils/ApiConstants";
 
 export enum RegisterResponse{
     USERNAME_TAKEN = "Username already exists",
@@ -13,9 +17,9 @@ export enum AuthenticationResponse{
 export function fetchToken(username:string,password:string){
 
     return new Promise((resolve, reject) => {
-        let url = "https://rest-kotlin.herokuapp.com/login"
+
         let bodyJson = JSON.stringify({username: username, password: password})
-        return fetch(url, {
+        return fetch(URL_LOGIN, {
             method: 'POST',
             body: bodyJson,
             mode: "cors"
@@ -24,7 +28,6 @@ export function fetchToken(username:string,password:string){
                reject(AuthenticationResponse.INVALID_USERNAME_OR_PASSWORD)
             }else{
                 let token = response.headers.get("Authorization")
-                console.log(token)
                 if(token !== null){
                      saveToken(token)
                      resolve(token)
@@ -38,26 +41,7 @@ export function fetchToken(username:string,password:string){
 }
 
 export function register(username:string,email:string,password:string){
-    return new Promise(((resolve, reject) => {
-        let url = "https://rest-kotlin.herokuapp.com/register"
-        let bodyJson = JSON.stringify({username: username, email: email ,password: password})
-        return fetch(url,{
-            method : "POST",
-            body: bodyJson,
-            headers : {
-                'Content-Type': 'application/json'
-            },
-        }).then(function (response) {
-            return response.text()
-        }).then(data =>{
-            let jsonBody = JSON.parse(data)
-            if(jsonBody.hasOwnProperty("error")){
-                reject(jsonBody.error)
-            }else{
-                resolve(data)
-            }
-          }).catch(error=>{
-            reject("Unknown error")
-        })
-    }))
+    let request = new ApiRequest(URL_REGISTER,HTTPMethods.POST,JSON.stringify(
+        {username: username, email: email ,password: password}))
+    return makeAPICall<User>(request)
 }

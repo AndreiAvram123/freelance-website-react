@@ -154,7 +154,7 @@ export default function Register() {
                                     window.location.reload()
                                     window.location.href = "/login"
                                 }).catch(error => {
-                                    switch (error) {
+                                    switch (error.message) {
                                         case RegisterResponse.USERNAME_TAKEN : {
                                             setErrorMessageUsername(RegisterResponse.USERNAME_TAKEN)
                                             break;
