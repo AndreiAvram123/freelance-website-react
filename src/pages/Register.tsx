@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import  {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {isEmailValid, isPasswordValid, isUsernameValid} from "../Utils";
+import {navigateHome} from "../helpers/RouterUtils";
 
 enum ErrorMessages{
     ERROR_INVALID_USERNAME = "Invalid username",
@@ -150,9 +151,8 @@ export default function Register() {
                         className={classes.submit}
                         onClick={() => {
                             if (areFieldsValid()) {
-                                register(username, email, password).then(() => {
-                                    window.location.reload()
-                                    window.location.href = "/login"
+                                register(username, email, password).then((response) => {
+                                     navigateHome()
                                 }).catch(error => {
                                     switch (error.message) {
                                         case RegisterResponse.USERNAME_TAKEN : {

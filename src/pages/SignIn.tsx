@@ -12,8 +12,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {fetchToken} from "../repositories/AuthRepository";
+import {login} from "../repositories/AuthRepository";
 import {isUserLoggedIn} from "../utils/UserManager";
+import {navigateHome} from "../helpers/RouterUtils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -104,9 +105,9 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={()=> fetchToken(usernameValue,passwordValue).then(()=>{
-                            window.location.reload()
-                        }).catch(error=>{
+                        onClick={()=> login(usernameValue,passwordValue).then(()=>{
+                           navigateHome()
+                        }).catch((error)=>{
                             setErrorMessage(error)
                         })}
                         disabled={!(usernameValid && passwordValid)}>

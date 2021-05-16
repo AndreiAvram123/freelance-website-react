@@ -1,5 +1,6 @@
 import React, {createContext, Dispatch, SetStateAction, useEffect, useState} from "react";
-import {Category, fetchCategories} from "../repositories/ProductRepository";
+import {Category} from "../repositories/ProductRepository";
+import {fetchCategories} from "../repositories/CategoriesRepository";
 
 type Props = {
     categories : Array<Category>,
@@ -21,7 +22,7 @@ export const CategoriesProvider = (props:PropsProvider) =>{
     const [categories,setCategories] = useState<Array<Category>>([])
 
     useEffect(()=>{
-         fetchCategories().then(response=>{
+         fetchCategories().then((response)=>{
                 setCategories(response.data)
             }).catch(error=>{
                 console.log(error)

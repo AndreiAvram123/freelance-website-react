@@ -1,8 +1,7 @@
-import {saveToken} from "../components/StorageHandler";
+import {saveAccessToken, saveRefreshToken} from "../components/StorageHandler";
 import {makeAPICall} from "./NetworkExecutor";
-import {User} from "../entities/User";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
-import {URL_LOGIN, URL_REGISTER} from "../utils/ApiConstants";
+import {URL_FETCH_NEW_TOKEN, URL_LOGIN, URL_REGISTER} from "../utils/ApiConstants";
 
 export enum RegisterResponse{
     USERNAME_TAKEN = "Username already exists",
@@ -13,35 +12,39 @@ export enum AuthenticationResponse{
     INVALID_USERNAME_OR_PASSWORD = "Invalid username or password",
     UNKNOWN_ERROR = "Unknown error"
 }
+export type AccessTokenResponse ={
+     accessToken:string
+}
+export type LoginResponse = {
+    accessToken:string,
+    refreshToken:string
+}
 
-export function fetchToken(username:string,password:string){
 
-    return new Promise((resolve, reject) => {
 
-        let bodyJson = JSON.stringify({username: username, password: password})
-        return fetch(URL_LOGIN, {
-            method: 'POST',
-            body: bodyJson,
-            mode: "cors"
-        }).then(function (response) {
-            if(response.status === 403) {
-               reject(AuthenticationResponse.INVALID_USERNAME_OR_PASSWORD)
-            }else{
-                let token = response.headers.get("Authorization")
-                if(token !== null){
-                     saveToken(token)
-                     resolve(token)
+export  async function fetchNewToken(refreshToken:string){
+       let request = new ApiRequest(URL_FETCH_NEW_TOKEN(refreshToken),HTTPMethods.GET)
+      return makeAPICall<AccessTokenResponse>(request)
+}
 
-                }
-            }
-        }).catch(error=>{
-            reject(AuthenticationResponse.UNKNOWN_ERROR)
-        })
-    })
+export async function login(username:string, password:string){
+    let bodyJson = JSON.stringify({username: username, password: password})
+    let apiRequest = new ApiRequest(URL_LOGIN,HTTPMethods.POST,bodyJson)
+    await makeAPICall<LoginResponse>(apiRequest).then((result)=>{
+        console.log(result)
+       saveAccessToken(result.data.accessToken)
+       saveRefreshToken(result.data.refreshToken)
+       return
+    }).catch((error)=>{
+        if(error.statusCode === 403){
+            return AuthenticationResponse.INVALID_USERNAME_OR_PASSWORD
+        }
+        return AuthenticationResponse.UNKNOWN_ERROR
+     })
 }
 
 export function register(username:string,email:string,password:string){
     let request = new ApiRequest(URL_REGISTER,HTTPMethods.POST,JSON.stringify(
         {username: username, email: email ,password: password}))
-    return makeAPICall<User>(request)
+    return makeAPICall<never>(request)
 }

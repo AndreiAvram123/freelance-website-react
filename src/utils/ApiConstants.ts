@@ -54,7 +54,9 @@ export const URL_FETCH_SESSION_ID_PAYMENT = BASE_URL +  "/payment/sessionID"
 
 export const  URL_VALIDATE_PAYMENT_REFERENCE = (paymentReference:string) =>   BASE_URL + "/payment/paymentReference/" + paymentReference
 
-//register
+//authentication
 export const URL_REGISTER = "https://rest-kotlin.herokuapp.com/register"
 export const URL_LOGIN = "https://rest-kotlin.herokuapp.com/login"
+export const URL_FETCH_NEW_TOKEN =(refreshToken:String) =>
+    "https://rest-kotlin.herokuapp.com/accessToken?refreshToken="+refreshToken
 

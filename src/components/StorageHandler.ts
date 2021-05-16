@@ -1,31 +1,23 @@
 
 const KEY_CART_ITEMS = "KEY_CART_ITEMS"
 const KEY_TOKEN = "KEY_TOKEN"
-const defaultToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyZWkxMjM5IiwiZXhwIjoxNjM3NzcyNjgxLCJ1c2VySUQiOjEsInVzZXJuYW1lIjoiYW5kcmVpMTIzOSJ9.2MdDiQRetHvNNFiZaYPRiVY6M7krj4w6VjmbbEdSx7UZV6WRoZc__15Ey9UMsQwCEfaqzLFdd45ogd4IAgEo7w"
+const KEY_REFRESH_TOKEN = "KEY_REFRESH_TOKEN"
 
-function persistDefaultToken(){
-    localStorage.setItem(KEY_TOKEN,defaultToken)
+export function getTokenFromStorage():string | null{
+    return localStorage.getItem(KEY_TOKEN)
 }
-export function getToken():string{
-    let token = localStorage.getItem(KEY_TOKEN)
-    if(token === null){
-        persistDefaultToken()
-        return defaultToken
-    }else{
-        return localStorage.getItem(KEY_TOKEN)!
-    }
-
+export function getRefreshTokenFromStorage():string | null{
+    return localStorage.getItem(KEY_REFRESH_TOKEN)
 }
 export function deleteToken() {
     localStorage.removeItem(KEY_TOKEN)
 }
 
-export function isDefaultToken(){
-    let storedToken = localStorage.getItem(KEY_TOKEN)
-    return storedToken ===null || storedToken === defaultToken
-}
-export function saveToken(token:string){
+export function saveAccessToken(token:string){
     localStorage.setItem(KEY_TOKEN, token)
+}
+export function saveRefreshToken(token:string){
+    localStorage.setItem(KEY_REFRESH_TOKEN,token)
 }
 
 export function deleteCartItems(){

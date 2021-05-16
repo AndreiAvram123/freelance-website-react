@@ -1,6 +1,6 @@
 import {ApiRequest} from "./requests/ApiRequest";
-import {ErrorApiResponse, SuccessfulApiResponse} from "./SuccessfulApiResponse";
-import {signOut} from "../utils/UserManager";
+import {ErrorApiResponse, ApiResponse} from "./ApiResponse";
+import {obtainNewAccessToken} from "../utils/UserManager";
 
 
 export class ApiError  {
@@ -12,19 +12,18 @@ export class ApiError  {
     }
 }
 
-export  async  function makeAPICall <T>(request:ApiRequest){
+export  async  function makeAPICall <T>(request:ApiRequest):Promise<ApiResponse<T>>{
     const response = await fetch(request.url,request.requestBody)
     switch (response.status){
         case 200 : {
             let responseJSON = response.json()
-            return await responseJSON as SuccessfulApiResponse<T>
+            return await responseJSON as ApiResponse<T>
         }
         case 401 :{
-           signOut()
-           throw new ApiError(401)
+            await obtainNewAccessToken()
+            return makeAPICall<T>(request)
         }
         case 403 : {
-            signOut()
             throw new ApiError(403)
         }
         default : {

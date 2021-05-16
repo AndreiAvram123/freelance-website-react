@@ -20,10 +20,10 @@ export default  function ProductsPage () {
 
     useEffect(() => {
         if(queryCategory!==null){
-        fetchProducts(queryCategory).then(response => {
+        fetchProducts(queryCategory).then((response)=> {
                 let mappedProducts = response.data.map(product => <Product product={product}/>)
                 setProducts(mappedProducts)
-        }).catch(error => {
+        }).catch((error) => {
             console.log(error)
         })
             }

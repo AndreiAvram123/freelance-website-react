@@ -1,7 +1,4 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Category, fetchCategories} from "../repositories/ProductRepository";
-import image from '../baby-yoda.jpg'
-import {makeStyles} from "@material-ui/core/styles";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
