@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect,} from "react";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -7,8 +7,6 @@ import {CategoriesContext} from "../contexts/CategoriesContext";
 export default function Home(){
 
    const categoryContext = useContext(CategoriesContext)
-
-
 
     return (
         <div className={"container mt-5 "}>

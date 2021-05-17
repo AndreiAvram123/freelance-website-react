@@ -2,6 +2,8 @@ import {saveAccessToken, saveRefreshToken} from "../components/StorageHandler";
 import {makeAPICall} from "./NetworkExecutor";
 import {ApiRequest, HTTPMethods} from "./requests/ApiRequest";
 import {URL_FETCH_NEW_TOKEN, URL_LOGIN, URL_REGISTER} from "../utils/ApiConstants";
+import {encryptString} from "../utils/Encryptor";
+import {fetchPublicEncryptionKey} from "./SecurityRepository";
 
 export enum RegisterResponse{
     USERNAME_TAKEN = "Username already exists",
@@ -19,7 +21,16 @@ export type LoginResponse = {
     accessToken:string,
     refreshToken:string
 }
+export type LoginRequest = {
+    username:string,
+    password:string
+}
+export type RegisterRequest = {
+    username:string,
+    password:string,
+    email:string
 
+}
 
 
 export  async function fetchNewToken(refreshToken:string){
@@ -28,10 +39,15 @@ export  async function fetchNewToken(refreshToken:string){
 }
 
 export async function login(username:string, password:string){
-    let bodyJson = JSON.stringify({username: username, password: password})
-    let apiRequest = new ApiRequest(URL_LOGIN,HTTPMethods.POST,bodyJson)
+    let encryptionKeyResponse = await fetchPublicEncryptionKey()
+    let key = encryptionKeyResponse.data.key
+
+    let requestJson:LoginRequest = {
+        username : encryptString(username,key),
+        password : encryptString(password,key)
+    }
+    let apiRequest = new ApiRequest(URL_LOGIN,HTTPMethods.POST,JSON.stringify(requestJson))
     await makeAPICall<LoginResponse>(apiRequest).then((result)=>{
-        console.log(result)
        saveAccessToken(result.data.accessToken)
        saveRefreshToken(result.data.refreshToken)
        return
@@ -43,8 +59,14 @@ export async function login(username:string, password:string){
      })
 }
 
-export function register(username:string,email:string,password:string){
-    let request = new ApiRequest(URL_REGISTER,HTTPMethods.POST,JSON.stringify(
-        {username: username, email: email ,password: password}))
-    return makeAPICall<never>(request)
+export async function register(username:string,email:string,password:string){
+    let encryptionKeyResponse = await fetchPublicEncryptionKey()
+    let key = encryptionKeyResponse.data.key
+    let requestBody:RegisterRequest = {
+        username: encryptString(username,key),
+        email:encryptString(email,key),
+        password: encryptString(password,key)
+    }
+    let request = new ApiRequest(URL_REGISTER,HTTPMethods.POST,JSON.stringify(requestBody))
+    return await makeAPICall<never>(request)
 }

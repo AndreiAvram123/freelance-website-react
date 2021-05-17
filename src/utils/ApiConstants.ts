@@ -60,3 +60,5 @@ export const URL_LOGIN = "https://rest-kotlin.herokuapp.com/login"
 export const URL_FETCH_NEW_TOKEN =(refreshToken:String) =>
     "https://rest-kotlin.herokuapp.com/accessToken?refreshToken="+refreshToken
 
+//security
+export const URL_PUBLIC_ENCRYPTION_KEY ="https://rest-kotlin.herokuapp.com/publicEncryptionKey"
