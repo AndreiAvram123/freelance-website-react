@@ -1,12 +1,14 @@
 
 import {loadStripe} from "@stripe/stripe-js/pure";
 import {Button, CircularProgress} from "@material-ui/core";
-import {fetchSessionID} from "../repositories/PaymentRepository";
+import {createCoinbaseCheckout, fetchSessionID} from "../repositories/PaymentRepository";
 import React, {useContext, useEffect, useState} from "react";
 import {ProductQuantity} from "./CartItem";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import {countriesList} from "../entities/CountriesList";
+import {navigateHome, redirect} from "../helpers/RouterUtils";
+
 
 export default function Checkout(){
 
@@ -27,6 +29,7 @@ export default function Checkout(){
     const[country,setCountry] = useState("Select")
 
    const [calledFirstTime,setCalledFirstTime] = useState(false)
+
 
     useEffect(()=>{
         if(!calledFirstTime){
@@ -59,7 +62,7 @@ export default function Checkout(){
     },[fullName,address,city,postCode,country])
 
 
-     async function startPaymentFlow (){
+     async function startStripePaymentFlow (){
          setIsCheckoutInProgress(true)
          fetchSessionID(
              {itemsIDs: productsIDs}).then((response)=>{
@@ -69,6 +72,17 @@ export default function Checkout(){
          }).catch(e => {
             console.log(e)
          })
+     }
+
+     function startCoinbasePaymentFlow(){
+
+        createCoinbaseCheckout({
+            itemsIDs: productsIDs
+        }).then((result)=>{
+           redirect(result.data.hosted_url)
+        }).catch((error)=>{
+          console.log(error)
+        })
      }
 
      async function presentPaymentCheckout(sessionID:string){
@@ -188,12 +202,20 @@ export default function Checkout(){
                                       variant="contained"
                                       color="primary"
                                       disabled={checkoutInProgress || isFetchingInitialData || !isFormValid}
-                                      onClick={startPaymentFlow}
+                                      onClick={startStripePaymentFlow}
                                   >
-                                      Confirm
+                                      Pay with money
                                       {checkoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
                                   </Button>
-
+                                  <Button
+                                      variant="contained"
+                                      color="primary"
+                                      disabled={checkoutInProgress || isFetchingInitialData || !isFormValid}
+                                      onClick={startCoinbasePaymentFlow}
+                                      >
+                                      Pay with crypto
+                                      {checkoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
+                                  </Button>
                               </div>
                           </div>
                           </div>

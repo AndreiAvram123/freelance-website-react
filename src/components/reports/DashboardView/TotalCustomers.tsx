@@ -45,7 +45,7 @@ const TotalCustomers = () => {
     }).catch(error=>{
         setTotalCustomersResponse(errorState(error))
     })
-  })
+  },[])
 
   return (
     <Card>

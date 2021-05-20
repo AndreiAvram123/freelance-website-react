@@ -14,14 +14,16 @@ export class ApiError  {
 
 export  async  function makeAPICall <T>(request:ApiRequest):Promise<ApiResponse<T>>{
     const response = await fetch(request.url,request.requestBody)
+
+    if(response.status >= 200 && response.status <=300){
+        let responseJSON = response.json()
+        return await responseJSON as ApiResponse<T>
+    }
     switch (response.status){
-        case 200 : {
-            let responseJSON = response.json()
-            return await responseJSON as ApiResponse<T>
-        }
+
         case 401 :{
             await obtainNewAccessToken()
-            return makeAPICall<T>(request)
+            throw new ApiError(401)
         }
         case 403 : {
             throw new ApiError(403)

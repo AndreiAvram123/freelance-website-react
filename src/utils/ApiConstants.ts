@@ -1,3 +1,4 @@
+
 export const BASE_URL_IMAGES = "https://rest-kotlin.herokuapp.com/products/images/"
 const BASE_URL = "https://rest-kotlin.herokuapp.com"
 export const URL_FETCH_CATEGORIES = BASE_URL + "/categories"
@@ -51,6 +52,7 @@ export const URL_CREATE_CATEGORY = "https://rest-kotlin.herokuapp.com/categories
 
 //payment
 export const URL_FETCH_SESSION_ID_PAYMENT = BASE_URL +  "/payment/sessionID"
+export const URL_COINBASE_CREATE_CHARGE = BASE_URL + "/payment/cryptoCharge"
 
 export const  URL_VALIDATE_PAYMENT_REFERENCE = (paymentReference:string) =>   BASE_URL + "/payment/paymentReference/" + paymentReference
 
@@ -62,3 +64,4 @@ export const URL_FETCH_NEW_TOKEN =(refreshToken:String) =>
 
 //security
 export const URL_PUBLIC_ENCRYPTION_KEY ="https://rest-kotlin.herokuapp.com/publicEncryptionKey"
+

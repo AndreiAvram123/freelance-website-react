@@ -1,0 +1,1 @@
+export const  URL_REDIRECT_PAYMENT_SUCCESSFUL = "/"

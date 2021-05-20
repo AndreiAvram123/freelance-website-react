@@ -46,7 +46,7 @@ const TotalAmount = () => {
         }).catch((error)=>{
           setTotalAmount(errorState(error))
         })
-  })
+  },[])
 
   return (
     <Card
