@@ -23,7 +23,6 @@ export default function WriteReviewModal(props:Props) {
 
     function handleCreateReview() {
          let creationModel:CreateReviewModel = {
-             userID:getUserID(),
              productID: props.product.productID,
              description : reviewText,
              rating: currentRating

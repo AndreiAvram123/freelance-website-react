@@ -51,13 +51,13 @@ export default function PaymentResult(){
                             {success === "true" &&
                                 <div className="content-success">
                                 <h1>Payment Successful !</h1>
-                                <a href="#">Go to Main Page</a>
+                                <a href="/">Go to Main Page</a>
                                 </div>
                             }
                             {(success === "false" || canceled === "true") &&
                             <div className="content-fail">
                                 <h1>Payment Cancelled !</h1>
-                                <a href="#">Go to Main Page</a>
+                                <a href="/">Go to Main Page</a>
                             </div>
                             }
 

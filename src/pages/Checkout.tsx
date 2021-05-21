@@ -7,14 +7,16 @@ import {ProductQuantity} from "./CartItem";
 import {fetchProduct} from "../repositories/ProductRepository";
 import {CartContext} from "../contexts/CartContext";
 import {countriesList} from "../entities/CountriesList";
-import {navigateHome, redirect} from "../helpers/RouterUtils";
+import {redirect} from "../helpers/RouterUtils";
 
 
 export default function Checkout(){
 
     const stripePromise = loadStripe("pk_test_51IAupoDmEtsgvPpENLIxFZtKfI6tMlKSWvjsApqV1Ec6CIPv5rQfl2Peol02iCLDfQLJPRMUvtd1H8OP329gYD3Z00WzkWJJax");
 
-    const [checkoutInProgress,setIsCheckoutInProgress] = useState(false)
+    const [stripeCheckoutInProgress,setIsStripeCheckoutInProgress] = useState(false)
+    const [coinbaseCheckoutInProgress,setIsCoinbaseCheckoutInProgress] = useState(false)
+
     const[isFetchingInitialData,setIsFetchingInitialData] = useState(true)
 
     const [isFormValid,setIsFormValid] = useState(false)
@@ -63,7 +65,7 @@ export default function Checkout(){
 
 
      async function startStripePaymentFlow (){
-         setIsCheckoutInProgress(true)
+         setIsStripeCheckoutInProgress(true)
          fetchSessionID(
              {itemsIDs: productsIDs}).then((response)=>{
              if(response.data?.id){
@@ -75,7 +77,7 @@ export default function Checkout(){
      }
 
      function startCoinbasePaymentFlow(){
-
+        setIsCoinbaseCheckoutInProgress(true)
         createCoinbaseCheckout({
             itemsIDs: productsIDs
         }).then((result)=>{
@@ -116,7 +118,7 @@ export default function Checkout(){
         })
         let promises = []
         for (let key in record){
-            promises.push(fetchProduct(parseInt(key)).then(response=>{
+            promises.push(fetchProduct(parseInt(key)).then((response)=>{
                 let productQuantity:ProductQuantity={
                     product:response.data,
                     quantity : record[key]
@@ -201,20 +203,22 @@ export default function Checkout(){
                                   <Button
                                       variant="contained"
                                       color="primary"
-                                      disabled={checkoutInProgress || isFetchingInitialData || !isFormValid}
+                                      disabled={stripeCheckoutInProgress || isFetchingInitialData || !isFormValid}
                                       onClick={startStripePaymentFlow}
                                   >
                                       Pay with money
-                                      {checkoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
+                                      {stripeCheckoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
                                   </Button>
+                              </div>
+                              <div className={"wrapper-button-with-loading"}>
                                   <Button
                                       variant="contained"
                                       color="primary"
-                                      disabled={checkoutInProgress || isFetchingInitialData || !isFormValid}
+                                      disabled={coinbaseCheckoutInProgress || isFetchingInitialData || !isFormValid}
                                       onClick={startCoinbasePaymentFlow}
-                                      >
+                                  >
                                       Pay with crypto
-                                      {checkoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
+                                      {coinbaseCheckoutInProgress && <CircularProgress size={24} className={"button-progress"}/>}
                                   </Button>
                               </div>
                           </div>

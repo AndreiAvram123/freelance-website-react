@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import clsx from 'clsx';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {
   Avatar,
@@ -11,11 +10,9 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import MoneyIcon from '@material-ui/icons/Money';
 import {fetchTotalAmount, fetchTotalCustomers} from "../../../repositories/AnalyticsRepository";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import {errorState, useRequestState} from "../../../utils/State";
+import {errorState, LoadingState, State, useRequestState} from "../../../utils/State";
 
 const useStyles = makeStyles((theme) => ({
   root: {

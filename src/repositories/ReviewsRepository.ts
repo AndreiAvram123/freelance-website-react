@@ -6,7 +6,6 @@ import {makeAPICall} from "./NetworkExecutor";
 
 
 export interface CreateReviewModel{
-     userID:number,
      productID:number,
      description:string,
      rating:number
